@@ -12,35 +12,46 @@ import {
   Legend,
 } from "recharts";
 
-type Pool = {
-  pool_name: string;
-  base_asset_decimals: number;
-  base_asset_symbol: string;
-  tick_size: number; // Added to match usage in code
-};
-
 type ChartsSectionProps = {
-  data?: Pool[];
+  data?: any[];
+  valueField?: string; // e.g. "liqUsd" or "tick_size"
+  labelField?: string; // e.g. "pool" or "pool_name"
+  symbolField?: string; // e.g. "symbol" or "base_asset_symbol"
 };
 
 const COLORS = ["#115aeb", "#1e40af", "#60a5fa", "#818cf8", "#fbbf24"];
 
-export function ChartsSection({ data }: ChartsSectionProps) {
-  // Use top 5 pools for the charts, use tick_size for chart value
-  const chartData = (data || [])
-    .filter((d) => typeof d.tick_size === "number" && !!d.pool_name)
+export function ChartsSection({
+  data,
+  valueField = "liqUsd",
+  labelField = "pool",
+  symbolField = "symbol",
+}: ChartsSectionProps) {
+  // Defensive: only use items with a valid valueField and labelField
+  const chartData = (Array.isArray(data) ? data : [])
+    .filter(
+      (d) =>
+        d &&
+        typeof d[valueField] === "number" &&
+        !!d[labelField]
+    )
+    .sort((a, b) => b[valueField] - a[valueField])
     .slice(0, 5)
     .map((d) => ({
-      name: d.pool_name,
-      value: d.tick_size,
-      symbol: d.base_asset_symbol,
+      name: d[labelField],
+      value: d[valueField],
+      symbol:
+        d[symbolField] ||
+        (d.coinA && d.coinB
+          ? d.coinA.split("::").pop() + "/" + d.coinB.split("::").pop()
+          : d.base_asset_symbol || d.pool_name || d.pool || "-"),
     }));
 
   return (
     <Flex gap="6" mb="6">
       <Card style={{ flex: 2 }}>
         <Heading size="4" mb="2">
-          Top Pools (by tick_size)
+          Top Pools ({valueField})
         </Heading>
         <Box
           style={{
@@ -61,7 +72,17 @@ export function ChartsSection({ data }: ChartsSectionProps) {
               <BarChart data={chartData}>
                 <XAxis dataKey="symbol" />
                 <YAxis />
-                <Tooltip />
+                <Tooltip
+                  formatter={(value: number) =>
+                    typeof value === "number"
+                      ? valueField === "liqUsd"
+                        ? `$${Number(value).toLocaleString(undefined, {
+                            maximumFractionDigits: 2,
+                          })}`
+                        : value.toLocaleString()
+                      : value
+                  }
+                />
                 <Bar dataKey="value" fill="#115aeb">
                   {chartData.map((entry, index) => (
                     <Cell
@@ -102,7 +123,9 @@ export function ChartsSection({ data }: ChartsSectionProps) {
                   cy="50%"
                   outerRadius={50}
                   fill="#115aeb"
-                  label
+                  label={({ name, percent }) =>
+                    `${name} ${(percent * 100).toFixed(1)}%`
+                  }
                 >
                   {chartData.map((entry, index) => (
                     <Cell
@@ -112,7 +135,17 @@ export function ChartsSection({ data }: ChartsSectionProps) {
                   ))}
                 </Pie>
                 <Legend />
-                <Tooltip />
+                <Tooltip
+                  formatter={(value: number) =>
+                    typeof value === "number"
+                      ? valueField === "liqUsd"
+                        ? `$${Number(value).toLocaleString(undefined, {
+                            maximumFractionDigits: 2,
+                          })}`
+                        : value.toLocaleString()
+                      : value
+                  }
+                />
               </PieChart>
             </ResponsiveContainer>
           )}

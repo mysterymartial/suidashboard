@@ -16,29 +16,30 @@ import Suilogo from "../../assets/Sui_Logo.webp";
 function Home() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const sidebarWidth = sidebarCollapsed ? 44 : 72;
-  const { data, loading } = usePoolsData();
+  const { suidata, loading } = usePoolsData();
 
-  // Map API data for AssetsTable
-  const assets = Array.isArray(data)
-    ? data.map((pool) => ({
-        name: pool.pool_name,
-        symbol: pool.base_asset_symbol,
-        protocol: pool.base_asset_name,
-        change7d: "-",
-        change30d: "-",
-        marketCap: "-",
-        assetClass: pool.quote_asset_symbol,
+  // Defensive: fallback to [] if suidata is not an array
+  const assets = Array.isArray(suidata)
+    ? suidata.map((pool) => ({
+        name: pool.pool || "-", // pool address
+        symbol: pool.coinA?.split("::").pop() + "/" + pool.coinB?.split("::").pop() || "-",
+        protocol: pool.platform || "-",
+        change7d: "-", // Not available
+        change30d: "-", // Not available
+        marketCap: pool.liqUsd ? `$${Number(pool.liqUsd).toLocaleString(undefined, {maximumFractionDigits:2})}` : "-",
+        assetClass: pool.coinA?.split("::").pop() || "-",
+        swapCount: pool.swapCount || "-",
+        price: pool.price || "-",
       }))
     : [];
 
-  // Map API data for LeagueTable
-  const networks = Array.isArray(data)
-    ? data.map((pool) => ({
-        name: pool.pool_name,
-        count: "-",
-        value: "-",
-        change30d: "-",
-        share: "-",
+  const networks = Array.isArray(suidata)
+    ? suidata.map((pool) => ({
+        name: pool.platform || "-",
+        count: pool.swapCount || "-",
+        value: pool.liqUsd ? `$${Number(pool.liqUsd).toLocaleString(undefined, {maximumFractionDigits:2})}` : "-",
+        change30d: "-", // Not available
+        share: "-", // Not available
       }))
     : [];
 
@@ -61,7 +62,7 @@ function Home() {
             </Flex>
           </Flex>
           <StatsCards />
-          <ChartsSection data={data} />
+          <ChartsSection data={suidata} valueField="liqUsd" labelField="pool" symbolField="symbol"/>
           <AssetsTable assets={assets} />
           <Flex gap="6">
             <LeagueTable networks={networks} />

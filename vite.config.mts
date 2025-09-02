@@ -7,4 +7,13 @@ export default defineConfig({
   plugins: [react(),
   tailwindcss()
   ],
+  server: {
+  proxy: {
+    '/api': {
+      target: 'https://spot.api.sui-prod.bluefin.io',
+      changeOrigin: true,
+      rewrite: (path) => path.replace(/^\/api/, '')
+    }
+  }
+},
 });

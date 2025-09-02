@@ -14,27 +14,27 @@ import Suilogo from "../../assets/Sui_Logo.webp";
 function DeepBook() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const sidebarWidth = sidebarCollapsed ? 44 : 72;
-  const { data } = usePoolsData();
+  const { dbdata } = usePoolsData();
 
-  const assets = Array.isArray(data)
-    ? data.map((pool) => ({
-        name: pool.pool_name,
-        symbol: pool.base_asset_symbol,
-        protocol: pool.base_asset_name,
-        change7d: "-",
-        change30d: "-",
-        marketCap: "-",
-        assetClass: pool.quote_asset_symbol,
+  const assets = Array.isArray(dbdata)
+    ? dbdata.map((pool) => ({
+        name: pool.pool_name || pool.name || "-",
+        symbol: pool.base_asset_symbol || pool.symbol || "-",
+        protocol: pool.base_asset_name || pool.protocol || "-",
+        change7d: pool.change7d || "-",
+        change30d: pool.change30d || "-",
+        marketCap: pool.marketCap || "-",
+        assetClass: pool.assetClass || pool.quote_asset_symbol || "-",
       }))
     : [];
 
-  const networks = Array.isArray(data)
-    ? data.map((pool) => ({
-        name: pool.pool_name,
-        count: "-",
-        value: "-",
-        change30d: "-",
-        share: "-",
+  const networks = Array.isArray(dbdata)
+    ? dbdata.map((pool) => ({
+        name: pool.pool_name || pool.name || "-",
+        count: pool.count || "-",
+        value: pool.value || "-",
+        change30d: pool.change30d || "-",
+        share: pool.share || "-",
       }))
     : [];
 
@@ -52,7 +52,7 @@ function DeepBook() {
             </Flex>
           </Flex>
           <StatsCards />
-          <ChartsSection data={data} />
+          <ChartsSection data={dbdata} valueField="tick_size" labelField="pool_name" symbolField="base_asset_symbol" />
           <AssetsTable assets={assets} />
           <Flex gap="6">
             <LeagueTable networks={networks} />
