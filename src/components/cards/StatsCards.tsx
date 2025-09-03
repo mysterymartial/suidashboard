@@ -5,7 +5,7 @@ export function StatsCards() {
     <Flex gap="6" mb="6">
       <Card>
         <Text size="2" color="gray">
-          Total RWA Onchain
+          Total Value Onchain
         </Text>
         <Heading size="5">$27.92B</Heading>
         <Text size="1" color="green">

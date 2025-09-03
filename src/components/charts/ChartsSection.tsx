@@ -55,8 +55,8 @@ export function ChartsSection({
         </Heading>
         <Box
           style={{
-            height: 180,
-            background: "#f1f5f9",
+            height: 300,
+            background: "#111113",
             borderRadius: 8,
             display: "flex",
             alignItems: "center",
@@ -68,7 +68,7 @@ export function ChartsSection({
           {chartData.length === 0 ? (
             <Text color="black">No data</Text>
           ) : (
-            <ResponsiveContainer width="100%" height={140}>
+            <ResponsiveContainer width="100%" height={290}>
               <BarChart data={chartData}>
                 <XAxis dataKey="symbol" />
                 <YAxis />
@@ -102,8 +102,8 @@ export function ChartsSection({
         </Heading>
         <Box
           style={{
-            height: 180,
-            background: "#f1f5f9",
+            height: 300,
+            background: "#111113",
             borderRadius: 8,
             display: "flex",
             alignItems: "center",
@@ -124,7 +124,7 @@ export function ChartsSection({
                   outerRadius={50}
                   fill="#115aeb"
                   label={({ name, percent }) =>
-                    `${name} ${(percent * 100).toFixed(1)}%`
+                    `${name.slice(0,3) + "..." + name.slice(63)} ${(percent * 100).toFixed(1)}%`
                   }
                 >
                   {chartData.map((entry, index) => (
