@@ -50,9 +50,10 @@ data/
 logs/
 
 # Docker
+# Removed Docker files from .gitignore to deploy on Render
 .dockerignore
-Dockerfile
-docker-compose.yml
+# Dockerfile
+# docker-compose.yml
 
 # OS specific
 .DS_Store
