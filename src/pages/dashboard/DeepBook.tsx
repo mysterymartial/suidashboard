@@ -9,12 +9,14 @@ import { LeagueTable } from "../../components/tables/LeagueTable";
 import { NewsCard } from "../../components/cards/NewsCard";
 import { IssuanceAndTransfers } from "../../components/cards/IssuanceAndTransfers";
 import { usePoolsData } from "../../hooks/usePoolsData";
-import Suilogo from "../../assets/Sui_Logo.webp";
+import { useStatsData } from "../../hooks/useStatsData";
+import deeplogo from "../../assets/Deep_Logo.png";
 
 function DeepBook() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const sidebarWidth = sidebarCollapsed ? 44 : 72;
   const { dbdata } = usePoolsData();
+  const { suiStats } = useStatsData();
 
   const assets = Array.isArray(dbdata)
     ? dbdata.map((pool) => ({
@@ -44,14 +46,14 @@ function DeepBook() {
       <Box style={{ marginLeft: sidebarWidth, transition: "margin-left 0.2s cubic-bezier(.4,0,.2,1)" }}>
         <Container>
           <Flex align="center" justify="between" mb="4">
-            <Heading className="flex" size="6">
-              <img className="w-16" src={Suilogo} alt="suilogo" />&nbsp;DeepBook Analytics
+            <Heading className="flex justify-center, items-center" size="6">
+              <img className="w-10" src={deeplogo} alt="deeplogo" />&nbsp;DeepBook Analytics
             </Heading>
             <Flex gap="3">
               <ConnectButton />
             </Flex>
           </Flex>
-          <StatsCards />
+          <StatsCards stats={suiStats} />
           <ChartsSection data={dbdata} valueField="tick_size" labelField="pool_name" symbolField="base_asset_symbol" />
           <AssetsTable assets={assets} />
           <Flex gap="6">

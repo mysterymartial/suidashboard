@@ -9,32 +9,36 @@ import { LeagueTable } from "../../components/tables/LeagueTable";
 import { NewsCard } from "../../components/cards/NewsCard";
 import { IssuanceAndTransfers } from "../../components/cards/IssuanceAndTransfers";
 import { usePoolsData } from "../../hooks/usePoolsData";
-import Suilogo from "../../assets/Sui_Logo.webp";
+import { useStatsData } from "../../hooks/useStatsData";
+import Walogo from "../../assets/Wal_Logo.webp";
 
 function Walrus() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const sidebarWidth = sidebarCollapsed ? 44 : 72;
-  const { data } = usePoolsData();
+  const { waldata } = usePoolsData();
+  const { suiStats } = useStatsData();
 
-  const assets = Array.isArray(data)
-    ? data.map((pool) => ({
-        name: pool.pool_name,
-        symbol: pool.base_asset_symbol,
-        protocol: pool.base_asset_name,
-        change7d: "-",
-        change30d: "-",
-        marketCap: "-",
-        assetClass: pool.quote_asset_symbol,
+  const assets = Array.isArray(waldata)
+    ? waldata.map((pool) => ({
+        name: pool.pool || "-", // pool address
+        symbol: pool.coinA?.split("::").pop() + "/" + pool.coinB?.split("::").pop() || "-",
+        protocol: pool.platform || "-",
+        change7d: "-", // Not available
+        change30d: "-", // Not available
+        marketCap: pool.liqUsd ? `$${Number(pool.liqUsd).toLocaleString(undefined, {maximumFractionDigits:2})}` : "-",
+        assetClass: pool.coinA?.split("::").pop() || "-",
+        swapCount: pool.swapCount || "-",
+        price: pool.price || "-",
       }))
     : [];
 
-  const networks = Array.isArray(data)
-    ? data.map((pool) => ({
-        name: pool.pool_name,
-        count: "-",
-        value: "-",
-        change30d: "-",
-        share: "-",
+  const networks = Array.isArray(waldata)
+    ? waldata.map((pool) => ({
+       name: pool.platform || "-",
+        count: pool.swapCount || "-",
+        value: pool.liqUsd ? `$${Number(pool.liqUsd).toLocaleString(undefined, {maximumFractionDigits:2})}` : "-",
+        change30d: "-", // Not available
+        share: "-", // Not available
       }))
     : [];
 
@@ -44,15 +48,15 @@ function Walrus() {
       <Box style={{ marginLeft: sidebarWidth, transition: "margin-left 0.2s cubic-bezier(.4,0,.2,1)" }}>
         <Container>
           <Flex align="center" justify="between" mb="4">
-            <Heading className="flex" size="6">
-              <img className="w-16" src={Suilogo} alt="suilogo" />&nbsp;Walrus Analytics
+            <Heading className="flex justify-center, items-center" size="6">
+              <img className="w-10" src={Walogo} alt="walogo" />&nbsp;Walrus Analytics
             </Heading>
             <Flex gap="3">
               <ConnectButton />
             </Flex>
           </Flex>
-          <StatsCards />
-          <ChartsSection data={data} />
+          <StatsCards stats={suiStats} />
+          <ChartsSection data={waldata} />
           <AssetsTable assets={assets} />
           <Flex gap="6">
             <LeagueTable networks={networks} />

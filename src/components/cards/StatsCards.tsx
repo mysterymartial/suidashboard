@@ -1,50 +1,78 @@
 import { Flex, Card, Heading, Text } from "@radix-ui/themes";
 
-export function StatsCards() {
+type StatsCardsProps = {
+  stats?: any;
+};
+
+export function StatsCards({ stats }: StatsCardsProps) {
+  // Remove useStatsData from here! Data should be passed in via props.
+
+  // Defensive: fallback to "-" if value is missing
+  const price = stats?.coinPrice ?? stats?.suiPrice ?? "-";
+  const marketCap = stats?.marketCap
+    ? `$${Number(stats.marketCap).toLocaleString(undefined, { maximumFractionDigits: 2 })}`
+    : "-";
+  const holders = stats?.holdersCount
+    ? Number(stats.holdersCount).toLocaleString()
+    : "-";
+  const volume24h = stats?.coin24hTradeVolumeUsd
+    ? `$${Number(stats.coin24hTradeVolumeUsd).toLocaleString(undefined, { maximumFractionDigits: 2 })}`
+    : "-";
+  const trades24h = stats?.coin24hTradeCount
+    ? Number(stats.coin24hTradeCount).toLocaleString()
+    : "-";
+  const liquidity = stats?.totalLiquidityUsd
+    ? `$${Number(stats.totalLiquidityUsd).toLocaleString(undefined, { maximumFractionDigits: 2 })}`
+    : "-";
+  const tokensBurned = stats?.tokensBurned
+    ? Number(stats.tokensBurned).toLocaleString()
+    : "-";
+
   return (
     <Flex gap="6" mb="6">
       <Card>
         <Text size="2" color="gray">
-          Total Value Onchain
+          SUI Price
         </Text>
-        <Heading size="5">$27.92B</Heading>
-        <Text size="1" color="green">
-          +7.30% from 30d ago
-        </Text>
+        <Heading size="5">{typeof price === "number" ? `$${price.toFixed(4)}` : price}</Heading>
       </Card>
       <Card>
         <Text size="2" color="gray">
-          Total Asset Holders
+          Market Cap
         </Text>
-        <Heading size="5">372,292</Heading>
-        <Text size="1" color="green">
-          +8.80% from 30d ago
-        </Text>
+        <Heading size="5">{marketCap}</Heading>
       </Card>
       <Card>
         <Text size="2" color="gray">
-          Total Asset Issuers
+          Holders
         </Text>
-        <Heading size="5">272</Heading>
+        <Heading size="5">{holders}</Heading>
       </Card>
       <Card>
         <Text size="2" color="gray">
-          Total Stablecoin Value
+          24h Volume
         </Text>
-        <Heading size="5">$273.07B</Heading>
-        <Text size="1" color="green">
-          +6.37% from 30d ago
-        </Text>
+        <Heading size="5">{volume24h}</Heading>
       </Card>
       <Card>
         <Text size="2" color="gray">
-          Total Stablecoin Holders
+          24h Trades
         </Text>
-        <Heading size="5">190.45M</Heading>
-        <Text size="1" color="green">
-          +1.72% from 30d ago
+        <Heading size="5">{trades24h}</Heading>
+      </Card>
+      <Card>
+        <Text size="2" color="gray">
+          Total Liquidity
         </Text>
+        <Heading size="5">{liquidity}</Heading>
+      </Card>
+      <Card>
+        <Text size="2" color="gray">
+          Tokens Burned
+        </Text>
+        <Heading size="5">{tokensBurned}</Heading>
       </Card>
     </Flex>
   );
 }
+// Note: Ensure that the parent component (e.g., Home.tsx or Walrus.tsx) imports useStatsData and passes the stats prop to StatsCards.

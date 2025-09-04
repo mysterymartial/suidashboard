@@ -10,6 +10,7 @@ import { LeagueTable } from "../../components/tables/LeagueTable";
 import { NewsCard } from "../../components/cards/NewsCard";
 import { IssuanceAndTransfers } from "../../components/cards/IssuanceAndTransfers";
 import { usePoolsData } from "../../hooks/usePoolsData";
+import { useStatsData } from "../../hooks/useStatsData";
 import "../../App.css";
 import Suilogo from "../../assets/Sui_Logo.webp";
 
@@ -17,6 +18,7 @@ function Home() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const sidebarWidth = sidebarCollapsed ? 44 : 72;
   const { suidata, loading } = usePoolsData();
+  const { suiStats } = useStatsData();
 
   // Defensive: fallback to [] if suidata is not an array
   const assets = Array.isArray(suidata)
@@ -61,7 +63,7 @@ function Home() {
               <ConnectButton />
             </Flex>
           </Flex>
-          <StatsCards />
+          <StatsCards stats={suiStats} />
           <ChartsSection data={suidata} valueField="liqUsd" labelField="pool" symbolField="symbol"/>
           <AssetsTable assets={assets} />
           <Flex gap="6">

@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { Box, Button, Heading, Separator, Text, Badge, Flex, IconButton, Tooltip } from "@radix-ui/themes";
 import { ChevronLeftIcon, ChevronRightIcon } from "@radix-ui/react-icons";
 import { NavLink } from "react-router";
+import suilog01 from "../../assets/Sui_Logo1.png";
+import walogo from "../../assets/Wal_Logo.webp";
+import deeplogo from "../../assets/Deep_Logo.png";
 
 // Simple emoji icons for demonstration
 const icons = {
-  overview: "🌐",
-  news: "📰",
-  invest: "🌱",
+  sui: suilog01 ? <img src={suilog01} alt="Sui" style={{ width: 20, height: 20, borderRadius: 4 }} /> : "🛡️",
+  walrus: walogo ? <img src={walogo} alt="Walrus" style={{ width: 20, height: 20, borderRadius: 4 }} /> : "📰",
+  deepbook: deeplogo ? <img src={deeplogo} alt="DeepBook" style={{ width: 20, height: 20, borderRadius: 4 }} /> : "📚",
   stablecoins: "🪙",
   treasuries: "🏦",
   bonds: "🌍",
@@ -39,12 +42,13 @@ export function Sidebar({ collapsed, setCollapsed }: { collapsed: boolean; setCo
     paddingRight: collapsed ? 0 : 2,
     minHeight: 24,
     gap: collapsed ? 0 : 2,
-    fontSize: 15,
+    fontSize: 17,
     border: "none",
     outline: "none",
     textDecoration: "none",
     display: "flex",
     alignItems: "center",
+    marginBottom: 10,
   });
 
   return (
@@ -77,7 +81,7 @@ export function Sidebar({ collapsed, setCollapsed }: { collapsed: boolean; setCo
         }}
       >
         <Flex align="center" gap="1">
-          <span style={{ fontSize: 20 }}>{icons.overview}</span>
+          <span style={{ fontSize: 20 }}>📈</span>
           {show(
             <Heading size="1" style={{ letterSpacing: 0.5, fontWeight: 700, fontSize: 20, color: "white" }}>Analytics</Heading>
           )}
@@ -111,15 +115,15 @@ export function Sidebar({ collapsed, setCollapsed }: { collapsed: boolean; setCo
         }}
       >
         <NavLink to="/" style={navButtonStyle} end>
-          <span style={{ marginRight: collapsed ? 0 : 4 }}>{icons.overview}</span>
+          <span style={{ marginRight: collapsed ? 0 : 4 }}>{icons.sui}</span>
           {show("Sui")}
         </NavLink>
         <NavLink to="/walrus" style={navButtonStyle}>
-          <span style={{ marginRight: collapsed ? 0 : 4 }}>{icons.news}</span>
+          <span style={{ marginRight: collapsed ? 0 : 4 }}>{icons.walrus}</span>
           {show("Walrus")}
         </NavLink>
         <NavLink to="/deepbook" style={navButtonStyle}>
-          <span style={{ marginRight: collapsed ? 0 : 4 }}>{icons.invest}</span>
+          <span style={{ marginRight: collapsed ? 0 : 4 }}>{icons.deepbook}</span>
           {show(
             <>
               DeepBook

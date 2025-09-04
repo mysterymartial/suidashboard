@@ -36,7 +36,7 @@ export function ChartsSection({
         !!d[labelField]
     )
     .sort((a, b) => b[valueField] - a[valueField])
-    .slice(0, 5)
+    .slice(0, 10)
     .map((d) => ({
       name: d[labelField],
       value: d[valueField],
@@ -55,14 +55,14 @@ export function ChartsSection({
         </Heading>
         <Box
           style={{
-            height: 300,
+            height: 350,
             background: "#111113",
             borderRadius: 8,
             display: "flex",
             alignItems: "center",
             justifyContent: chartData.length ? "flex-start" : "center",
             padding: 12,
-            overflowX: "auto",
+            // overflowX: "",
           }}
         >
           {chartData.length === 0 ? (
@@ -102,7 +102,7 @@ export function ChartsSection({
         </Heading>
         <Box
           style={{
-            height: 300,
+            height: 350,
             background: "#111113",
             borderRadius: 8,
             display: "flex",
@@ -113,7 +113,7 @@ export function ChartsSection({
           {chartData.length === 0 ? (
             <Text color="black">No data</Text>
           ) : (
-            <ResponsiveContainer width="100%" height={140}>
+            <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
                   data={chartData}
