@@ -51,6 +51,8 @@ logs/
 
 # Docker
 .dockerignore
+Dockerfile
+docker-compose.yml
 
 # OS specific
 .DS_Store
