@@ -20,8 +20,8 @@ class FreeAIService:
         # "EleutherAI/gpt-j-6B" 
          
     async def get_real_time_tax_info(self, country: str) -> Dict: 
-        """Get tax information using free AI""" 
-        # Check cache first
+        """Get tax information using free AI"""
+
         cached_tax_info = await db.get_cached_tax_info(country)
         if cached_tax_info:
             logger.info(f"Using cached tax info for {country}")
@@ -35,9 +35,9 @@ class FreeAIService:
              
             response = await self._call_huggingface(prompt) 
              
-            # Try to extract JSON from response 
+
             try: 
-                # Clean the response and extract JSON 
+
                 cleaned = response.strip() 
                 if '{' in cleaned: 
                     json_start = cleaned.find('{') 
@@ -45,7 +45,7 @@ class FreeAIService:
                     json_text = cleaned[json_start:json_end] 
                     tax_info = json.loads(json_text) 
                      
-                    # Validate required fields 
+
                     required = ['capital_gains_short_term', 'capital_gains_long_term',  
                               'fee_deductible', 'currency', 'crypto_to_crypto_taxable'] 
                      
@@ -54,7 +54,7 @@ class FreeAIService:
                         tax_info['reporting_threshold'] = 600 
                         logger.info(f"🤖 Got AI tax info for {country}") 
                         
-                        # Cache the result
+
                         await db.cache_tax_info(country, tax_info)
                         
                         return tax_info 
@@ -64,7 +64,7 @@ class FreeAIService:
         except Exception as e: 
             logger.error(f"AI tax info error: {e}") 
          
-        # Fallback to hardcoded rates if AI fails 
+
         return self._get_fallback_tax_rates(country)
 
     async def analyze_transaction(self, transaction_data: Dict) -> Dict[str, str]:
@@ -86,7 +86,7 @@ class FreeAIService:
             explanation = "Transaction completed successfully"
             category = "Other"
 
-            # Parse the AI response
+
             lines = response.split('\n')
             for line in lines:
                 if 'EXPLANATION:' in line:
@@ -108,7 +108,7 @@ class FreeAIService:
 
         except Exception as e:
             logger.error(f"AI transaction analysis error: {e}")
-            # Smart fallback
+
             return self._analyze_transaction_fallback(transaction_data)
 
     async def generate_tax_advice(self, tax_summary: Dict, transactions_sample: List[Dict]) -> str:
@@ -130,7 +130,7 @@ class FreeAIService:
         except Exception as e:
             logger.error(f"AI advice generation error: {e}")
 
-        # Fallback advice
+
         return self._generate_fallback_advice(tax_summary)
 
     async def _call_huggingface(self, prompt: str) -> str:
@@ -172,7 +172,7 @@ class FreeAIService:
 
     def _get_fallback_tax_rates(self, country: str) -> Dict: 
         """Fallback tax rates if AI fails""" 
-        # Default tax rates by country 
+
         country = country.upper() 
         tax_rates = { 
             "US": {"capital_gains_short_term": 0.37, "capital_gains_long_term": 0.20}, 
@@ -182,10 +182,10 @@ class FreeAIService:
             "SG": {"capital_gains_short_term": 0.00, "capital_gains_long_term": 0.00}, 
         } 
          
-        # Get country rates or use US as default 
+
         rates = tax_rates.get(country, tax_rates["US"]) 
          
-        # Build complete tax info 
+
         return { 
             "capital_gains_short_term": rates["capital_gains_short_term"], 
             "capital_gains_long_term": rates["capital_gains_long_term"], 
@@ -198,7 +198,7 @@ class FreeAIService:
 
     def _analyze_transaction_fallback(self, transaction_data: Dict) -> Dict[str, str]: 
         """Fallback transaction analysis if AI fails""" 
-        # Simple heuristic analysis 
+
         sui_in = transaction_data.get('sui_in', 0) 
         sui_out = transaction_data.get('sui_out', 0) 
         objects_created = transaction_data.get('objects_created', 0) 
@@ -250,5 +250,5 @@ This is general advice. Please consult with a qualified tax professional for adv
 
 This is general advice. Please consult with a qualified tax professional for advice specific to your situation."""
 
-# Create a singleton instance
+
 ai_service = FreeAIService()

@@ -6,34 +6,27 @@ import os
 
 
 class Settings(BaseSettings):
-    # API Configuration
     DEBUG: bool = True
     API_HOST: str = "0.0.0.0"
     API_PORT: int = 8000
 
-    # Hugging Face Configuration
-    HF_API_URL: str = "https://api-inference.huggingface.co/models"
+    HF_API_URL: str = os.getenv("HF_API_URL", "")
     HF_MODEL: str = os.getenv("HF_MODEL", "microsoft/DialoGPT-medium")
     HF_TOKEN: str = os.getenv("HF_TOKEN", "")
 
-    # Database Configuration
-    DATABASE_URL: str = "sqlite:///./data/sui_tax_analysis.db"
+    DATABASE_URL: str = os.getenv("DATABASE_URL", "")
 
-    # Cache Configuration
     CACHE_DURATION: int = 3600  # 1 hour
 
-    # Rate Limiting
     RATE_LIMIT_PER_MINUTE: int = 60
     RATE_LIMIT_PER_HOUR: int = 1000
 
-    # Sui Network Endpoints
     SUI_ENDPOINTS: Dict[str, str] = {
         "mainnet": "https://fullnode.mainnet.sui.io:443",
         "testnet": "https://fullnode.testnet.sui.io:443",
         "devnet": "https://fullnode.devnet.sui.io:443"
     }
 
-    # Processing Configuration
     BATCH_SIZE: int = 50
     MAX_CONCURRENT_REQUESTS: int = 20
     REQUEST_DELAY: float = 0.1

@@ -296,6 +296,6 @@ class TestSuiService(unittest.TestCase):
         self.assertEqual(result["network"], "mainnet")
 
 
-# Run tests if executed directly
+
 if __name__ == "__main__":
     unittest.main()

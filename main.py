@@ -11,7 +11,6 @@ from app.core.config import settings
 from app.core.database import init_db
 from app.core.rate_limter import RateLimiter
 
-# Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
@@ -20,16 +19,13 @@ logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Application lifespan management"""
-    # Startup
+
     logger.info("🚀 Starting Sui Tax Analysis API")
     await init_db()
     logger.info("✅ Database initialized")
     yield
-    # Shutdown
     logger.info("🛑 Shutting down Sui Tax Analysis API")
 
-# Initialize FastAPI app
 app = FastAPI(
     title="Sui Blockchain Tax Analysis API",
     description="Complete Sui transaction analysis with AI-powered insights and tax calculations",
@@ -39,7 +35,6 @@ app = FastAPI(
     redoc_url="/redoc"
 )
 
-# Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -48,10 +43,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize rate limiter
+
 rate_limiter = RateLimiter()
 
-# Include routers
+
 app.include_router(
     analyzer_router,
     prefix="/api/v1",

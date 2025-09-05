@@ -48,7 +48,6 @@ async def analyze_sui_transactions(request: AnalysisRequest):
             )
 
         if sui_service._is_transaction_digest(request.input):
-            # Single transaction analysis
             return await _analyze_single_transaction(request, network)
         else:
             # Address analysis
@@ -62,15 +61,13 @@ async def analyze_sui_transactions(request: AnalysisRequest):
 
 
 async def _analyze_single_transaction(request: AnalysisRequest, network: str) -> Dict[str, Any]:
-    """Analyze single transaction"""
+
     tx_data = await sui_service._get_transaction(request.input, network)
     if not tx_data:
         raise HTTPException(status_code=404, detail="Transaction not found")
 
-    # Parse transaction
     transaction = sui_service._parse_transaction(tx_data, network)
 
-    # Add AI analysis
     ai_analysis = await ai_service.analyze_transaction({
         'gas_cost': transaction['total_gas_cost'],
         'sui_in': transaction['sui_amount_in'],
@@ -85,10 +82,8 @@ async def _analyze_single_transaction(request: AnalysisRequest, network: str) ->
         'gpt_category': ai_analysis['category']
     })
 
-    # Get real-time tax info
     tax_info = await ai_service.get_real_time_tax_info(request.country)
 
-    # Calculate estimated tax
     net_change = transaction['net_sui_change']
     tax_rate = tax_info.get("capital_gains_long_term", 0.20)
     estimated_tax = max(0, net_change * tax_rate) if net_change > 0 else 0
@@ -149,19 +144,16 @@ Explanation: {transaction['gpt_explanation']}
 
 
 async def _analyze_address_transactions(request: AnalysisRequest, network: str) -> Dict[str, Any]:
-    """Analyze address transactions"""
     if request.full_history:
-        # Get ALL transactions
+
         logger.info(f"📊 Starting FULL history analysis for {request.input[:10]}...")
 
         all_digests = await sui_service.get_all_address_transactions(request.input, network)
         if not all_digests:
             raise HTTPException(status_code=404, detail="No transactions found for this address")
 
-        # Process all transactions
         transactions = await sui_service.batch_process_transactions(all_digests, network)
 
-        # Calculate comprehensive tax summary
         tax_summary = await tax_service.calculate_comprehensive_tax_summary(
             transactions, request.country, request.year
         )
@@ -229,7 +221,6 @@ Analysis Year: {request.year}
         }
 
     else:
-        # Quick analysis - recent transactions only
         tx_data = await sui_service._get_address_transactions(request.input, network, limit=25)
         digests = tx_data.get("data", [])
 
@@ -312,7 +303,6 @@ async def batch_analyze_addresses(request: BatchAnalysisRequest):
                     })
                     continue
 
-                # Get sample transactions for quick analysis
                 tx_data = await sui_service._get_address_transactions(address, network, limit=20)
                 digests = tx_data.get("data", [])
 
@@ -356,7 +346,6 @@ async def batch_analyze_addresses(request: BatchAnalysisRequest):
                     "error": str(e)
                 })
 
-        # Calculate totals
         successful_results = [r for r in results if "error" not in r]
         total_pnl = sum(r['net_pnl'] for r in successful_results)
         total_tax = sum(r['estimated_tax'] for r in successful_results)

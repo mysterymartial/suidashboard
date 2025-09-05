@@ -42,10 +42,10 @@ class SuiService:
         if not isinstance(value, str):
             return False
 
-        # Remove any whitespace
+
         value = value.strip()
 
-        # Check for empty string
+
         if not value:
             return False
 
@@ -55,15 +55,15 @@ class SuiService:
         # 2. 43 chars without padding
         # 3. Some may be 64 chars (hex format)
 
-        # Check length
+
         if len(value) not in [43, 44, 64]:
             return False
 
-        # For 64-char strings, validate as hex
+
         if len(value) == 64:
             return self._is_valid_hex(value)
 
-        # For base64 format (43-44 chars)
+
         if len(value) in [43, 44]:
             return self._is_valid_base64(value)
 
@@ -144,7 +144,7 @@ class SuiService:
 
     async def _get_transaction(self, digest: str, network: str, use_cache: bool = True) -> Optional[Dict]:
         """Get transaction with enhanced caching and validation"""
-        # Validate digest format first
+
         if not self._is_transaction_digest(digest):
             logger.warning(f"Invalid digest format: {digest}")
             return None
@@ -179,7 +179,7 @@ class SuiService:
     async def _get_address_transactions(self, address: str, network: str,
                                         limit: int = 100, cursor: str = None) -> Dict:
         """Get transactions for address with validation"""
-        # Validate address format
+
         if not self._is_sui_address(address):
             logger.warning(f"Invalid address format: {address}")
             return {}
@@ -257,7 +257,7 @@ class SuiService:
 
                     parsed_tx = self._parse_transaction(tx_data, network)
 
-                    # Enhanced AI analysis with tax implications
+
                     ai_analysis = await ai_service.analyze_transaction_with_tax({
                         'digest': parsed_tx['digest'],
                         'gas_cost': parsed_tx['total_gas_cost'],
@@ -283,7 +283,7 @@ class SuiService:
                     logger.error(f"Error processing transaction {digest[:10]}...: {e}")
                     return None
 
-        # Process in batches with progress tracking
+
         for i in range(0, len(digests), self.batch_size):
             batch = digests[i:i + self.batch_size]
             batch_num = i // self.batch_size + 1
@@ -303,7 +303,7 @@ class SuiService:
 
             logger.info(f"📊 Batch {batch_num} completed: {successful}/{len(batch)} successful")
 
-            # Rate limiting between batches
+
             if i + self.batch_size < len(digests):
                 await asyncio.sleep(self.request_delay * 2)
 
@@ -315,7 +315,7 @@ class SuiService:
         try:
             digest = tx_data.get("digest", "")
 
-            # Timestamp with validation
+
             timestamp_ms = tx_data.get("timestampMs", 0)
             if timestamp_ms and isinstance(timestamp_ms, (int, str)):
                 try:
@@ -325,7 +325,7 @@ class SuiService:
             else:
                 timestamp = datetime.now(timezone.utc)
 
-            # Basic info with safe access
+
             transaction = tx_data.get("transaction", {})
             effects = tx_data.get("effects", {})
 
@@ -338,28 +338,28 @@ class SuiService:
 
             total_gas_cost = (computation_cost + storage_cost + non_refundable_storage - storage_rebate) / 1_000_000_000
 
-            # Sender with validation
+
             sender = transaction.get("data", {}).get("sender", "")
             if not self._is_sui_address(sender):
                 logger.warning(f"Invalid sender address in transaction {digest[:10]}...")
 
-            # Transaction type
+
             tx_kind = transaction.get("data", {}).get("transaction", {}).get("kind", "Unknown")
 
-            # Balance changes
+
             balance_changes = effects.get("balanceChanges", [])
             sui_in, sui_out = self._calculate_sui_flows(balance_changes, sender)
 
-            # Object changes
+
             object_changes = tx_data.get("objectChanges", [])
             objects_created = len([obj for obj in object_changes if obj.get("type") == "created"])
             objects_modified = len([obj for obj in object_changes if obj.get("type") == "mutated"])
             objects_deleted = len([obj for obj in object_changes if obj.get("type") == "deleted"])
 
-            # Status
+
             status = effects.get("status", {}).get("status", "Unknown")
 
-            # Check for errors in execution
+
             execution_status = effects.get("status", {})
             is_success = execution_status.get("status") == "success"
             error_message = None
@@ -421,11 +421,11 @@ class SuiService:
                 if not all(key in change for key in ["coinType", "amount", "owner"]):
                     continue
 
-                # Check if it's SUI coin
+
                 if change.get("coinType") != "0x2::sui::SUI":
                     continue
 
-                # Check if change affects the sender
+
                 owner = change.get("owner", {})
                 if isinstance(owner, dict):
                     owner_address = owner.get("AddressOwner")
@@ -435,7 +435,7 @@ class SuiService:
                 if owner_address != sender:
                     continue
 
-                # Calculate amount
+
                 try:
                     amount = int(change.get("amount", 0)) / 1_000_000_000  # MIST to SUI
 
@@ -456,21 +456,21 @@ class SuiService:
     async def get_transaction_summary(self, digest: str, network: str = None) -> Dict:
         """Get AI-powered transaction summary with tax implications"""
         try:
-            # Auto-detect network if not provided
+
             if not network:
                 network = await self.detect_network(digest)
                 if not network:
                     return {"error": "Transaction not found on any network"}
 
-            # Get transaction data
+
             tx_data = await self._get_transaction(digest, network)
             if not tx_data:
                 return {"error": "Transaction not found"}
 
-            # Parse transaction
+
             parsed_tx = self._parse_transaction(tx_data, network)
 
-            # Generate AI analysis
+
             ai_analysis = await ai_service.generate_comprehensive_analysis({
                 'transaction': parsed_tx,
                 'network': network
@@ -489,21 +489,21 @@ class SuiService:
     async def analyze_address_portfolio(self, address: str, network: str = None) -> Dict:
         """Comprehensive address analysis with AI insights and tax summary"""
         try:
-            # Auto-detect network if not provided
+
             if not network:
                 network = await self.detect_network(address)
                 if not network:
                     return {"error": "Address not found on any network"}
 
-            # Get all transactions
+
             digests = await self.get_all_address_transactions(address, network)
             if not digests:
                 return {"error": "No transactions found for address"}
 
-            # Process transactions in batches
+
             transactions = await self.batch_process_transactions(digests, network)
 
-            # Generate portfolio analysis
+
             portfolio_analysis = await ai_service.analyze_portfolio({
                 'address': address,
                 'transactions': transactions,
@@ -524,5 +524,5 @@ class SuiService:
             return {"error": str(e)}
 
 
-# Global Sui service instance
+
 sui_service = SuiService()

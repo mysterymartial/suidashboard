@@ -48,7 +48,6 @@ class Database:
             logger.info("✅ Database tables initialized")
 
     async def get_cached_transaction(self, digest: str, network: str) -> Optional[Dict]:
-        """Get cached transaction data"""
         try:
             async with aiosqlite.connect(self.db_path) as db:
                 cursor = await db.execute(
@@ -59,7 +58,7 @@ class Database:
 
                 if result:
                     data, timestamp = result
-                    # Check if cache is still valid
+
                     if time.time() - timestamp < 3600:  # 1 hour
                         return pickle.loads(data)
         except Exception as e:
@@ -67,7 +66,6 @@ class Database:
         return None
 
     async def cache_transaction(self, digest: str, network: str, data: Dict):
-        """Cache transaction data"""
         try:
             async with aiosqlite.connect(self.db_path) as db:
                 await db.execute(
@@ -79,7 +77,6 @@ class Database:
             logger.error(f"Cache write error: {e}")
 
     async def get_cached_tax_info(self, country: str) -> Optional[Dict]:
-        """Get cached tax information"""
         try:
             async with aiosqlite.connect(self.db_path) as db:
                 cursor = await db.execute(
@@ -90,7 +87,7 @@ class Database:
 
                 if result:
                     data, timestamp = result
-                    # Tax info valid for 24 hours
+
                     if time.time() - timestamp < 86400:
                         return pickle.loads(data)
         except Exception as e:
@@ -98,7 +95,6 @@ class Database:
         return None
 
     async def cache_tax_info(self, country: str, tax_data: Dict):
-        """Cache tax information"""
         try:
             async with aiosqlite.connect(self.db_path) as db:
                 await db.execute(
@@ -110,10 +106,9 @@ class Database:
             logger.error(f"Tax cache write error: {e}")
 
 
-# Global database instance
+
 db = Database()
 
 
 async def init_db():
-    """Initialize database"""
     await db.init_db()

@@ -358,6 +358,6 @@ class TestSuiServiceBoundary(unittest.TestCase):
         self.assertEqual(missing_fields_result, ["tx1"])  # Should stop after first page
 
 
-# Run tests if executed directly
+
 if __name__ == "__main__":
     unittest.main()

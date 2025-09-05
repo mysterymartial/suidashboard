@@ -12,42 +12,42 @@ class TaxService:
     async def calculate_comprehensive_tax_summary(self, transactions: List[Dict],
                                                   country: str, year: int = 2025) -> Dict:
         """Calculate comprehensive tax summary"""
-        # Get real-time tax info
+
         tax_info = await ai_service.get_real_time_tax_info(country)
 
-        # Filter by year
+
         year_transactions = [
             tx for tx in transactions
             if tx['timestamp'].year == year
         ]
 
-        # Basic calculations
+
         total_gas_fees = sum(tx['total_gas_cost'] for tx in year_transactions)
         total_gains = sum(max(0, tx['net_sui_change']) for tx in year_transactions)
         total_losses = sum(min(0, tx['net_sui_change']) for tx in year_transactions)
         net_gain_loss = total_gains + total_losses
 
-        # Taxable events
+
         taxable_events = len([
             tx for tx in year_transactions
             if abs(tx['net_sui_change']) > 0.001  # Ignore dust
         ])
 
-        # Tax calculation
+
         tax_rate = tax_info.get("capital_gains_long_term", 0.20)
         estimated_tax = max(0, net_gain_loss * tax_rate)
 
-        # Fee deduction
+
         if tax_info.get("fee_deductible", True):
             estimated_tax = max(0, estimated_tax - (total_gas_fees * tax_rate))
 
-        # Categorization
+
         categories = {}
         for tx in year_transactions:
             category = tx.get('gpt_category', 'Unknown')
             categories[category] = categories.get(category, 0) + 1
 
-        # Generate tax advice
+
         tax_advice = await ai_service.generate_tax_advice(
             {
                 'country': country,
@@ -77,5 +77,5 @@ class TaxService:
         }
 
 
-# Global tax service instance
+
 tax_service = TaxService()

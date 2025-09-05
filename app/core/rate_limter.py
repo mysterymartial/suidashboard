@@ -13,12 +13,10 @@ class RateLimiter:
         self.lock = asyncio.Lock()
 
     async def check_rate_limit(self, request: Request):
-        """Check if request is within rate limits"""
         client_ip = request.client.host
         current_time = time.time()
 
         async with self.lock:
-            # Clean old requests (older than 1 hour)
             self.requests[client_ip] = [
                 req_time for req_time in self.requests[client_ip]
                 if current_time - req_time < 3600

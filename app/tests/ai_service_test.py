@@ -387,6 +387,6 @@ class TestAIService(unittest.TestCase):
         self.assertIn("offset", loss_advice.lower())
 
 
-# Run tests if executed directly
+
 if __name__ == "__main__":
     unittest.main()
