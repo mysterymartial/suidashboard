@@ -24,18 +24,18 @@ export function Navbar() {
             className="pl-10 pr-4 py-2 w-full bg-gray-700 border border-gray-600 text-white placeholder-gray-400 rounded-lg"
           />
         </div>
-        {/* <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4">
 
-          <button className="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition-colors">
+          {/* <button className="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition-colors">
             <BellIcon className="w-5 h-5" />
           </button>
 
           <button className="p-2 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition-colors">
             <GearIcon className="w-5 h-5" />
-          </button>
+          </button> */}
 
           <ConnectButton />
-        </div> */}
+        </div>
       </div>
     </nav>
   );
