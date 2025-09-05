@@ -16,6 +16,12 @@ For local development:
 http://localhost:8000/api/v1
 ```
 
+For production deployment on Render:
+
+```
+https://sui-transaction-analyser-api-v1.onrender.com/api/v1
+```
+
 ## Authentication
 
 Currently, the API uses rate limiting but does not require authentication. Rate limits are configured in the `.env` file:
@@ -145,12 +151,12 @@ Analyzes multiple Sui addresses in a single request.
 
 ```bash
 # Analyze a transaction
-curl -X POST http://localhost:8000/api/v1/analyze \
+curl -X POST https://sui-transaction-analyser-api-v1.onrender.com/api/v1/analyze \
   -H "Content-Type: application/json" \
   -d '{"input":"transaction_hash","country":"US"}'
 
 # Batch analyze addresses
-curl -X POST http://localhost:8000/api/v1/batch-analyze \
+curl -X POST https://sui-transaction-analyser-api-v1.onrender.com/api/v1/batch-analyze \
   -H "Content-Type: application/json" \
   -d '{"addresses":["address1","address2"],"country":"US"}'
 ```
@@ -162,14 +168,14 @@ import requests
 
 # Analyze a transaction
 response = requests.post(
-    "http://localhost:8000/api/v1/analyze",
+    "https://sui-transaction-analyser-api-v1.onrender.com/api/v1/analyze",
     json={"input": "transaction_hash", "country": "US"}
 )
 print(response.json())
 
 # Batch analyze addresses
 response = requests.post(
-    "http://localhost:8000/api/v1/batch-analyze",
+    "https://sui-transaction-analyser-api-v1.onrender.com/api/v1/batch-analyze",
     json={"addresses": ["address1", "address2"], "country": "US"}
 )
 print(response.json())
@@ -179,7 +185,7 @@ print(response.json())
 
 ```javascript
 // Analyze a transaction
-fetch('http://localhost:8000/api/v1/analyze', {
+fetch('https://sui-transaction-analyser-api-v1.onrender.com/api/v1/analyze', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'
@@ -193,7 +199,7 @@ fetch('http://localhost:8000/api/v1/analyze', {
 .then(data => console.log(data));
 
 // Batch analyze addresses
-fetch('http://localhost:8000/api/v1/batch-analyze', {
+fetch('https://sui-transaction-analyser-api-v1.onrender.com/api/v1/batch-analyze', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'

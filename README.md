@@ -81,7 +81,7 @@ uvicorn main:app --reload
 docker-compose up -d
 ```
 
-2. The API will be available at `http://localhost:8000`
+2. The API will be available at `https://sui-transaction-analyser-api-v1.onrender.com`
 
 ## API Endpoints
 
@@ -150,8 +150,8 @@ Analyze multiple addresses in a single request.
 
 API documentation is available at:
 
-- Swagger UI: `http://localhost:8000/docs`
-- ReDoc: `http://localhost:8000/redoc`
+- Swagger UI: `https://sui-transaction-analyser-api-v1.onrender.com/docs`
+- ReDoc: `https://sui-transaction-analyser-api-v1.onrender.com/redoc`
 
 ## API Usage Examples
 
@@ -161,7 +161,7 @@ API documentation is available at:
 // Analyze a single transaction
 const analyzeSuiTransaction = async (transactionHash, country) => {
   try {
-    const response = await fetch('http://localhost:8000/api/v1/analyze', {
+    const response = await fetch('https://sui-transaction-analyser-api-v1.onrender.com/api/v1/analyze', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -192,7 +192,7 @@ analyzeSuiTransaction('your_transaction_hash', 'US')
 // Batch analyze multiple addresses
 const batchAnalyzeSuiAddresses = async (addresses, country, limit = 10) => {
   try {
-    const response = await fetch('http://localhost:8000/api/v1/batch-analyze', {
+    const response = await fetch('https://sui-transaction-analyser-api-v1.onrender.com/api/v1/batch-analyze', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -262,7 +262,7 @@ interface AnalyzeResponse {
 
 // Function to analyze a single transaction
 function analyzeSuiTransaction(transactionHash: string, country: string): Promise<AnalyzeResponse> {
-  return fetch('http://localhost:8000/api/v1/analyze', {
+  return fetch('https://sui-transaction-analyser-api-v1.onrender.com/api/v1/analyze', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -328,7 +328,7 @@ function batchAnalyzeSuiAddresses(
   country: string, 
   limit: number = 10
 ): Promise<BatchAnalyzeResponse> {
-  return fetch('http://localhost:8000/api/v1/batch-analyze', {
+  return fetch('https://sui-transaction-analyser-api-v1.onrender.com/api/v1/batch-analyze', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

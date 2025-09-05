@@ -47,7 +47,7 @@ docker-compose up -d
 4. Verify the application is running:
 
 ```bash
-curl http://localhost:8000/health
+curl https://sui-transaction-analyser-api-v1.onrender.com/health
 ```
 
 ## Cloud Deployment Options
