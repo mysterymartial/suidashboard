@@ -9,7 +9,7 @@ export function NewsCard({ news }) {
       <Box>
         {news.map((newsItem, i) => (
           <Box key={i} mb="2">
-            <Text weight="bold">{newsItem.title}</Text>
+            <Text weight="bold">{newsItem.title}</Text> &nbsp;
             <Text size="1" color="gray">
               {newsItem.time}
             </Text>

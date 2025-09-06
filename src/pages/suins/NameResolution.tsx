@@ -1,5 +1,7 @@
 import React from "react";
 import { Layout } from "../../components/layout/Layout";
+import { useSuinsClient } from "../../contexts/SuinsClientContext";
+import { useSuins } from "../../hooks/useSuins";
 import { WalletStatus } from "../../WalletStatus";
 import { AssetsTable } from "../../components/tables/AssetsTable";
 import { usePoolsData } from "../../hooks/usePoolsData";
@@ -7,22 +9,31 @@ import { StatsCards } from "../../components/cards/StatsCards";
 import { useStatsData } from "../../hooks/useStatsData";
 
 function NameResolution() {
-  const { suidata } = usePoolsData();
-  const { suiStats } = useStatsData();
+  // const { suidata } = usePoolsData();
+  // const { suiStats } = useStatsData();
 
-  const assets = Array.isArray(suidata)
-    ? suidata.map((pool) => ({
-        name: pool.pool || "-",
-        symbol: pool.symbol || "-",
-        protocol: pool.platform || "-",
-        change7d: pool.change7d || "-",
-        change30d: pool.change30d || "-",
-        marketCap: pool.liqUsd
-          ? `$${Number(pool.liqUsd).toLocaleString(undefined, { maximumFractionDigits: 2 })}`
-          : "-",
-        assetClass: pool.assetClass || "-",
-      }))
-    : [];
+  // const assets = Array.isArray(suidata)
+  //   ? suidata.map((pool) => ({
+  //       name: pool.pool || "-",
+  //       symbol: pool.symbol || "-",
+  //       protocol: pool.platform || "-",
+  //       change7d: pool.change7d || "-",
+  //       change30d: pool.change30d || "-",
+  //       marketCap: pool.liqUsd
+  //         ? `$${Number(pool.liqUsd).toLocaleString(undefined, { maximumFractionDigits: 2 })}`
+  //         : "-",
+  //       assetClass: pool.assetClass || "-",
+  //     }))
+  //   : [];
+
+  const {nameRecord, isLoading, isError} = useSuins();
+  // console.log(nameRecord);
+
+  // const dataset = Array.isArray(nameRecord)
+  // ? nameRecord.map((record) => ({
+  //   console.log(record)
+  // }))
+  // : [];
 
   return (
     <Layout>
@@ -35,10 +46,10 @@ function NameResolution() {
             Resolve human-readable names to addresses.
           </p>
         </div>
-        <StatsCards stats={suiStats} />
-        <AssetsTable assets={assets} />
+        {/* <StatsCards stats={suiStats} />
+        <AssetsTable assets={assets} /> */}
       </main>
-      <WalletStatus />
+      {/* <WalletStatus /> */}
     </Layout>
   );
 }

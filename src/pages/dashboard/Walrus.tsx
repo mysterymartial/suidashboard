@@ -11,6 +11,7 @@ import { IssuanceAndTransfers } from "../../components/cards/IssuanceAndTransfer
 import { usePoolsData } from "../../hooks/usePoolsData";
 import { useStatsData } from "../../hooks/useStatsData";
 import Walogo from "../../assets/Wal_Logo.webp";
+import { Layout } from "../../components/layout/Layout";
 
 function Walrus() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);

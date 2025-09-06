@@ -89,11 +89,11 @@ const navigationData = [
       ),
     hasDropdown: true,
     dataPoints: [
-      { name: "Order Book", path: "/deepbook/order-book" },
-      { name: "Market Depth", path: "/deepbook/market-depth" },
-      { name: "Trade History", path: "/deepbook/trade-history" },
-      { name: "Price Discovery", path: "/deepbook/price-discovery" },
-      { name: "Liquidity Metrics", path: "/deepbook/liquidity" },
+      { name: "Pools", path: "/deepbook/pools" },
+      { name: "Market Summary", path: "/deepbook/market-summary" },
+      { name: "Historical Volume", path: "/deepbook/historical-volume" },
+      { name: "Order Books", path: "/deepbook/order-book" },
+      { name: "Assets & Tickers", path: "/deepbook/assets" },
     ],
   },
   {

@@ -16,34 +16,34 @@ export function usePoolsData() {
       .catch((err) => setError(err))
       .finally(() => setLoading(false));
 
-  axios
-    .get(
-      "api/external-api/insidex/pools/top-liquidity?limit=10&platforms=cetus%2Cturbos",
-      {
-        headers: {
-          "x-api-key": "insidex_api.hGhJarqGjnUDkw36WUXETXyR"
+    axios
+      .get(
+        "api/external-api/insidex/pools/top-liquidity?limit=10&platforms=cetus%2Cturbos",
+        {
+          headers: {
+            "x-api-key": "insidex_api.hGhJarqGjnUDkw36WUXETXyR"
+          }
         }
-      }
-    )
-    .then((res) => setSuidata(res.data))
-    .catch((err) => setError(err))
-    .finally(() => setLoading(false))
+      )
+      .then((res) => setSuidata(res.data))
+      .catch((err) => setError(err))
+      .finally(() => setLoading(false))
 
-  axios
-    .get("api/external-api/insidex/coins/0x356a26eb9e012a68958082340d4c4116e7f55615cf27affcff209cf0ae544f59::wal::WAL/pools", {
-      headers: { 'x-api-key': "insidex_api.hGhJarqGjnUDkw36WUXETXyR" } 
-    })
-    .then((res) => setWaldata(res.data))
-    .catch((err) => setError(err))
-    .finally(() => setLoading(false));
+    axios
+      .get("api/external-api/insidex/coins/0x356a26eb9e012a68958082340d4c4116e7f55615cf27affcff209cf0ae544f59::wal::WAL/pools", {
+        headers: { 'x-api-key': "insidex_api.hGhJarqGjnUDkw36WUXETXyR" }
+      })
+      .then((res) => setWaldata(res.data))
+      .catch((err) => setError(err))
+      .finally(() => setLoading(false));
 
-  // axios
-  //   .get("https://walrus5-gucco4za.b4a.run/api/walrus/overview-cached")
-  //   .then((res) => console.log(res.data))
-  //   .catch((err) => setError(err))
-  //   .finally(() => setLoading(false));
+    // axios
+    //   .get("https://walrus5-gucco4za.b4a.run/api/walrus/overview-cached")
+    //   .then((res) => console.log(res.data))
+    //   .catch((err) => setError(err))
+    //   .finally(() => setLoading(false));
 
-// console.log(suidata)
+    // console.log(suidata)
   }, []);
 
   return { dbdata, suidata, waldata, loading, error };

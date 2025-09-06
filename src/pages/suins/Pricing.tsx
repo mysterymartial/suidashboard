@@ -1,14 +1,22 @@
 import React from "react";
 import { Layout } from "../../components/layout/Layout";
-import { WalletStatus } from "../../WalletStatus";
-import { ChartsSection } from "../../components/charts/ChartsSection";
 import { usePoolsData } from "../../hooks/usePoolsData";
-import { StatsCards } from "../../components/cards/StatsCards";
 import { useStatsData } from "../../hooks/useStatsData";
+import { useSuins } from "../../hooks/useSuins";
+import { SuinsPricingTable } from "../../components/tables/SuinsPricingTable";
 
 function Pricing() {
-  const { suidata } = usePoolsData();
-  const { suiStats } = useStatsData();
+  const { priceList } = useSuins();
+
+  // Normalize Map -> array
+  const prices = Array.from(priceList.entries()).map(
+    ([[from, to], value]) => ({
+      domainLengthFrom: from,
+      domainLengthTo: to,
+      priceMist: value,
+      priceUSDC: value / 1_000_000,
+    })
+  );
 
   return (
     <Layout>
@@ -19,15 +27,9 @@ function Pricing() {
           </h2>
           <p className="text-gray-300 mt-1">Pricing rules and active rates.</p>
         </div>
-        <StatsCards stats={suiStats} />
-        <ChartsSection
-          data={suidata}
-          valueField="liqUsd"
-          labelField="pool"
-          symbolField="symbol"
-        />
+
+        <SuinsPricingTable prices={prices} />
       </main>
-      <WalletStatus />
     </Layout>
   );
 }

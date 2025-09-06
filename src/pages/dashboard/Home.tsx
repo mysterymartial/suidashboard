@@ -6,10 +6,27 @@ import { LeagueTable } from "../../components/tables/LeagueTable";
 import { NewsCard } from "../../components/cards/NewsCard";
 import { IssuanceAndTransfers } from "../../components/cards/IssuanceAndTransfers";
 import { usePoolsData } from "../../hooks/usePoolsData";
+import { StatsCards } from "../../components/cards/StatsCards";
+import { useStatsData } from "../../hooks/useStatsData";
 import "../../App.css";
 
 function Home() {
   const { suidata } = usePoolsData();
+  const { suiStats } = useStatsData();
+
+  const assets = Array.isArray(suidata)
+    ? suidata.map((pool) => ({
+        name: pool.pool || "-", // pool address
+        symbol: pool.coinA?.split("::").pop() + "/" + pool.coinB?.split("::").pop() || "-",
+        protocol: pool.platform || "-",
+        change7d: "-", // Not available
+        change30d: "-", // Not available
+        marketCap: pool.liqUsd ? `$${Number(pool.liqUsd).toLocaleString(undefined, {maximumFractionDigits:2})}` : "-",
+        assetClass: pool.coinA?.split("::").pop() || "-",
+        swapCount: pool.swapCount || "-",
+        price: pool.price || "-",
+      }))
+    : [];
 
   // Dummy data for demonstration
   const dummyStats = {
@@ -127,7 +144,7 @@ function Home() {
           </div>
 
           {/* Stats Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+          {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
             <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-sm">
               <div className="flex items-center justify-between mb-2">
                 <h3 className="text-sm font-medium text-gray-300">
@@ -200,7 +217,8 @@ function Home() {
               </p>
               <p className="text-xs text-gray-400 mt-1">from 30d ago</p>
             </div>
-          </div>
+          </div> */}
+          <StatsCards stats={suiStats} />
         </section>
 
         {/* Charts Section */}
@@ -229,7 +247,8 @@ function Home() {
                 </div>
               </div>
             </div>
-            <AssetsTable assets={dummyAssets} />
+            {/* <AssetsTable assets={dummyAssets} /> */}
+            <AssetsTable assets={assets} />
           </div>
         </section>
 
@@ -268,7 +287,7 @@ function Home() {
           <IssuanceAndTransfers />
         </section>
       </main>
-      <WalletStatus />
+      {/* <WalletStatus /> */}
     </Layout>
   );
 }

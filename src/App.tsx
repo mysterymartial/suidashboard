@@ -13,8 +13,9 @@ import WalrusBlobActivity from "./pages/walrus/BlobActivity";
 import WalrusStorage from "./pages/walrus/Storage";
 import WalrusMetadata from "./pages/walrus/Metadata";
 import DeepbookOrderBook from "./pages/deepbook/OrderBook";
-import DeepbookMarketDepth from "./pages/deepbook/MarketDepth";
-import DeepbookTradeHistory from "./pages/deepbook/TradeHistory";
+import DeepPools from "./pages/deepbook/DeepPools";
+import DeepbookMarketDepth from "./pages/deepbook/MarketSummary";
+import DeepbookTradeHistory from "./pages/deepbook/HistoricalVol";
 import DeepbookPriceDiscovery from "./pages/deepbook/PriceDiscovery";
 import DeepbookLiquidity from "./pages/deepbook/Liquidity";
 import SuinsNameResolution from "./pages/suins/NameResolution";
@@ -85,21 +86,21 @@ function App() {
         <Route path="/ika/user-activity" element={<IkaUserActivity />} />
 
         {/* DeepBook routes */}
-        <Route path="/deepbook" element={<DeepbookOrderBook />} />
-        <Route path="/deepbook/order-book" element={<DeepbookOrderBook />} />
+        <Route path="/deepbook" element={<DeepPools />} />
+        <Route path="/deepbook/pools" element={<DeepPools />} />
         <Route
-          path="/deepbook/market-depth"
+          path="/deepbook/market-summary"
           element={<DeepbookMarketDepth />}
         />
         <Route
-          path="/deepbook/trade-history"
+          path="/deepbook/historical-volume"
           element={<DeepbookTradeHistory />}
         />
         <Route
-          path="/deepbook/price-discovery"
-          element={<DeepbookPriceDiscovery />}
+          path="/deepbook/order-book"
+          element={<DeepbookOrderBook />}
         />
-        <Route path="/deepbook/liquidity" element={<DeepbookLiquidity />} />
+        <Route path="/deepbook/assets" element={<DeepbookLiquidity />} />
 
         {/* SuiNS routes */}
         <Route path="/suins" element={<SuinsNameResolution />} />

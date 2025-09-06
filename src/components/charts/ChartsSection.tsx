@@ -113,7 +113,7 @@ export function ChartsSection({
           {chartData.length === 0 ? (
             <Text color="black">No data</Text>
           ) : (
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="100%" height={250}>
               <PieChart>
                 <Pie
                   data={chartData}
