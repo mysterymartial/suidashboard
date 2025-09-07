@@ -1,14 +1,12 @@
 import React from "react";
 import { Layout } from "../../components/layout/Layout";
-import { WalletStatus } from "../../WalletStatus";
-import { ChartsSection } from "../../components/charts/ChartsSection";
-import { usePoolsData } from "../../hooks/usePoolsData";
-import { StatsCards } from "../../components/cards/StatsCards";
-import { useStatsData } from "../../hooks/useStatsData";
+import { useWalrusBlob } from "../../hooks/usewalrus/useWalrusBlob";
+
 
 function Blobs() {
-  const { waldata } = usePoolsData();
-  const { suiStats } = useStatsData();
+
+  const { blobData, loading, error } = useWalrusBlob();
+
 
   return (
     <Layout>
@@ -19,15 +17,8 @@ function Blobs() {
             Blob storage analytics and trends.
           </p>
         </div>
-        <StatsCards stats={suiStats} />
-        <ChartsSection
-          data={waldata}
-          valueField="liqUsd"
-          labelField="pool"
-          symbolField="coinA"
-        />
+       
       </main>
-      <WalletStatus />
     </Layout>
   );
 }

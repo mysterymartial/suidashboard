@@ -53,11 +53,11 @@ const navigationData = [
       ),
     hasDropdown: true,
     dataPoints: [
-      { name: "Account Details", path: "/walrus/accounts" },
+      { name: "Accounts", path: "/walrus/accounts" },
       { name: "Blobs", path: "/walrus/blobs" },
-      { name: "Blob Activity", path: "/walrus/blob-activity" },
+      // { name: "Blob Activity", path: "/walrus/blob-activity" },
       { name: "Storage Analytics", path: "/walrus/storage" },
-      { name: "Metadata", path: "/walrus/metadata" },
+      // { name: "Metadata", path: "/walrus/metadata" },
     ],
   },
   {
