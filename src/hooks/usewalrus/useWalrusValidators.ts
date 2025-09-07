@@ -1,23 +1,23 @@
 import { useEffect, useState, useRef } from "react";
 
-type AccountCache = Record<number, any>; // page -> data
+type ValidatorCache = Record<number, any>; // page -> data
 
-export function useWalrusAccount(page: number = 0) {
-  const [accountData, setAccountData] = useState<any>(null);
+export function useWalrusValidators(page: number = 0) {
+  const [validatorsData, setValidatorsData] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
 
   const apiKey = import.meta.env.VITE_BLOCKBERRY_API_KEY;
-  const cache = useRef<AccountCache>({});
+  const cache = useRef<ValidatorCache>({});
   const lastRequestTime = useRef<number>(0);
 
   useEffect(() => {
     let isCancelled = false;
 
-    async function fetchAccounts() {
-      // If page is cached, return it immediately
+    async function fetchValidators() {
+      // Return cached page immediately if available
       if (cache.current[page]) {
-        setAccountData(cache.current[page]);
+        setValidatorsData(cache.current[page]);
         return;
       }
 
@@ -37,7 +37,7 @@ export function useWalrusAccount(page: number = 0) {
         if (isCancelled) return;
 
         const res = await fetch(
-          `https://api.blockberry.one/walrus-mainnet/v1/accounts?page=${page}&size=20&orderBy=DESC&sortBy=BALANCE`,
+          `https://api.blockberry.one/walrus-mainnet/v1/validators?page=${page}&size=20&orderBy=DESC&sortBy=STAKE`,
           {
             headers: { accept: "*/*", "x-api-key": apiKey },
           }
@@ -49,7 +49,7 @@ export function useWalrusAccount(page: number = 0) {
 
         const data = await res.json();
         cache.current[page] = data; // cache the page
-        if (!isCancelled) setAccountData(data);
+        if (!isCancelled) setValidatorsData(data);
       } catch (err: any) {
         if (!isCancelled) setError(err);
       } finally {
@@ -57,12 +57,12 @@ export function useWalrusAccount(page: number = 0) {
       }
     }
 
-    fetchAccounts();
+    fetchValidators();
 
     return () => {
       isCancelled = true;
     };
   }, [page, apiKey]);
 
-  return { accountData, loading, error };
+  return { validatorsData, loading, error };
 }
