@@ -26,10 +26,10 @@ function Accounts() {
             Overview of accounts and related metrics.
           </p>
         </div>
-       <div className="flex flex-col gap-12">
-        <Account />
+        <div className="flex flex-col gap-12">
+          <Account />
           <Validators />
-       </div>
+        </div>
       </main>
     </Layout>
   );

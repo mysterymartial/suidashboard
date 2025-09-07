@@ -100,7 +100,7 @@ export default function Validators() {
   if (error) return <Text color="red">{error.message}</Text>;
 
   if (!validatorsData?.content)
-    return <Text>No accounts found.</Text>;
+    return <Text>No validators found.</Text>;
 
   return (
     <main className="p-6 space-y-6">

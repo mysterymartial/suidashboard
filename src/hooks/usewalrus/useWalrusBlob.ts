@@ -1,50 +1,78 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
-export function useWalrusBlob() {
-    const [blobData, setBlobData] = useState<any[]>([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<Error | null>(null);
+type AccountCache = Record<number, any>; // page -> data
 
-    const apiKey = import.meta.env.VITE_BLOCKBERRY_API_KEY;
+export function useWalrusBlob(page: number = 0) {
+  const [blobData, setBlobData] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
+
+  const apiKey = import.meta.env.VITE_BLOCKBERRY_API_KEY;
+  const cache = useRef<AccountCache>({});
+  const lastRequestTime = useRef<number>(0);
+
+
+
+  useEffect(() => {
+
+    let isCancelled = false;
 
     async function fetchBlobData() {
-        setLoading(true);
-        setError(null);
-
-        try {
-      if (!apiKey) {
-        throw new Error("Missing BlockBerry API Key");
+      if(cache.current[page]) {
+        setBlobData(cache.current[page]);
+        return;
       }
 
-      const res = await fetch(
-        "https://api.blockberry.one/walrus-mainnet/v1/blobs?page=0&size=20&orderBy=DESC&sortBy=TIMESTAMP",
-        {
-          method: "GET",
-          headers: {
-            accept: "*/*",
-            "x-api-key": apiKey,
-          },
+      setLoading(true);
+      setError(null);
+
+      try {
+        if (!apiKey) {
+          throw new Error("Missing BlockBerry API Key");
         }
-      );
 
-      if (!res.ok) {
-        throw new Error(`API Error: ${res.statusText}`);
+        const now = Date.now();
+        const elapsed = now - lastRequestTime.current;
+        if (elapsed < 15000) {
+          await new Promise((resolve) => setTimeout(resolve, 15000 - elapsed));
+        }
+        if (isCancelled) return;
+        const res = await fetch(
+          `https://api.blockberry.one/walrus-mainnet/v1/blobs?page=${page}&size=20&orderBy=DESC&sortBy=TIMESTAMP`,
+          {
+            // method: "GET",
+            headers: {
+              accept: "*/*",
+              "x-api-key": apiKey,
+            },
+          }
+        );
+
+        lastRequestTime.current = Date.now(); // update last request time
+
+        if (!res.ok) {
+          throw new Error(`API Error: ${res.statusText}`);
+        }
+
+        const data = await res.json();
+        cache.current[page] = data; // cache the page
+        if (!isCancelled) setBlobData(data);
+        console.log(data);
+      } catch (err: any) {
+        if (!isCancelled) setError(err);
+      } finally {
+        if (!isCancelled) setLoading(false);
       }
 
-      const data = await res.json();
-      setBlobData(data);
-      console.log(data);
-    } catch (err: any) {
-      setError(err);
-    } finally {
-      setLoading(false);
     }
 
-    }
-    
-    useEffect(() => {
-        // fetchBlobData();
-    }, []);
+    fetchBlobData();
 
-    return { blobData, loading, error  };
+    return () => {
+      isCancelled = true;
+    };
+
+  }, [page, apiKey]);
+
+  return { blobData, loading, error };
 }
