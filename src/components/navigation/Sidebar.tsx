@@ -103,8 +103,8 @@ const navigationData = [
     hasDropdown: true,
     dataPoints: [
       { name: "Name Resolution", path: "/suins/name-resolution" },
-      { name: "Address Resolution", path: "/suins/address-resolution" },
-      { name: "Owned Names", path: "/suins/owned-names" },
+      // { name: "Address Resolution", path: "/suins/address-resolution" },
+      // { name: "Owned Names", path: "/suins/owned-names" },
       { name: "Active Pricing", path: "/suins/pricing" },
       { name: "Renewals", path: "/suins/renewals" },
     ],

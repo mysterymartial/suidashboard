@@ -1,8 +1,8 @@
-import React from "react";
+import React, {useState} from "react";
 import { Layout } from "../../components/layout/Layout";
 import { useDeepAssets } from "../../hooks/useDeepAssets";
-import { Flex, Card, Text, Table, Button } from "@radix-ui/themes";
-import { Loader2, Download } from "lucide-react";
+import { Flex, Card, Text, Table, Button, IconButton } from "@radix-ui/themes";
+import { Loader2, Download, Copy, Check } from "lucide-react";
 import {
   BarChart,
   Bar,
@@ -18,7 +18,8 @@ import {
 } from "recharts";
 
 function Liquidity() {
-  const { assets, tickers, loading, error } = useDeepAssets()
+  const { assets, tickers, loading, error } = useDeepAssets();
+  const [copied, setCopied] = useState<string | null>(null);
 
   const handleDownload = (data: any, filename: string) => {
     const rows = [Object.keys(data[0]).join(",")];
@@ -32,6 +33,12 @@ function Liquidity() {
     a.download = filename;
     a.click();
     window.URL.revokeObjectURL(url);
+  };
+
+  const handleCopy = (value: string) => {
+    navigator.clipboard.writeText(value);
+    setCopied(value);
+    setTimeout(() => setCopied(null), 1500);
   };
 
   if (loading)
@@ -128,16 +135,14 @@ function Liquidity() {
               </Text>
             </Card>
           </Flex>
+
           {/* Charts */}
           <Flex gap="6" className="h-[400px]">
             <ResponsiveContainer width="50%" height="100%">
-              <BarChart data={tickersData} width={500}
-                height={300} margin={{
-                  top: 5,
-                  right: 30,
-                  left: 35,
-                  bottom: 5,
-                }}>
+              <BarChart
+                data={tickersData}
+                margin={{ top: 5, right: 30, left: 35, bottom: 5 }}
+              >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="pair" hide />
                 <YAxis />
@@ -170,6 +175,7 @@ function Liquidity() {
               </PieChart>
             </ResponsiveContainer>
           </Flex>
+
           {/* Assets Table */}
           <Card className="p-6">
             <Flex justify="between" align="center" mb="4">
@@ -198,9 +204,23 @@ function Liquidity() {
                   <Table.Row key={a.symbol}>
                     <Table.Cell>{a.symbol}</Table.Cell>
                     <Table.Cell>{a.name}</Table.Cell>
-                    <Table.Cell>{a.contract.slice(0, 8)}...</Table.Cell>
-                    <Table.Cell>{a.deposit}</Table.Cell>
-                    <Table.Cell>{a.withdraw}</Table.Cell>
+                    <Table.Cell>
+                      <Flex align="center" gap="2">
+                        <span>{a.contract.slice(0, 8)}...</span>
+                        <button
+                          onClick={() => handleCopy(a.contract)}
+                          className="p-1 hover:bg-gray-700 rounded"
+                        >
+                          {copied === a.contract ? (
+                            <Check className="w-4 h-4 text-green-500" /> // ✅ shows check when copied
+                          ) : (
+                            <Copy className="w-4 h-4 text-gray-400" />
+                          )}
+                        </button>
+                      </Flex>
+                    </Table.Cell>
+                    <Table.Cell>{a.deposit ? "Yes" : "No"}</Table.Cell>
+                    <Table.Cell>{a.withdraw ? "Yes" : "No"}</Table.Cell>
                   </Table.Row>
                 ))}
               </Table.Body>

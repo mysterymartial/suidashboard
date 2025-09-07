@@ -3,11 +3,11 @@ import { createContext, useContext, ReactNode } from "react";
 import { SuinsClient } from "@mysten/suins";
 import { getFullnodeUrl, SuiClient } from "@mysten/sui/client";
 
-const suiClient = new SuiClient({ url: getFullnodeUrl("testnet") });
+const suiClient = new SuiClient({ url: getFullnodeUrl("mainnet") });
 
 const suinsClient = new SuinsClient({
   client: suiClient,
-  network: "testnet",
+  network: "mainnet",
 });
 
 // Context type

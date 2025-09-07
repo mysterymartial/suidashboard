@@ -1,0 +1,27 @@
+import type { FromSchema } from 'json-schema-to-ts';
+import * as schemas from './schemas';
+
+export type GetAccountBlobsMetadataParam = FromSchema<typeof schemas.GetAccountBlobs.metadata>;
+export type GetAccountBlobsResponse200 = FromSchema<typeof schemas.GetAccountBlobs.response['200']>;
+export type GetAccountByHashMetadataParam = FromSchema<typeof schemas.GetAccountByHash.metadata>;
+export type GetAccountByHashResponse200 = FromSchema<typeof schemas.GetAccountByHash.response['200']>;
+export type GetAccounts1MetadataParam = FromSchema<typeof schemas.GetAccounts1.metadata>;
+export type GetAccounts1Response200 = FromSchema<typeof schemas.GetAccounts1.response['200']>;
+export type GetAccountsCountChartMetadataParam = FromSchema<typeof schemas.GetAccountsCountChart.metadata>;
+export type GetAccountsCountChartResponse200 = FromSchema<typeof schemas.GetAccountsCountChart.response['200']>;
+export type GetAvgBlobSizeChartMetadataParam = FromSchema<typeof schemas.GetAvgBlobSizeChart.metadata>;
+export type GetAvgBlobSizeChartResponse200 = FromSchema<typeof schemas.GetAvgBlobSizeChart.response['200']>;
+export type GetBlobByIdMetadataParam = FromSchema<typeof schemas.GetBlobById.metadata>;
+export type GetBlobByIdResponse200 = FromSchema<typeof schemas.GetBlobById.response['200']>;
+export type GetBlobsCountChartMetadataParam = FromSchema<typeof schemas.GetBlobsCountChart.metadata>;
+export type GetBlobsCountChartResponse200 = FromSchema<typeof schemas.GetBlobsCountChart.response['200']>;
+export type GetBlobsMetadataParam = FromSchema<typeof schemas.GetBlobs.metadata>;
+export type GetBlobsResponse200 = FromSchema<typeof schemas.GetBlobs.response['200']>;
+export type GetDelegationsByValidatorMetadataParam = FromSchema<typeof schemas.GetDelegationsByValidator.metadata>;
+export type GetDelegationsByValidatorResponse200 = FromSchema<typeof schemas.GetDelegationsByValidator.response['200']>;
+export type GetDelegatorsByValidatorMetadataParam = FromSchema<typeof schemas.GetDelegatorsByValidator.metadata>;
+export type GetDelegatorsByValidatorResponse200 = FromSchema<typeof schemas.GetDelegatorsByValidator.response['200']>;
+export type GetValidatorByAddressMetadataParam = FromSchema<typeof schemas.GetValidatorByAddress.metadata>;
+export type GetValidatorByAddressResponse200 = FromSchema<typeof schemas.GetValidatorByAddress.response['200']>;
+export type GetValidatorsMetadataParam = FromSchema<typeof schemas.GetValidators.metadata>;
+export type GetValidatorsResponse200 = FromSchema<typeof schemas.GetValidators.response['200']>;
