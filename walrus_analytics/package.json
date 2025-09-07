@@ -1,0 +1,35 @@
+{
+  "name": "sui-analytics-backend",
+  "version": "1.0.0",
+  "description": "Node.js backend for Sui analytics dashboard using Blockberry API",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "install-blockberry": "npx api install \"@blockberry/v1.0#v3cjoomckkvyl7\""
+  },
+  "keywords": [
+    "sui",
+    "analytics",
+    "blockberry",
+    "nodejs",
+    "express",
+    "api"
+  ],
+  "author": "Og",
+  "license": "MIT",
+  "dependencies": {
+    "@api/blockberry": "file:.api/apis/blockberry",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-validator": "^7.0.1",
+    "winston": "^3.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
