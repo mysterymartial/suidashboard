@@ -1,6 +1,26 @@
 import { useEffect, useState, useRef } from "react";
 
-type AccountCache = Record<number, any>; // page -> data
+interface WalrusAccount {
+  accountId: string;
+  accountAddress: string;
+  balance: number;
+  baseAssetId: string;
+  baseAssetName: string;
+  baseAssetSymbol: string;
+  baseAssetDecimals: number;
+  lotSize: number;
+  minSize: number;
+  [key: string]: any; // optional: for any extra fields
+}
+
+interface WalrusAccountResponse {
+  data: WalrusAccount[];
+  page: number;
+  size: number;
+  total: number;
+}
+
+type AccountCache = Record<number, any>;
 
 export function useWalrusAccount(page: number = 0) {
   const [accountData, setAccountData] = useState<any>(null);
@@ -12,12 +32,16 @@ export function useWalrusAccount(page: number = 0) {
   const lastRequestTime = useRef<number>(0);
 
   useEffect(() => {
-    let isCancelled = false;
+    let cancelled = false;
 
-    async function fetchAccounts() {
-      // If page is cached, return it immediately
+    const fetchAccounts = async () => {
       if (cache.current[page]) {
         setAccountData(cache.current[page]);
+        return;
+      }
+
+      if (!apiKey) {
+        setError(new Error("Missing BlockBerry API Key"));
         return;
       }
 
@@ -25,43 +49,33 @@ export function useWalrusAccount(page: number = 0) {
       setError(null);
 
       try {
-        if (!apiKey) throw new Error("Missing BlockBerry API Key");
+        const elapsed = Date.now() - lastRequestTime.current;
+        if (elapsed < 15000) await new Promise(r => setTimeout(r, 15000 - elapsed));
 
-        // Ensure 15-second gap between requests
-        const now = Date.now();
-        const elapsed = now - lastRequestTime.current;
-        if (elapsed < 15000) {
-          await new Promise((resolve) => setTimeout(resolve, 15000 - elapsed));
-        }
-
-        if (isCancelled) return;
+        if (cancelled) return;
 
         const res = await fetch(
           `https://api.blockberry.one/walrus-mainnet/v1/accounts?page=${page}&size=20&orderBy=DESC&sortBy=BALANCE`,
-          {
-            headers: { accept: "*/*", "x-api-key": apiKey },
-          }
+          { headers: { accept: "*/*", "x-api-key": apiKey } }
         );
 
-        lastRequestTime.current = Date.now(); // update last request time
+        lastRequestTime.current = Date.now();
 
         if (!res.ok) throw new Error(`API Error: ${res.statusText}`);
 
         const data = await res.json();
-        cache.current[page] = data; // cache the page
-        if (!isCancelled) setAccountData(data);
+        cache.current[page] = data;
+        if (!cancelled) setAccountData(data);
       } catch (err: any) {
-        if (!isCancelled) setError(err);
+        if (!cancelled) setError(err);
       } finally {
-        if (!isCancelled) setLoading(false);
+        if (!cancelled) setLoading(false);
       }
-    }
+    };
 
     fetchAccounts();
 
-    return () => {
-      isCancelled = true;
-    };
+    return () => { cancelled = true; };
   }, [page, apiKey]);
 
   return { accountData, loading, error };

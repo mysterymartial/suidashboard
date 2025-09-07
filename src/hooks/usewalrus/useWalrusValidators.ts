@@ -1,6 +1,24 @@
 import { useEffect, useState, useRef } from "react";
 
-type ValidatorCache = Record<number, any>; // page -> data
+interface WalrusValidator {
+  validatorHash: string;
+  validatorName: string;
+  status: string;
+  stake: number;
+  commissionRate: number;
+  uptime: number;
+  rank: number;
+  [key: string]: any; // optional: for extra fields
+}
+
+interface WalrusValidatorResponse {
+  data: WalrusValidator[];
+  page: number;
+  size: number;
+  total: number;
+}
+
+type ValidatorCache = Record<number, any>;
 
 export function useWalrusValidators(page: number = 0) {
   const [validatorsData, setValidatorsData] = useState<any>(null);
@@ -12,12 +30,16 @@ export function useWalrusValidators(page: number = 0) {
   const lastRequestTime = useRef<number>(0);
 
   useEffect(() => {
-    let isCancelled = false;
+    let cancelled = false;
 
-    async function fetchValidators() {
-      // Return cached page immediately if available
+    const fetchValidators = async () => {
       if (cache.current[page]) {
         setValidatorsData(cache.current[page]);
+        return;
+      }
+
+      if (!apiKey) {
+        setError(new Error("Missing BlockBerry API Key"));
         return;
       }
 
@@ -25,43 +47,33 @@ export function useWalrusValidators(page: number = 0) {
       setError(null);
 
       try {
-        if (!apiKey) throw new Error("Missing BlockBerry API Key");
+        const elapsed = Date.now() - lastRequestTime.current;
+        if (elapsed < 15000) await new Promise(r => setTimeout(r, 15000 - elapsed));
 
-        // Ensure 15-second gap between requests
-        const now = Date.now();
-        const elapsed = now - lastRequestTime.current;
-        if (elapsed < 15000) {
-          await new Promise((resolve) => setTimeout(resolve, 15000 - elapsed));
-        }
-
-        if (isCancelled) return;
+        if (cancelled) return;
 
         const res = await fetch(
           `https://api.blockberry.one/walrus-mainnet/v1/validators?page=${page}&size=20&orderBy=DESC&sortBy=STAKE`,
-          {
-            headers: { accept: "*/*", "x-api-key": apiKey },
-          }
+          { headers: { accept: "*/*", "x-api-key": apiKey } }
         );
 
-        lastRequestTime.current = Date.now(); // update last request time
+        lastRequestTime.current = Date.now();
 
         if (!res.ok) throw new Error(`API Error: ${res.statusText}`);
 
         const data = await res.json();
-        cache.current[page] = data; // cache the page
-        if (!isCancelled) setValidatorsData(data);
+        cache.current[page] = data;
+        if (!cancelled) setValidatorsData(data);
       } catch (err: any) {
-        if (!isCancelled) setError(err);
+        if (!cancelled) setError(err);
       } finally {
-        if (!isCancelled) setLoading(false);
+        if (!cancelled) setLoading(false);
       }
-    }
+    };
 
     fetchValidators();
 
-    return () => {
-      isCancelled = true;
-    };
+    return () => { cancelled = true; };
   }, [page, apiKey]);
 
   return { validatorsData, loading, error };
