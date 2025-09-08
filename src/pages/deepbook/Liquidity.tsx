@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { Layout } from "../../components/layout/Layout";
-import { useDeepAssets } from "../../hooks/useDeepAssets";
+import { useDeepAssets } from "../../hooks/useDeep/useDeepAssets";
 import { Flex, Card, Text, Table, Button, IconButton } from "@radix-ui/themes";
 import { Loader2, Download, Copy, Check } from "lucide-react";
 import {

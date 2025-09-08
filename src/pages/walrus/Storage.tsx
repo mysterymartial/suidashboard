@@ -1,6 +1,6 @@
 import React from "react";
 import { Layout } from "../../components/layout/Layout";
-import { useWalrusAnalytics } from "../../hooks/usewalrus/useWalrusAnalytics";
+import { useWalrusAnalytics } from "../../hooks/useWalrus/useWalrusAnalytics";
 import {
   Card,
   Flex,

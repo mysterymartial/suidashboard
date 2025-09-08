@@ -130,9 +130,9 @@ const navigationData = [
     dataPoints: [
       { name: "Collection NFT List", path: "/nfts/collection-list" },
       { name: "NFT Activity", path: "/nfts/activity" },
-      { name: "Account NFTs", path: "/nfts/account-nfts" },
-      { name: "Collection Holders", path: "/nfts/collection-holders" },
-      { name: "Transfers & Sales", path: "/nfts/transfers-sales" },
+      { name: "All NFTs", path: "/nfts/account-nfts" },
+      // { name: "Collection Holders", path: "/nfts/collection-holders" },
+      { name: "Marketplace", path: "/nfts/transfers-sales" },
     ],
   },
   {

@@ -1,14 +1,11 @@
 import React from "react";
 import { Layout } from "../../components/layout/Layout";
-import { WalletStatus } from "../../WalletStatus";
-import { ChartsSection } from "../../components/charts/ChartsSection";
-import { usePoolsData } from "../../hooks/usePoolsData";
-import { useStatsData } from "../../hooks/useStatsData";
-import { StatsCards } from "../../components/cards/StatsCards";
+import { useSuiAccounts } from "../../hooks/useSui/useSuiAccounts";
+
 
 function ActiveAddresses() {
-  const { suidata } = usePoolsData();
-  const { suiStats } = useStatsData();
+
+  const {accounts, topAccounts, loading, error } = useSuiAccounts()
 
   return (
     <Layout>
@@ -22,15 +19,15 @@ function ActiveAddresses() {
           </p>
         </div>
 
-        <StatsCards stats={suiStats} />
+        {/* <StatsCards stats={suiStats} />
         <ChartsSection
           data={suidata}
           valueField="liqUsd"
           labelField="pool"
           symbolField="symbol"
-        />
+        /> */}
       </main>
-      <WalletStatus />
+      {/* <WalletStatus /> */}
     </Layout>
   );
 }

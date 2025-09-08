@@ -2,7 +2,7 @@ import React from "react";
 import { Layout } from "../../components/layout/Layout";
 import { WalletStatus } from "../../WalletStatus";
 import { ChartsSection } from "../../components/charts/ChartsSection";
-import { usePoolsData } from "../../hooks/usePoolsData";
+import { usePoolsData } from "../../hooks/useDeep/usePoolsData";
 import { StatsCards } from "../../components/cards/StatsCards";
 import { useStatsData } from "../../hooks/useStatsData";
 

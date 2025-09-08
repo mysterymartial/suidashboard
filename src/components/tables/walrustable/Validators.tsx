@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Layout } from "../../layout/Layout";
-import { useWalrusValidators } from "../../../hooks/usewalrus/useWalrusValidators";
+import { useWalrusValidators } from "../../../hooks/useWalrus/useWalrusValidators";
 import {
   Table,
   Button,

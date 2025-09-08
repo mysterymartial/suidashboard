@@ -1,6 +1,6 @@
 import React from "react";
 import { Layout } from "../../components/layout/Layout";
-import { useWalrusAccount } from "../../hooks/usewalrus/useWalrusAccount";
+import { useWalrusAccount } from "../../hooks/useWalrus/useWalrusAccount";
 import {
   Table,
   Button,

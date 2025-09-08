@@ -68,11 +68,11 @@ export function useWalrusBlob(page: number = 0) {
     }
   }, [page, apiKey]);
 
-  useEffect(() => {
-    let isCancelled = false;
-    if (!isCancelled) fetchBlobData();
-    return () => { isCancelled = true; };
-  }, [fetchBlobData]);
+  // useEffect(() => {
+  //   let isCancelled = false;
+  //   if (!isCancelled) fetchBlobData();
+  //   return () => { isCancelled = true; };
+  // }, [fetchBlobData]);
 
   return { blobData, loading, error };
 }

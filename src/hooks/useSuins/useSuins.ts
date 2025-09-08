@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSuinsClient } from "../contexts/SuinsClientContext";
+import { useSuinsClient } from "../../contexts/SuinsClientContext";
 
 export function useSuins() {
     const suinsClient = useSuinsClient();

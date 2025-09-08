@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Layout } from "../../components/layout/Layout";
-import { useSuins } from "../../hooks/useSuins";
+import { useSuins } from "../../hooks/useSuins/useSuins";
 import { TextField, Button, Card, Flex, Text } from "@radix-ui/themes";
 import { Copy, Check } from "lucide-react";
 

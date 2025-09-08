@@ -1,8 +1,8 @@
 import React from 'react'
 import { DeepBookPoolsTable } from "../../components/tables/DeepBookPoolsTable";
 import { Layout } from "../../components/layout/Layout";
-import { usePoolsData } from "../../hooks/usePoolsData";
-import { PoolsPieChart } from '../../components/charts/dbcharts/PoolsPiechart';
+import { usePoolsData } from "../../hooks/useDeep/usePoolsData";
+import { PoolsPieChart } from '../../components/charts/dbcharts/PoolsPieChart';
 import { PoolsBarChart } from '../../components/charts/dbcharts/PoolsBarChart';
 import { DbStatsCard } from '../../components/cards/DbStatsCard';
 import { Flex } from '@radix-ui/themes';

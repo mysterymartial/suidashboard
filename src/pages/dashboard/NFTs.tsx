@@ -8,7 +8,7 @@ import { AssetsTable } from "../../components/tables/AssetsTable";
 import { LeagueTable } from "../../components/tables/LeagueTable";
 import { NewsCard } from "../../components/cards/NewsCard";
 import { IssuanceAndTransfers } from "../../components/cards/IssuanceAndTransfers";
-import { usePoolsData } from "../../hooks/usePoolsData";
+import { usePoolsData } from "../../hooks/useDeep/usePoolsData";
 import Suilogo from "../../assets/Sui_Logo.webp";
 
 function NFTs() {

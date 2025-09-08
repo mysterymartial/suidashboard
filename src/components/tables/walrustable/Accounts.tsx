@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useWalrusAccount } from "../../../hooks/usewalrus/useWalrusAccount";
+import { useWalrusAccount } from "../../../hooks/useWalrus/useWalrusAccount";
 import { Table, Button, Flex, Text, Card, IconButton, Spinner } from "@radix-ui/themes";
 import { Copy, Check, Download } from "lucide-react";
 

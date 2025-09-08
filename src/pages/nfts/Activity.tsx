@@ -1,14 +1,10 @@
 import React from "react";
 import { Layout } from "../../components/layout/Layout";
-import { WalletStatus } from "../../WalletStatus";
-import { ChartsSection } from "../../components/charts/ChartsSection";
-import { usePoolsData } from "../../hooks/usePoolsData";
-import { StatsCards } from "../../components/cards/StatsCards";
-import { useStatsData } from "../../hooks/useStatsData";
+import { useEvents } from "../../hooks/useNFTs/useEvents";
+
 
 function Activity() {
-  const { suidata } = usePoolsData();
-  const { suiStats } = useStatsData();
+  const {nftevents, loading, error} = useEvents()
 
   return (
     <Layout>
@@ -21,15 +17,8 @@ function Activity() {
             Transfers, listings, and sales activity.
           </p>
         </div>
-        <StatsCards stats={suiStats} />
-        <ChartsSection
-          data={suidata}
-          valueField="liqUsd"
-          labelField="pool"
-          symbolField="symbol"
-        />
+
       </main>
-      <WalletStatus />
     </Layout>
   );
 }

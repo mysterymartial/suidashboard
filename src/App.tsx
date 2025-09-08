@@ -32,7 +32,7 @@ import NFTsCollectionList from "./pages/nfts/CollectionList";
 import NFTsActivity from "./pages/nfts/Activity";
 import NFTsAccountNFTs from "./pages/nfts/AccountNFTs";
 import NFTsCollectionHolders from "./pages/nfts/CollectionHolders";
-import NFTsTransfersSales from "./pages/nfts/TransfersSales";
+import NFTsTransfersSales from "./pages/nfts/Marketplace";
 import StableSupply from "./pages/stablecoins/Supply";
 import StableMintBurn from "./pages/stablecoins/MintBurn";
 import StableBacking from "./pages/stablecoins/Backing";

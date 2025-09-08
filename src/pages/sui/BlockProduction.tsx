@@ -1,14 +1,10 @@
 import React from "react";
 import { Layout } from "../../components/layout/Layout";
-import { WalletStatus } from "../../WalletStatus";
-import { ChartsSection } from "../../components/charts/ChartsSection";
-import { usePoolsData } from "../../hooks/usePoolsData";
-import { useStatsData } from "../../hooks/useStatsData";
-import { StatsCards } from "../../components/cards/StatsCards";
+import { useSuiBlocks } from "../../hooks/useSui/useSuiBlocks";
 
 function BlockProduction() {
-  const { suidata } = usePoolsData();
-  const { suiStats } = useStatsData();
+
+  const { checkpoint, checkpointCount, transactionBlock, transactionBlockCount, loading, error } = useSuiBlocks();
 
   return (
     <Layout>
@@ -22,15 +18,7 @@ function BlockProduction() {
           </p>
         </div>
 
-        <StatsCards stats={suiStats} />
-        <ChartsSection
-          data={suidata}
-          valueField="liqUsd"
-          labelField="pool"
-          symbolField="symbol"
-        />
       </main>
-      <WalletStatus />
     </Layout>
   );
 }

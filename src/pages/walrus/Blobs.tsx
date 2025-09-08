@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Layout } from "../../components/layout/Layout";
-import { useWalrusBlob } from "../../hooks/usewalrus/useWalrusBlob";
+import { useWalrusBlob } from "../../hooks/useWalrus/useWalrusBlob";
 import { Table, Button, Flex, Text, Card, IconButton, Spinner } from "@radix-ui/themes";
 import { Copy, Check, Download } from "lucide-react";
 
