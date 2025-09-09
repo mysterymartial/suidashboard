@@ -115,11 +115,11 @@ const navigationData = [
     icon: CircleIcon,
     hasDropdown: true,
     dataPoints: [
-      { name: "Account Coins", path: "/coins/account-coins" },
-      { name: "Coin Details", path: "/coins/coin-details" },
-      { name: "Multiple Prices", path: "/coins/prices" },
-      { name: "Coin Holders", path: "/coins/holders" },
-      { name: "Market Data", path: "/coins/market-data" },
+      { name: "Coins Dashboard", path: "/coins/dashboard" },
+      { name: "Coins Count", path: "/coins/coins-count" },
+      { name: "Verified Count", path: "/coins/coins-verified-count" },
+      { name: "Get Coins", path: "/coins/get-coins" },
+      { name: "Market Cap Count", path: "/coins/coins-with-market-cap-count" },
     ],
   },
   {

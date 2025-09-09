@@ -116,7 +116,7 @@ function App() {
         <Route path="/suins/renewals" element={<SuinsRenewals />} />
 
         {/* Coins routes */}
-        <Route path="/coins" element={<CoinsDashboard />} />
+        {/* <Route path="/coins" element={<CoinsDashboard />} /> */}
         <Route path="/coins/dashboard" element={<CoinsDashboard />} />
         <Route path="/coins/coins-verified-count" element={<CoinsVerifiedCount />} />
         <Route path="/coins/coins-count" element={<CoinsCount />} />
