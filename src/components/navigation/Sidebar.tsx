@@ -71,11 +71,11 @@ const navigationData = [
       ),
     hasDropdown: true,
     dataPoints: [
-      { name: "Protocol Stats", path: "/ika/protocol-stats" },
-      { name: "Liquidity Pools", path: "/ika/liquidity-pools" },
-      { name: "Trading Volume", path: "/ika/trading-volume" },
-      { name: "Fee Generation", path: "/ika/fee-generation" },
-      { name: "User Activity", path: "/ika/user-activity" },
+      { name: "Coin Information", path: "/ika/protocol-stats" },
+      // { name: "Liquidity Pools", path: "/ika/liquidity-pools" },
+      // { name: "Trading Volume", path: "/ika/trading-volume" },
+      { name: "Price Tracker", path: "/ika/fee-generation" },
+      // { name: "User Activity", path: "/ika/user-activity" },
     ],
   },
   {
