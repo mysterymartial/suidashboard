@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table, Badge, Card, Heading, Text, Flex } from '@radix-ui/themes';
+import { Skeleton, TableRowSkeleton } from '../ui/Skeleton';
 
 interface Pool {
   id: number;
@@ -22,8 +23,38 @@ export function PoolsTable({ pools, loading }: PoolsTableProps) {
     return (
       <Card className="bg-gray-800 border-gray-700">
         <Flex direction="column" gap="4" p="6">
-          <Heading size="4" className="text-white">Top Liquidity Pools</Heading>
-          <Text className="text-gray-300">Loading pools data...</Text>
+          <Flex justify="between" align="center">
+            <Heading size="4" className="text-white">Top Liquidity Pools</Heading>
+            <Skeleton height="1rem" width="300px" />
+          </Flex>
+          
+          <Table.Root className="w-full">
+            <Table.Header>
+              <Table.Row className="border-b border-gray-700">
+                <Table.ColumnHeaderCell className="text-gray-300 font-medium py-3">
+                  Pool
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-gray-300 font-medium py-3">
+                  Platform
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-gray-300 font-medium py-3">
+                  24h Volume
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-gray-300 font-medium py-3">
+                  TVL
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-gray-300 font-medium py-3">
+                  APR
+                </Table.ColumnHeaderCell>
+              </Table.Row>
+            </Table.Header>
+            
+            <Table.Body>
+              {Array.from({ length: 10 }).map((_, index) => (
+                <TableRowSkeleton key={index} columns={5} />
+              ))}
+            </Table.Body>
+          </Table.Root>
         </Flex>
       </Card>
     );

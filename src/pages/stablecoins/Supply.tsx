@@ -11,6 +11,7 @@ import {
   Badge,
   Spinner
 } from "@radix-ui/themes";
+import { Skeleton, StatCardSkeleton, ChartSkeleton, TableRowSkeleton } from "../../components/ui/Skeleton";
 import { 
   LineChart, 
   Line, 
@@ -67,11 +68,48 @@ function Supply() {
     return (
       <Layout>
         <main className="p-6 space-y-8">
-          <Card>
-            <Flex align="center" justify="center" p="9">
-              <Spinner size="3" />
-              <Text ml="3">Loading stablecoin data...</Text>
-            </Flex>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <StatCardSkeleton />
+            <StatCardSkeleton />
+            <StatCardSkeleton />
+          </div>
+          
+          <ChartSkeleton height="400px" />
+          
+          <Card className="bg-gray-800 border-gray-700">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-4">
+                <Skeleton height="1.5rem" width="200px" />
+                <div className="flex gap-2">
+                  <Skeleton height="2rem" width="80px" />
+                  <Skeleton height="2rem" width="80px" />
+                </div>
+              </div>
+              <Table.Root>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.ColumnHeaderCell>Stablecoin</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>Symbol</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>Supply</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>Market Cap</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>Last Updated</Table.ColumnHeaderCell>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  {Array.from({ length: 10 }).map((_, index) => (
+                    <TableRowSkeleton key={index} columns={5} />
+                  ))}
+                </Table.Body>
+              </Table.Root>
+              
+              <div className="flex justify-between items-center mt-4">
+                <Skeleton height="1rem" width="150px" />
+                <div className="flex gap-2">
+                  <Skeleton height="2rem" width="80px" />
+                  <Skeleton height="2rem" width="60px" />
+                </div>
+              </div>
+            </div>
           </Card>
         </main>
       </Layout>

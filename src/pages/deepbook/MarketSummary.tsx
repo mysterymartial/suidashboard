@@ -3,6 +3,7 @@ import { Layout } from "../../components/layout/Layout";
 import { useMarketData } from "../../hooks/useDeep/useMarketData";
 import { Table, Text, Button, Flex, Card } from "@radix-ui/themes";
 import { Download, Loader2 } from "lucide-react";
+import { Skeleton, StatCardSkeleton, ChartSkeleton, TableRowSkeleton } from "../../components/ui/Skeleton";
 import {
   BarChart,
   Bar,
@@ -64,10 +65,42 @@ function MarketDepth() {
 if (loading)
     return (
       <Layout>
-        <main className="flex items-center justify-center min-h-[70vh]">
-          <Card className="flex items-center gap-3 p-6 bg-gray-900 rounded-xl shadow-md">
-            <Loader2 className="animate-spin text-blue-500" />
-            <Text color="gray">Loading market data...</Text>
+        <main className="p-6 space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <StatCardSkeleton />
+            <StatCardSkeleton />
+            <StatCardSkeleton />
+            <StatCardSkeleton />
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <ChartSkeleton />
+            <ChartSkeleton />
+          </div>
+          
+          <Card className="bg-gray-800 border-gray-700">
+            <div className="p-6">
+              <div className="flex justify-between items-center mb-4">
+                <Skeleton height="1.5rem" width="200px" />
+                <Skeleton height="2.5rem" width="120px" />
+              </div>
+              <Table.Root>
+                <Table.Header>
+                  <Table.Row>
+                    <Table.ColumnHeaderCell>Pool ID</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>Base Asset</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>Quote Asset</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>Tick Size</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>Lot Size</Table.ColumnHeaderCell>
+                  </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                  {Array.from({ length: 10 }).map((_, index) => (
+                    <TableRowSkeleton key={index} columns={5} />
+                  ))}
+                </Table.Body>
+              </Table.Root>
+            </div>
           </Card>
         </main>
       </Layout>

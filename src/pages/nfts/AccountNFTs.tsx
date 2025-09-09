@@ -2,6 +2,7 @@ import React from "react";
 import { Layout } from "../../components/layout/Layout";
 import { useNfts } from "../../hooks/useNFTs/useNfts";
 import { Table, Card, Text, Avatar, Flex, Box, Spinner, Badge } from "@radix-ui/themes";
+import { Skeleton, TableRowSkeleton } from "../../components/ui/Skeleton";
 
 function AccountNFTs() {
 
@@ -12,15 +13,26 @@ function AccountNFTs() {
       <Layout>
         <main className="p-6 space-y-8">
           <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-sm">
-            <h2 className="text-2xl font-semibold text-white">
-              NFTs - All NFTs
-            </h2>
-            <p className="text-gray-300 mt-1">
-              All NFTs List.
-            </p>
+            <Skeleton height="2rem" width="200px" className="mb-2" />
+            <Skeleton height="1rem" width="150px" />
           </div>
-          <div className="flex justify-center items-center py-12">
-            <Spinner size="3" />
+          
+          <div className="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden">
+            <Table.Root>
+              <Table.Header>
+                <Table.Row>
+                  <Table.ColumnHeaderCell className="text-white">NFT</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell className="text-white">Collection</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell className="text-white">Type</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell className="text-white">Object ID</Table.ColumnHeaderCell>
+                </Table.Row>
+              </Table.Header>
+              <Table.Body>
+                {Array.from({ length: 12 }).map((_, index) => (
+                  <TableRowSkeleton key={index} columns={4} />
+                ))}
+              </Table.Body>
+            </Table.Root>
           </div>
         </main>
       </Layout>

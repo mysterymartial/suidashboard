@@ -3,6 +3,7 @@ import { Layout } from "../../components/layout/Layout";
 import { useWalrusBlob } from "../../hooks/useWalrus/useWalrusBlob";
 import { Table, Button, Flex, Text, Card, IconButton, Spinner } from "@radix-ui/themes";
 import { Copy, Check, Download } from "lucide-react";
+import { Skeleton } from "../../components/ui/Skeleton";
 
 function Blobs() {
   const [page, setPage] = useState(0);
@@ -104,9 +105,8 @@ function Blobs() {
           </Table.Root>
 
           {loading && (
-            <Flex justify="center" mt="2">
-              <Spinner size="2" />
-              <Text size="3" color="gray" className="ml-2">Loading new page...</Text>
+            <Flex justify="center" mt="2" gap="2">
+              <Skeleton height="1rem" width="120px" />
             </Flex>
           )}
 

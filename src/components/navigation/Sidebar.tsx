@@ -119,7 +119,7 @@ const navigationData = [
       { name: "Coin Details", path: "/coins/coin-details" },
       { name: "Trending Coins", path: "/coins/prices" },
       // { name: "Coin Holders", path: "/coins/holders" },
-      { name: "Market Data", path: "/coins/market-data" },
+      // { name: "Market Data", path: "/coins/market-data" },
     ],
   },
   {

@@ -3,6 +3,7 @@ import { Layout } from "../../components/layout/Layout";
 import { useOrderBook } from "../../hooks/useDeep/useOrderBook";
 import { Table, Card, Text, Flex, Select, Button } from "@radix-ui/themes";
 import { Loader2 } from "lucide-react";
+import { Skeleton, StatCardSkeleton, ChartSkeleton, TableRowSkeleton } from "../../components/ui/Skeleton";
 import {
   LineChart,
   Line,
@@ -137,12 +138,54 @@ function OrderBook() {
 
         {/* Loading / Error states centered while Layout remains */}
         {loading && (
-          <Card className="p-10 rounded-xl">
-            <div className="min-h-[220px] flex items-center justify-center gap-3">
-              <Loader2 className="animate-spin text-blue-500" />
-              <Text color="gray">Fetching {selectedPair}...</Text>
+          <div className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+              <StatCardSkeleton />
+              <StatCardSkeleton />
+              <StatCardSkeleton />
+              <StatCardSkeleton />
             </div>
-          </Card>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <Card className="p-6">
+                <Skeleton height="1.5rem" width="120px" className="mb-4" />
+                <Table.Root>
+                  <Table.Header>
+                    <Table.Row>
+                      <Table.ColumnHeaderCell>Price</Table.ColumnHeaderCell>
+                      <Table.ColumnHeaderCell>Quantity</Table.ColumnHeaderCell>
+                      <Table.ColumnHeaderCell>Total</Table.ColumnHeaderCell>
+                    </Table.Row>
+                  </Table.Header>
+                  <Table.Body>
+                    {Array.from({ length: 8 }).map((_, index) => (
+                      <TableRowSkeleton key={index} columns={3} />
+                    ))}
+                  </Table.Body>
+                </Table.Root>
+              </Card>
+              
+              <Card className="p-6">
+                <Skeleton height="1.5rem" width="120px" className="mb-4" />
+                <Table.Root>
+                  <Table.Header>
+                    <Table.Row>
+                      <Table.ColumnHeaderCell>Price</Table.ColumnHeaderCell>
+                      <Table.ColumnHeaderCell>Quantity</Table.ColumnHeaderCell>
+                      <Table.ColumnHeaderCell>Total</Table.ColumnHeaderCell>
+                    </Table.Row>
+                  </Table.Header>
+                  <Table.Body>
+                    {Array.from({ length: 8 }).map((_, index) => (
+                      <TableRowSkeleton key={index} columns={3} />
+                    ))}
+                  </Table.Body>
+                </Table.Root>
+              </Card>
+            </div>
+            
+            <ChartSkeleton height="300px" />
+          </div>
         )}
         {error && (
           <Card className="p-6 bg-red-900/40 rounded-xl">

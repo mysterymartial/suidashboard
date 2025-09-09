@@ -7,6 +7,7 @@ import {
   Text,
   Spinner,
 } from "@radix-ui/themes";
+import { Skeleton, StatCardSkeleton, ChartSkeleton } from "../../components/ui/Skeleton";
 import {
   ResponsiveContainer,
   LineChart,
@@ -29,10 +30,18 @@ function Storage() {
   if (loading) {
     return (
       <Layout>
-        <Flex justify="center" mt="10">
-          <Spinner size="4" />
-          <Text className="ml-2">Loading data...</Text>
-        </Flex>
+        <main className="p-6 space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <StatCardSkeleton />
+            <StatCardSkeleton />
+            <StatCardSkeleton />
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <ChartSkeleton />
+            <ChartSkeleton />
+          </div>
+        </main>
       </Layout>
     );
   }

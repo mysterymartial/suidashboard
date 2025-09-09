@@ -120,6 +120,7 @@ function App() {
         <Route path="/coins" element={<CoinsAccountCoins />} />
         <Route path="/coins/account-coins" element={<CoinsAccountCoins />} />
         <Route path="/coins/coin-details" element={<CoinsCoinDetails />} />
+        <Route path="/coins/coin-details/:coinType" element={<CoinsCoinDetails />} />
         <Route path="/coins/prices" element={<CoinsPrices />} />
         <Route path="/coins/holders" element={<CoinsHolders />} />
         <Route path="/coins/market-data" element={<CoinsMarketData />} />
