@@ -1,9 +1,9 @@
 import "./App.css";
 import Home from "./pages/dashboard/Home";
 // import { GenericPage } from "./components/pages/GenericPage";
-import NetworkStats from "./pages/sui/NetworkStats";
+import NetworkStats from "./pages/sui/Validators";
 import TransactionVolume from "./pages/sui/TransactionVolume";
-import GasUsage from "./pages/sui/GasUsage";
+import GasUsage from "./pages/sui/ChainInfo";
 import ActiveAddresses from "./pages/sui/ActiveAddresses";
 import BlockProduction from "./pages/sui/BlockProduction";
 import { BrowserRouter as Router, Routes, Route } from "react-router";

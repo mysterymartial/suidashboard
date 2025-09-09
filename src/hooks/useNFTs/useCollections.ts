@@ -31,7 +31,7 @@ export function useCollections() {
                 })
             ])
 
-            setCollections(collectionRes.data)
+            setCollections(collectionRes.data.content || [])
             setTopCollections(topCollectionRes.data)
 
         } catch (err: any) {

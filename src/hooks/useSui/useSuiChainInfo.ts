@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-export function useSuiAccounts() {
-    const [chainInfo, setChainInfo] = useState<any[]>([]);
-    const [stakeParam, setStakeParam] = useState<any[]>([])
+export function useChainInfo() {
+    const [chainInfo, setChainInfo] = useState<any>(null);
+    const [stakeParam, setStakeParam] = useState<any>(null)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<Error | null>(null);
     const apiKey = import.meta.env.VITE_BLOCKBERRY_API_KEY;
@@ -42,7 +42,7 @@ export function useSuiAccounts() {
     }
 
     useEffect(() => {
-        // fetchAccounts()
+        // fetchChainInfo()
     }, [])
 
     return { chainInfo, stakeParam, loading, error }

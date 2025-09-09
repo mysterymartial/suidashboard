@@ -31,8 +31,10 @@ export function useNfts() {
                 })
             ])
 
-            setNfts(nftRes.data)
+            setNfts(nftRes.data.content || [])
+            // console.log(nftRes.data.content || [])
             setNftCount(nftcountRes.data)
+            console.log(nftcountRes.data)
 
         } catch (err: any) {
             console.error(err.message)

@@ -31,8 +31,10 @@ export function useMarketPlace() {
                 })
             ])
 
-            setMarketPlace(marketplaceRes.data)
+            setMarketPlace(marketplaceRes.data.content || [])
+            console.log(marketplaceRes.data)
             setTopMarketPlace(topMarketplaceRes.data)
+            console.log(topMarketplaceRes.data)
 
         } catch (err: any) {
             console.error(err.message)

@@ -31,8 +31,10 @@ export function useSuiAccounts() {
                 })
             ])
 
-            setAccounts(accoutntRes.data)
-            setTopAccount(topAccountRes.data)
+            setAccounts(accoutntRes.data.content || [])
+            console.log(accoutntRes.data)
+            setTopAccount(topAccountRes.data.content || [])
+            console.log(topAccountRes.data)
 
         } catch (err: any) {
             console.error(err.message)

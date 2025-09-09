@@ -31,7 +31,8 @@ export function useSuiValidators() {
                 })
             ])
 
-            setValidators(validatorRes.data)
+            setValidators(validatorRes.data.content || [])
+            console.log(validatorRes.data)
             setValidatorsApy(validatorApyRes.data)
 
         } catch (err: any) {
