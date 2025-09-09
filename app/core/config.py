@@ -1,5 +1,5 @@
 # ================================
-# app/core/config.py - Configuration Management
+# app/core/config.py
 from pydantic_settings import BaseSettings
 from typing import Dict
 import os

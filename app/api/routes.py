@@ -279,8 +279,6 @@ async def batch_analyze_addresses(request: BatchAnalysisRequest):
     📊 Batch analyze up to 10 addresses simultaneously
 
     - **Parallel processing** for multiple wallets
-    - **Quick overview** of each address
-    - **Comparative analysis** across portfolios
     """
     try:
         if len(request.addresses) > 10:

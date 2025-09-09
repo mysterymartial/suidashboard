@@ -1,5 +1,5 @@
 # ================================ 
-# app/services/ai_service.py - Free Hugging Face AI 
+# app/services/ai_service.py
 import aiohttp 
 import json 
 import logging 
@@ -10,17 +10,15 @@ from app.core.database import db
 logger = logging.getLogger(__name__) 
  
 class FreeAIService: 
-    def __init__(self): 
-        # Hugging Face Inference API - Completely FREE 
+    def __init__(self):
         self.hf_api_url = settings.HF_API_URL
         self.model = settings.HF_MODEL
-        # Alternative models you can try: 
+        # Alternative models
         # "google/flan-t5-large" 
         # "microsoft/DialoGPT-large"  
         # "EleutherAI/gpt-j-6B" 
          
-    async def get_real_time_tax_info(self, country: str) -> Dict: 
-        """Get tax information using free AI"""
+    async def get_real_time_tax_info(self, country: str) -> Dict:
 
         cached_tax_info = await db.get_cached_tax_info(country)
         if cached_tax_info:
@@ -134,7 +132,7 @@ class FreeAIService:
         return self._generate_fallback_advice(tax_summary)
 
     async def _call_huggingface(self, prompt: str) -> str:
-        """Call Hugging Face Inference API (FREE)""" 
+        """Call Hugging Face Inference API """
         try: 
             url = f"{self.hf_api_url}/{self.model}" 
              
@@ -157,10 +155,10 @@ class FreeAIService:
                     if response.status == 200: 
                         result = await response.json() 
                         if isinstance(result, list) and len(result) > 0: 
-                            # Extract the generated text from the response 
+
                             return result[0].get("generated_text", "") 
                         elif isinstance(result, dict): 
-                            # Some models return different formats 
+
                             return result.get("generated_text", "") 
                     else: 
                         error_text = await response.text() 

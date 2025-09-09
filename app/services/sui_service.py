@@ -1,5 +1,5 @@
 
-# app/services/sui_service.py - Enhanced Sui Blockchain Service
+# app/services/sui_service.py
 import aiohttp
 import asyncio
 from typing import Dict, List, Optional, Tuple

@@ -22,7 +22,7 @@ class RateLimiter:
                 if current_time - req_time < 3600
             ]
 
-            # Check limits
+
             requests_last_minute = len([
                 req_time for req_time in self.requests[client_ip]
                 if current_time - req_time < 60
@@ -42,5 +42,5 @@ class RateLimiter:
                     detail="Rate limit exceeded: 1000 requests per hour"
                 )
 
-            # Add current request
+
             self.requests[client_ip].append(current_time)
