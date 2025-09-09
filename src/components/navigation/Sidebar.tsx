@@ -115,10 +115,10 @@ const navigationData = [
     icon: CircleIcon,
     hasDropdown: true,
     dataPoints: [
-      { name: "Account Coins", path: "/coins/account-coins" },
+      { name: "All Coins", path: "/coins/account-coins" },
       { name: "Coin Details", path: "/coins/coin-details" },
-      { name: "Multiple Prices", path: "/coins/prices" },
-      { name: "Coin Holders", path: "/coins/holders" },
+      { name: "Trending Coins", path: "/coins/prices" },
+      // { name: "Coin Holders", path: "/coins/holders" },
       { name: "Market Data", path: "/coins/market-data" },
     ],
   },
@@ -142,10 +142,10 @@ const navigationData = [
     hasDropdown: true,
     dataPoints: [
       { name: "Supply", path: "/stablecoins/supply" },
-      { name: "Mint/Burn", path: "/stablecoins/mint-burn" },
-      { name: "Backing", path: "/stablecoins/backing" },
-      { name: "Stability", path: "/stablecoins/stability" },
-      { name: "Usage", path: "/stablecoins/usage" },
+      // { name: "Mint/Burn", path: "/stablecoins/mint-burn" },
+      // { name: "Backing", path: "/stablecoins/backing" },
+      // { name: "Stability", path: "/stablecoins/stability" },
+      // { name: "Usage", path: "/stablecoins/usage" },
     ],
   },
   {

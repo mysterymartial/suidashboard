@@ -29,7 +29,7 @@ export function StatsCards({ stats }: StatsCardsProps) {
     : "-";
 
   return (
-    <Flex gap="6" mb="6">
+    <Flex gap="3" mb="6" wrap={"wrap"}>
       <Card>
         <Text size="2" color="gray">
           SUI Price

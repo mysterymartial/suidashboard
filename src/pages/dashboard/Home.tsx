@@ -8,11 +8,12 @@ import { IssuanceAndTransfers } from "../../components/cards/IssuanceAndTransfer
 import { usePoolsData } from "../../hooks/useDeep/usePoolsData";
 import { StatsCards } from "../../components/cards/StatsCards";
 import { useStatsData } from "../../hooks/useStatsData";
+import { PoolsTable } from "../../components/tables/PoolsTable";
 import "../../App.css";
 
 function Home() {
   const { suidata } = usePoolsData();
-  const { suiStats } = useStatsData();
+  const { suiStats, suipools, loading } = useStatsData();
 
   const assets = Array.isArray(suidata)
     ? suidata.map((pool) => ({
@@ -28,14 +29,7 @@ function Home() {
       }))
     : [];
 
-  // Dummy data for demonstration
-  const dummyStats = {
-    totalRWA: "$2.8B",
-    totalHolders: "374,703",
-    totalIssuers: "272",
-    totalStablecoins: "$273.89B",
-    totalStablecoinHolders: "191.18M",
-  };
+
 
   const dummyAssets = [
     {
@@ -143,81 +137,7 @@ function Home() {
             </p>
           </div>
 
-          {/* Stats Grid */}
-          {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
-            <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-sm">
-              <div className="flex items-center justify-between mb-2">
-                <h3 className="text-sm font-medium text-gray-300">
-                  Total RWA Onchain
-                </h3>
-                <span className="text-green-400 text-sm font-medium">
-                  +7.27%
-                </span>
-              </div>
-              <p className="text-2xl font-bold text-white">
-                {dummyStats.totalRWA}
-              </p>
-              <p className="text-xs text-gray-400 mt-1">from 30d ago</p>
-            </div>
-
-            <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-sm">
-              <div className="flex items-center justify-between mb-2">
-                <h3 className="text-sm font-medium text-gray-300">
-                  Total Asset Holders
-                </h3>
-                <span className="text-green-400 text-sm font-medium">
-                  +8.57%
-                </span>
-              </div>
-              <p className="text-2xl font-bold text-white">
-                {dummyStats.totalHolders}
-              </p>
-              <p className="text-xs text-gray-400 mt-1">from 30d ago</p>
-            </div>
-
-            <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-sm">
-              <div className="flex items-center justify-between mb-2">
-                <h3 className="text-sm font-medium text-gray-300">
-                  Total Asset Issuers
-                </h3>
-                <span className="text-gray-400 text-sm font-medium">-</span>
-              </div>
-              <p className="text-2xl font-bold text-white">
-                {dummyStats.totalIssuers}
-              </p>
-              <p className="text-xs text-gray-400 mt-1">active protocols</p>
-            </div>
-
-            <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-sm">
-              <div className="flex items-center justify-between mb-2">
-                <h3 className="text-sm font-medium text-gray-300">
-                  Total Stablecoin Value
-                </h3>
-                <span className="text-green-400 text-sm font-medium">
-                  +6.27%
-                </span>
-              </div>
-              <p className="text-2xl font-bold text-white">
-                {dummyStats.totalStablecoins}
-              </p>
-              <p className="text-xs text-gray-400 mt-1">from 30d ago</p>
-            </div>
-
-            <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-sm">
-              <div className="flex items-center justify-between mb-2">
-                <h3 className="text-sm font-medium text-gray-300">
-                  Total Stablecoin Holders
-                </h3>
-                <span className="text-green-400 text-sm font-medium">
-                  +1.95%
-                </span>
-              </div>
-              <p className="text-2xl font-bold text-white">
-                {dummyStats.totalStablecoinHolders}
-              </p>
-              <p className="text-xs text-gray-400 mt-1">from 30d ago</p>
-            </div>
-          </div> */}
+          {/* Stats Cards */}
           <StatsCards stats={suiStats} />
         </section>
 
@@ -252,42 +172,12 @@ function Home() {
           </div>
         </section>
 
-        {/* League Table and News */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <section>
-            <div className="bg-gray-800 rounded-xl border border-gray-700 shadow-sm">
-              <div className="p-6 border-b border-gray-700">
-                <h3 className="text-lg font-semibold text-white">
-                  Sui League Table
-                </h3>
-              </div>
-              <LeagueTable networks={dummyNetworks} />
-            </div>
-          </section>
-
-          <section>
-            <div className="bg-gray-800 rounded-xl border border-gray-700 shadow-sm">
-              <div className="p-6 border-b border-gray-700">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-semibold text-white">
-                    Latest News
-                  </h3>
-                  <button className="text-sm text-blue-400 hover:text-blue-300 font-medium">
-                    View All
-                  </button>
-                </div>
-              </div>
-              <NewsCard news={dummyNews} />
-            </div>
-          </section>
-        </div>
-
-        {/* Issuance and Transfers */}
+        {/* Liquidity Pools Section */}
         <section>
-          <IssuanceAndTransfers />
+          <PoolsTable pools={suipools} loading={loading} />
         </section>
+
       </main>
-      {/* <WalletStatus /> */}
     </Layout>
   );
 }
