@@ -139,56 +139,55 @@ function FeeGeneration() {
             Fees accrued by protocol activity.
           </p>
         </div>
-        return (
-    <div className="bg-gray-900 text-white p-6 rounded-lg shadow-xl">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold">Market Overview</h2>
-        <div className="text-sm text-gray-400">
-          Auto-refreshing every 30s
-        </div>
-      </div>
-
-      <div className="space-y-3">
-        {Object.entries(priceData).map(([coinId, data]) => {
-          const isPositive = data.usd_24h_change > 0;
-          return (
-            <div key={coinId} className="bg-gray-800 p-4 rounded-lg hover:bg-gray-750 transition-colors">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-xs font-bold">
-                    {getCoinSymbol(coinId).charAt(0)}
-                  </div>
-                  <div>
-                    <div className="font-semibold">{getCoinName(coinId)}</div>
-                    <div className="text-sm text-gray-400">{getCoinSymbol(coinId)}</div>
-                  </div>
-                </div>
-                
-                <div className="text-right">
-                  <div className="text-lg font-bold">
-                    {formatCurrency(data.usd)}
-                  </div>
-                  <div className={`flex items-center justify-end space-x-1 text-sm ${
-                    isPositive ? 'text-green-400' : 'text-red-400'
-                  }`}>
-                    {isPositive ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
-                    <span>{Math.abs(data.usd_24h_change).toFixed(2)}%</span>
-                  </div>
-                </div>
-              </div>
+        
+        <div className="bg-gray-900 text-white p-6 rounded-lg shadow-xl">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold">Market Overview</h2>
+            <div className="text-sm text-gray-400">
+              Auto-refreshing every 30s
             </div>
-          );
-        })}
-      </div>
+          </div>
 
-      <div className="mt-6 pt-4 border-t border-gray-700">
-        <div className="text-center text-sm text-gray-400">
-          Data provided by CoinGecko API
+          <div className="space-y-3">
+            {Object.entries(priceData).map(([coinId, data]) => {
+              const isPositive = data.usd_24h_change > 0;
+              return (
+                <div key={coinId} className="bg-gray-800 p-4 rounded-lg hover:bg-gray-750 transition-colors">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-xs font-bold">
+                        {getCoinSymbol(coinId).charAt(0)}
+                      </div>
+                      <div>
+                        <div className="font-semibold">{getCoinName(coinId)}</div>
+                        <div className="text-sm text-gray-400">{getCoinSymbol(coinId)}</div>
+                      </div>
+                    </div>
+                    
+                    <div className="text-right">
+                      <div className="text-lg font-bold">
+                        {formatCurrency(data.usd)}
+                      </div>
+                      <div className={`flex items-center justify-end space-x-1 text-sm ${
+                        isPositive ? 'text-green-400' : 'text-red-400'
+                      }`}>
+                        {isPositive ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
+                        <span>{Math.abs(data.usd_24h_change).toFixed(2)}%</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="mt-6 pt-4 border-t border-gray-700">
+            <div className="text-center text-sm text-gray-400">
+              Data provided by CoinGecko API
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
       </main>
-
     </Layout>
   );
 }
