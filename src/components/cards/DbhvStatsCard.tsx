@@ -8,7 +8,7 @@ export function HistoricalVolumeStats({ volumeData }: HistoricalVolumeStatsProps
   const pools = Object.entries(volumeData);
 
   if (pools.length === 0) {
-    return <Text color="gray">No volume stats available.</Text>;
+    return <Text className="text-[#292929]">No volume stats available.</Text>;
   }
 
   const volumes = pools.map(([_, volume]) => volume);
@@ -45,10 +45,10 @@ export function HistoricalVolumeStats({ volumeData }: HistoricalVolumeStatsProps
     <Flex gap="6" mb="6" wrap="wrap">
       {cards.map((card, idx) => (
         <Card key={idx} className="min-w-[180px] p-4 shadow-sm rounded-lg">
-          <Text size="2" color="gray">
+          <Text size="2" className="text-[#292929]">
             {card.label}
           </Text>
-          <Heading size="5">{card.value}</Heading>
+          <Heading size="5" className="text-[#292929]">{card.value}</Heading>
         </Card>
       ))}
     </Flex>

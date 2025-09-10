@@ -1,12 +1,13 @@
-import { Card, Heading, Table } from "@radix-ui/themes";
+import { Heading, Table } from "@radix-ui/themes";
+import CardComponent from "../cards";
 
-export function LeagueTable({ networks }) {
+export function LeagueTable({ networks }: { networks: any[] }) {
   return (
-    <Card style={{ flex: 2 }}>
+    <CardComponent>
       <Heading size="4" mb="3">
         RWA League Table
       </Heading>
-      <Table.Root>
+      <Table.Root className="border border-[#e8e8e8] rounded-[10px]">
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeaderCell>#</Table.ColumnHeaderCell>
@@ -18,7 +19,7 @@ export function LeagueTable({ networks }) {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-          {networks.map((net, i) => (
+          {networks.map((net: any, i: number) => (
             <Table.Row key={i}>
               <Table.Cell>{i + 1}</Table.Cell>
               <Table.Cell>{net.name}</Table.Cell>
@@ -30,6 +31,6 @@ export function LeagueTable({ networks }) {
           ))}
         </Table.Body>
       </Table.Root>
-    </Card>
+    </CardComponent>
   );
 }

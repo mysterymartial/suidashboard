@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useWalrusAccount } from "../../../hooks/useWalrus/useWalrusAccount";
-import { Table, Button, Flex, Text, Card, IconButton, Spinner } from "@radix-ui/themes";
+import { Table, Button, Flex, Text, IconButton, Spinner } from "@radix-ui/themes";
+import CardComponent from "../../cards";
 import { Copy, Check, Download } from "lucide-react";
 
 function Account() {
@@ -47,34 +48,34 @@ function Account() {
   if (!accountData?.content) return <Text>No accounts found.</Text>;
 
   return (
-    <main className="p-6 space-y-6 -mb-15">
-      <Card className="p-6 space-y-4 border border-gray-700 shadow-sm">
-        <Flex justify="between" align="center">
+    <main className="p-6 space-y-6 -mb-15 text-[#292929]">
+      <CardComponent>
+        <Flex justify="between" className="mb-4" align="center">
           <Text size="5" weight="bold">
             Walrus Accounts
           </Text>
-          <Button variant="soft" onClick={handleDownloadCSV}>
-            <Download size={16} /> Download CSV
+          <Button className="bg-[#292929] text-[#292929]" onClick={handleDownloadCSV}>
+            <Download size={16} /> Download
           </Button>
         </Flex>
 
         {/* Table */}
-        <Table.Root className={loading ? "opacity-50 transition-opacity duration-300" : ""}>
+        <Table.Root className={`border border-[#e8e8e8] rounded-[10px] text-[#292929] ${loading ? "opacity-50 transition-opacity duration-300" : ""}`}>
           <Table.Header>
             <Table.Row>
-              <Table.ColumnHeaderCell>Address</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Balance</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Blobs</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Events</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>First Seen</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Last Seen</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell className="text-[#292929]"  >Address</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell className="text-[#292929]">Balance</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell className="text-[#292929]">Blobs</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell className="text-[#292929]">Events</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell className="text-[#292929]">First Seen</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell className="text-[#292929]">Last Seen</Table.ColumnHeaderCell>
             </Table.Row>
           </Table.Header>
 
           <Table.Body>
             {accountData.content.map((acc: any, idx: number) => (
               <Table.Row key={idx}>
-                <Table.Cell>
+                <Table.Cell className="text-[#292929]">
                   <Flex gap="2" align="center">
                     <Text className="truncate max-w-[220px]">{acc.address}</Text>
                     <IconButton size="1" onClick={() => handleCopy(acc.address)}>
@@ -82,11 +83,11 @@ function Account() {
                     </IconButton>
                   </Flex>
                 </Table.Cell>
-                <Table.Cell>{Number(acc.balance).toLocaleString()}</Table.Cell>
-                <Table.Cell>{acc.blobs}</Table.Cell>
-                <Table.Cell>{acc.events}</Table.Cell>
-                <Table.Cell>{new Date(acc.firstSeen).toLocaleString()}</Table.Cell>
-                <Table.Cell>{new Date(acc.lastSeen).toLocaleString()}</Table.Cell>
+                <Table.Cell className="text-[#292929]">{Number(acc.balance).toLocaleString()}</Table.Cell>
+                <Table.Cell className="text-[#292929]">{acc.blobs}</Table.Cell>
+                <Table.Cell className="text-[#292929]">{acc.events}</Table.Cell>
+                <Table.Cell className="text-[#292929]">{new Date(acc.firstSeen).toLocaleString()}</Table.Cell>
+                <Table.Cell className="text-[#292929]">{new Date(acc.lastSeen).toLocaleString()}</Table.Cell>
               </Table.Row>
             ))}
           </Table.Body>
@@ -96,7 +97,7 @@ function Account() {
         {loading && (
           <Flex justify="center" mt="2">
             <Spinner size="2" />
-            <Text size="3" color="gray" className="ml-2">
+            <Text size="3" className="text-[#292929]" className="ml-2 text-[#292929]">
               Loading new page...
             </Text>
           </Flex>
@@ -109,13 +110,14 @@ function Account() {
           </Button>
           <Text>Page {page + 1}</Text>
           <Button
+          className="bg-[#292929] text-[#292929]"
             onClick={() => setPage((p) => p + 1)}
             disabled={accountData.content.length < 20 || loading}
           >
             Next
           </Button>
         </Flex>
-      </Card>
+      </CardComponent>
     </main>
   );
 }

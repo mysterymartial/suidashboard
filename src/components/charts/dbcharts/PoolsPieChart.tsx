@@ -15,7 +15,14 @@ interface Pool {
   min_size: number;
 }
 
-const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff7f50", "#00c49f", "#0088fe"];
+const COLORS = [
+  "#8884d8",
+  "#82ca9d",
+  "#ffc658",
+  "#ff7f50",
+  "#00c49f",
+  "#0088fe",
+];
 
 export function PoolsPieChart({ pools }: { pools: Pool[] }) {
   const data = pools.map((p) => ({
@@ -24,8 +31,10 @@ export function PoolsPieChart({ pools }: { pools: Pool[] }) {
   }));
 
   return (
-    <div className="w-full h-[400px] bg-gray-900 p-4 rounded-xl">
-      <h2 className="text-lg font-semibold text-white mb-2">Pools Distribution</h2>
+    <div className="w-full h-[400px] bg-[#FAFAFA] p-4 rounded-xl">
+      <h2 className="text-lg font-semibold text-[#292929] mb-2">
+        Pools Distribution
+      </h2>
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
@@ -38,7 +47,10 @@ export function PoolsPieChart({ pools }: { pools: Pool[] }) {
             label
           >
             {data.map((_, index) => (
-              <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              <Cell
+                key={`cell-${index}`}
+                fill={COLORS[index % COLORS.length]}
+              />
             ))}
           </Pie>
           <Tooltip />

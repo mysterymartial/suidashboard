@@ -3,8 +3,6 @@ import Home from "./pages/dashboard/Home";
 // import { GenericPage } from "./components/pages/GenericPage";
 import NetworkStats from "./pages/sui/Validators";
 import TransactionVolume from "./pages/sui/TransactionVolume";
-import GasUsage from "./pages/sui/ChainInfo";
-import ActiveAddresses from "./pages/sui/ActiveAddresses";
 import BlockProduction from "./pages/sui/BlockProduction";
 import { BrowserRouter as Router, Routes, Route } from "react-router";
 import WalrusAccounts from "./pages/walrus/Accounts";
@@ -16,7 +14,6 @@ import DeepbookOrderBook from "./pages/deepbook/OrderBook";
 import DeepPools from "./pages/deepbook/DeepPools";
 import DeepbookMarketDepth from "./pages/deepbook/MarketSummary";
 import DeepbookTradeHistory from "./pages/deepbook/HistoricalVol";
-import DeepbookPriceDiscovery from "./pages/deepbook/PriceDiscovery";
 import DeepbookLiquidity from "./pages/deepbook/Liquidity";
 import SuinsNameResolution from "./pages/suins/NameResolution";
 import SuinsAddressResolution from "./pages/suins/AddressResolution";
@@ -53,6 +50,13 @@ import SecAlerts from "./pages/security/Alerts";
 import SecApiChecks from "./pages/security/ApiChecks";
 import SecLatestBlocks from "./pages/security/LatestBlocks";
 import SecValidators from "./pages/security/Validators";
+import SuiBot from "./pages/chatbot/page";
+import FinanceOverview from "./pages/finance/Overview";
+import TransactionAnalyzer from "./pages/finance/TransactionAnalyzer";
+import BatchAnalyzer from "./pages/finance/BatchAnalyzer";
+import SuiValidators from "./pages/sui/Validators";
+import ChainInfo from "./pages/sui/ChainInfo";
+import Accounts from "./pages/sui/accounts";
 
 function App() {
   return (
@@ -63,10 +67,10 @@ function App() {
 
         {/* Sui routes */}
         <Route path="/sui" element={<NetworkStats />} />
-        <Route path="/sui/network-stats" element={<NetworkStats />} />
+        <Route path="/sui/validators" element={<SuiValidators />} />
         <Route path="/sui/transaction-volume" element={<TransactionVolume />} />
-        <Route path="/sui/gas-usage" element={<GasUsage />} />
-        <Route path="/sui/active-addresses" element={<ActiveAddresses />} />
+        <Route path="/sui/chain-info" element={<ChainInfo />} />
+        <Route path="/sui/accounts" element={<Accounts />} />
         <Route path="/sui/block-production" element={<BlockProduction />} />
 
         {/* Walrus routes */}
@@ -96,10 +100,7 @@ function App() {
           path="/deepbook/historical-volume"
           element={<DeepbookTradeHistory />}
         />
-        <Route
-          path="/deepbook/order-book"
-          element={<DeepbookOrderBook />}
-        />
+        <Route path="/deepbook/order-book" element={<DeepbookOrderBook />} />
         <Route path="/deepbook/assets" element={<DeepbookLiquidity />} />
 
         {/* SuiNS routes */}
@@ -120,7 +121,10 @@ function App() {
         <Route path="/coins" element={<CoinsAccountCoins />} />
         <Route path="/coins/account-coins" element={<CoinsAccountCoins />} />
         <Route path="/coins/coin-details" element={<CoinsCoinDetails />} />
-        <Route path="/coins/coin-details/:coinType" element={<CoinsCoinDetails />} />
+        <Route
+          path="/coins/coin-details/:coinType"
+          element={<CoinsCoinDetails />}
+        />
         <Route path="/coins/prices" element={<CoinsPrices />} />
         <Route path="/coins/holders" element={<CoinsHolders />} />
         <Route path="/coins/market-data" element={<CoinsMarketData />} />
@@ -159,6 +163,17 @@ function App() {
         <Route path="/security/api-checks" element={<SecApiChecks />} />
         <Route path="/security/latest-blocks" element={<SecLatestBlocks />} />
         <Route path="/security/validators" element={<SecValidators />} />
+
+        {/* Finance routes */}
+        <Route path="/finance" element={<FinanceOverview />} />
+        <Route path="/finance/overview" element={<FinanceOverview />} />
+        <Route
+          path="/finance/transaction-analyzer"
+          element={<TransactionAnalyzer />}
+        />
+        <Route path="/finance/batch-analyzer" element={<BatchAnalyzer />} />
+
+        <Route path="/chatbot" element={<SuiBot />} />
       </Routes>
     </Router>
   );

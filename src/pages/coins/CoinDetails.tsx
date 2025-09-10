@@ -2,8 +2,26 @@ import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router";
 import { Layout } from "../../components/layout/Layout";
 import { useCoinMeta } from "../../hooks/useCoins/useCoinMeta";
-import { Card, Flex, Text, Heading, Table, Badge, Link, Skeleton, TextField, Button } from "@radix-ui/themes";
-import { ExternalLink, Github, MessageCircle, Twitter, AlertTriangle, Search } from "lucide-react";
+import {
+  Flex,
+  Text,
+  Heading,
+  Table,
+  Badge,
+  Link,
+  Skeleton,
+  TextField,
+  Button,
+} from "@radix-ui/themes";
+import CardComponent from "@/components/cards";
+import {
+  ExternalLink,
+  Github,
+  MessageCircle,
+  Twitter,
+  AlertTriangle,
+  Search,
+} from "lucide-react";
 
 function CoinDetails() {
   const { coinType } = useParams<{ coinType: string }>();
@@ -18,7 +36,7 @@ function CoinDetails() {
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSearch();
     }
   };
@@ -28,16 +46,17 @@ function CoinDetails() {
     return (
       <Layout>
         <main className="p-6 space-y-8">
-          <Card className="p-8">
+          <CardComponent className="p-8">
             <Flex direction="column" align="center" gap="6">
               <Heading size="6">Search Coin Details</Heading>
-              <Text color="gray" size="3" className="text-center max-w-md">
+              <Text className="text-[#292929]" size="3" className="text-center max-w-md">
                 Enter a coin type to view detailed information. Examples:
                 <br />• 0x2::sui::SUI
-                <br />• 0x1d4a2bdbc1602a0adaa98194942c220202dcc56bb0a205838dfaa63db0d5497e::SAIL::SAIL
+                <br />•
+                0x1d4a2bdbc1602a0adaa98194942c220202dcc56bb0a205838dfaa63db0d5497e::SAIL::SAIL
               </Text>
               <Flex gap="3" className="w-full max-w-md">
-                <TextField.Root 
+                <TextField.Root
                   placeholder="Enter coin type (e.g., 0x2::sui::SUI)"
                   value={searchInput}
                   onChange={(e) => setSearchInput(e.target.value)}
@@ -50,7 +69,7 @@ function CoinDetails() {
                 </Button>
               </Flex>
             </Flex>
-          </Card>
+          </CardComponent>
         </main>
       </Layout>
     );
@@ -60,13 +79,13 @@ function CoinDetails() {
     return (
       <Layout>
         <main className="p-6 space-y-8">
-          <Card className="p-6">
+          <CardComponent className="p-6">
             <Flex direction="column" gap="4">
               <Skeleton height="2rem" width="300px" />
               <Skeleton height="1rem" width="200px" />
             </Flex>
-          </Card>
-          <Card className="p-6">
+          </CardComponent>
+          <CardComponent className="p-6">
             <Flex direction="column" gap="3">
               {Array.from({ length: 8 }).map((_, i) => (
                 <Flex key={i} justify="between">
@@ -75,7 +94,7 @@ function CoinDetails() {
                 </Flex>
               ))}
             </Flex>
-          </Card>
+          </CardComponent>
         </main>
       </Layout>
     );
@@ -85,12 +104,12 @@ function CoinDetails() {
     return (
       <Layout>
         <main className="p-6 space-y-8">
-          <Card className="p-6">
+          <CardComponent className="p-6">
             <Flex align="center" gap="2">
               <AlertTriangle className="text-red-500" size={20} />
               <Text color="red">Error: {error.message}</Text>
             </Flex>
-          </Card>
+          </CardComponent>
         </main>
       </Layout>
     );
@@ -100,19 +119,19 @@ function CoinDetails() {
     return (
       <Layout>
         <main className="p-6 space-y-8">
-          <Card className="p-6">
+          <CardComponent className="p-6">
             <Text>No coin data available</Text>
-          </Card>
+          </CardComponent>
         </main>
       </Layout>
     );
   }
 
   const formatNumber = (num: number | null | undefined) => {
-    if (num === null || num === undefined || isNaN(num)) return 'N/A';
-    if (num >= 1e9) return (num / 1e9).toFixed(2) + 'B';
-    if (num >= 1e6) return (num / 1e6).toFixed(2) + 'M';
-    if (num >= 1e3) return (num / 1e3).toFixed(2) + 'K';
+    if (num === null || num === undefined || isNaN(num)) return "N/A";
+    if (num >= 1e9) return (num / 1e9).toFixed(2) + "B";
+    if (num >= 1e6) return (num / 1e6).toFixed(2) + "M";
+    if (num >= 1e3) return (num / 1e3).toFixed(2) + "K";
     return num.toLocaleString();
   };
 
@@ -120,59 +139,94 @@ function CoinDetails() {
     <Layout>
       <main className="p-6 space-y-8">
         {/* Header */}
-        <Card className="p-6">
+        <CardComponent className="p-6">
           <Flex align="center" gap="4">
             {coinMeta.imgUrl && (
-              <img 
-                src={coinMeta.imgUrl.trim()} 
-                alt={coinMeta.coinName} 
+              <img
+                src={coinMeta.imgUrl.trim()}
+                alt={coinMeta.coinName}
                 className="w-16 h-16 rounded-full"
-                onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
+                }}
               />
             )}
             <Flex direction="column" gap="1">
-              <Heading size="6">{coinMeta.coinName} ({coinMeta.coinSymbol})</Heading>
-              <Text color="gray" size="2">{coinMeta.coinType}</Text>
+              <Heading size="6">
+                {coinMeta.coinName} ({coinMeta.coinSymbol})
+              </Heading>
+              <Text className="text-[#292929]" size="2">
+                {coinMeta.coinType}
+              </Text>
               {coinMeta.description && (
-                <Text size="3" className="mt-2">{coinMeta.description}</Text>
+                <Text size="3" className="mt-2">
+                  {coinMeta.description}
+                </Text>
               )}
             </Flex>
           </Flex>
-        </Card>
+        </CardComponent>
 
         {/* Main Information */}
-        <Card className="p-6">
-          <Heading size="4" className="mb-4">Coin Information</Heading>
-          <Table.Root>
+        <CardComponent className="p-6">
+          <Heading size="4" className="mb-4">
+            Coin Information
+          </Heading>
+          <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
             <Table.Body>
               <Table.Row>
-                <Table.Cell><Text weight="medium">Decimals</Text></Table.Cell>
-                <Table.Cell><Text>{coinMeta.decimals}</Text></Table.Cell>
+                <Table.Cell>
+                  <Text weight="medium">Decimals</Text>
+                </Table.Cell>
+                <Table.Cell>
+                  <Text>{coinMeta.decimals}</Text>
+                </Table.Cell>
               </Table.Row>
               <Table.Row>
-                <Table.Cell><Text weight="medium">Total Supply</Text></Table.Cell>
-                <Table.Cell><Text>{formatNumber(coinMeta.totalSupply)}</Text></Table.Cell>
+                <Table.Cell>
+                  <Text weight="medium">Total Supply</Text>
+                </Table.Cell>
+                <Table.Cell>
+                  <Text>{formatNumber(coinMeta.totalSupply)}</Text>
+                </Table.Cell>
               </Table.Row>
               <Table.Row>
-                <Table.Cell><Text weight="medium">Circulating Supply</Text></Table.Cell>
-                <Table.Cell><Text>{formatNumber(coinMeta.circulatingSupply)}</Text></Table.Cell>
+                <Table.Cell>
+                  <Text weight="medium">Circulating Supply</Text>
+                </Table.Cell>
+                <Table.Cell>
+                  <Text>{formatNumber(coinMeta.circulatingSupply)}</Text>
+                </Table.Cell>
               </Table.Row>
               <Table.Row>
-                <Table.Cell><Text weight="medium">Market Cap</Text></Table.Cell>
-                <Table.Cell><Text>${formatNumber(coinMeta.marketCap)}</Text></Table.Cell>
+                <Table.Cell>
+                  <Text weight="medium">Market Cap</Text>
+                </Table.Cell>
+                <Table.Cell>
+                  <Text>${formatNumber(coinMeta.marketCap)}</Text>
+                </Table.Cell>
               </Table.Row>
               <Table.Row>
-                <Table.Cell><Text weight="medium">Volume (24h)</Text></Table.Cell>
-                <Table.Cell><Text>${formatNumber(coinMeta.volume)}</Text></Table.Cell>
+                <Table.Cell>
+                  <Text weight="medium">Volume (24h)</Text>
+                </Table.Cell>
+                <Table.Cell>
+                  <Text>${formatNumber(coinMeta.volume)}</Text>
+                </Table.Cell>
               </Table.Row>
             </Table.Body>
           </Table.Root>
-        </Card>
+        </CardComponent>
 
         {/* Social Links */}
-        {(coinMeta.socialDiscord || coinMeta.socialGitHub || coinMeta.socialTwitter || coinMeta.socialWebsite) && (
-          <Card className="p-6">
-            <Heading size="4" className="mb-4">Social Links</Heading>
+        {(coinMeta.socialDiscord ||
+          coinMeta.socialGitHub ||
+          coinMeta.socialTwitter ||
+          coinMeta.socialWebsite) && (
+          <CardComponent className="p-6">
+            <Heading size="4" className="mb-4">
+              Social Links
+            </Heading>
             <Flex gap="3" wrap="wrap">
               {coinMeta.socialDiscord && (
                 <Link href={coinMeta.socialDiscord.trim()} target="_blank">
@@ -207,18 +261,20 @@ function CoinDetails() {
                 </Link>
               )}
             </Flex>
-          </Card>
+          </CardComponent>
         )}
 
         {/* Security Message */}
         {coinMeta.securityMessage && (
-          <Card className="p-6 border-yellow-500">
+          <CardComponent className="p-6 border-yellow-500">
             <Flex align="center" gap="2">
               <AlertTriangle className="text-yellow-500" size={20} />
-              <Text color="yellow" weight="medium">Security Notice</Text>
+              <Text color="yellow" weight="medium">
+                Security Notice
+              </Text>
             </Flex>
             <Text className="mt-2">{coinMeta.securityMessage}</Text>
-          </Card>
+          </CardComponent>
         )}
       </main>
     </Layout>

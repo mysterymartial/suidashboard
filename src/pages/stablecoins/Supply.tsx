@@ -1,26 +1,31 @@
 import React, { useState, useMemo } from "react";
 import { Layout } from "../../components/layout/Layout";
 import { useStablecoinData } from "../../hooks/useStablecoins/useStable";
-import { 
-  Table, 
-  Card, 
-  Heading, 
-  Text, 
-  Flex, 
-  Button, 
+import {
+  Table,
+  Heading,
+  Text,
+  Flex,
+  Button,
   Badge,
-  Spinner
+  Spinner,
 } from "@radix-ui/themes";
-import { Skeleton, StatCardSkeleton, ChartSkeleton, TableRowSkeleton } from "../../components/ui/Skeleton";
-import { 
-  LineChart, 
-  Line, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
+import CardComponent from "@/components/cards";
+import {
+  Skeleton,
+  StatCardSkeleton,
+  ChartSkeleton,
+  TableRowSkeleton,
+} from "../../components/ui/Skeleton";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
   ResponsiveContainer,
-  Legend
+  Legend,
 } from "recharts";
 
 function Supply() {
@@ -37,30 +42,33 @@ function Supply() {
   // Get top 5 entries for chart (sorted by total circulating USD)
   const top5Data = useMemo(() => {
     return data
-      .sort((a, b) => b.totalCirculatingUSD.peggedUSD - a.totalCirculatingUSD.peggedUSD)
+      .sort(
+        (a, b) =>
+          b.totalCirculatingUSD.peggedUSD - a.totalCirculatingUSD.peggedUSD,
+      )
       .slice(0, 5)
-      .map(item => ({
+      .map((item) => ({
         date: new Date(parseInt(item.date) * 1000).toLocaleDateString(),
         totalCirculating: item.totalCirculating.peggedUSD,
         totalCirculatingUSD: item.totalCirculatingUSD.peggedUSD,
-        totalMintedUSD: item.totalMintedUSD.peggedUSD
+        totalMintedUSD: item.totalMintedUSD.peggedUSD,
       }));
   }, [data]);
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0
+      maximumFractionDigits: 0,
     }).format(value);
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(parseInt(dateString) * 1000).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
+    return new Date(parseInt(dateString) * 1000).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
     });
   };
 
@@ -73,10 +81,10 @@ function Supply() {
             <StatCardSkeleton />
             <StatCardSkeleton />
           </div>
-          
+
           <ChartSkeleton height="400px" />
-          
-          <Card className="bg-gray-800 border-gray-700">
+
+          <CardComponent className="bg-gray-800 border-gray-700">
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
                 <Skeleton height="1.5rem" width="200px" />
@@ -85,14 +93,16 @@ function Supply() {
                   <Skeleton height="2rem" width="80px" />
                 </div>
               </div>
-              <Table.Root>
+              <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
                 <Table.Header>
                   <Table.Row>
                     <Table.ColumnHeaderCell>Stablecoin</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell>Symbol</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell>Supply</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell>Market Cap</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell>Last Updated</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>
+                      Last Updated
+                    </Table.ColumnHeaderCell>
                   </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -101,7 +111,7 @@ function Supply() {
                   ))}
                 </Table.Body>
               </Table.Root>
-              
+
               <div className="flex justify-between items-center mt-4">
                 <Skeleton height="1rem" width="150px" />
                 <div className="flex gap-2">
@@ -110,7 +120,7 @@ function Supply() {
                 </div>
               </div>
             </div>
-          </Card>
+          </CardComponent>
         </main>
       </Layout>
     );
@@ -120,11 +130,11 @@ function Supply() {
     return (
       <Layout>
         <main className="p-6 space-y-8">
-          <Card>
+          <CardComponent>
             <Flex align="center" justify="center" p="9">
               <Badge color="red">Error: {error}</Badge>
             </Flex>
-          </Card>
+          </CardComponent>
         </main>
       </Layout>
     );
@@ -134,86 +144,86 @@ function Supply() {
     <Layout>
       <main className="p-6 space-y-8">
         {/* Header */}
-        <Card>
+        <CardComponent>
           <Heading size="6" mb="2">
             Stablecoins - Supply
           </Heading>
-          <Text color="gray">
+          <Text className="text-[#292929]">
             Supply over time for major stablecoins on Sui network.
           </Text>
-        </Card>
+        </CardComponent>
 
         {/* Chart Section - Top 5 */}
-        <Card>
+        <CardComponent>
           <Heading size="4" mb="4">
             Top 5 Stablecoins by Total Circulating USD
           </Heading>
-          <div style={{ width: '100%', height: '400px' }}>
+          <div style={{ width: "100%", height: "400px" }}>
             <ResponsiveContainer>
               <LineChart data={top5Data}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                <XAxis 
-                  dataKey="date" 
-                  stroke="#9CA3AF"
-                  fontSize={12}
-                />
-                <YAxis 
+                <XAxis dataKey="date" stroke="#9CA3AF" fontSize={12} />
+                <YAxis
                   stroke="#9CA3AF"
                   fontSize={12}
                   tickFormatter={(value) => `$${(value / 1000000).toFixed(1)}M`}
                 />
-                <Tooltip 
+                <Tooltip
                   contentStyle={{
-                    backgroundColor: '#1F2937',
-                    border: '1px solid #374151',
-                    borderRadius: '8px',
-                    color: '#F9FAFB'
+                    backgroundColor: "#1F2937",
+                    border: "1px solid #374151",
+                    borderRadius: "8px",
+                    color: "#F9FAFB",
                   }}
                   formatter={(value: number, name: string) => [
                     formatCurrency(value),
-                    name === 'totalCirculating' ? 'Total Circulating' :
-                    name === 'totalCirculatingUSD' ? 'Total Circulating USD' :
-                    'Total Minted USD'
+                    name === "totalCirculating"
+                      ? "Total Circulating"
+                      : name === "totalCirculatingUSD"
+                        ? "Total Circulating USD"
+                        : "Total Minted USD",
                   ]}
                 />
                 <Legend />
-                <Line 
-                  type="monotone" 
-                  dataKey="totalCirculatingUSD" 
-                  stroke="#3B82F6" 
+                <Line
+                  type="monotone"
+                  dataKey="totalCirculatingUSD"
+                  stroke="#3B82F6"
                   strokeWidth={2}
                   name="Total Circulating USD"
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="totalMintedUSD" 
-                  stroke="#10B981" 
+                <Line
+                  type="monotone"
+                  dataKey="totalMintedUSD"
+                  stroke="#10B981"
                   strokeWidth={2}
                   name="Total Minted USD"
                 />
               </LineChart>
             </ResponsiveContainer>
           </div>
-        </Card>
+        </CardComponent>
 
         {/* Table Section - Paginated */}
-        <Card>
+        <CardComponent>
           <Flex justify="between" align="center" mb="4">
-            <Heading size="4">
-              All Stablecoin Data
-            </Heading>
-            <Badge variant="soft">
-              {data.length} total entries
-            </Badge>
+            <Heading size="4">All Stablecoin Data</Heading>
+            <Badge variant="soft">{data.length} total entries</Badge>
           </Flex>
-          
-          <Table.Root>
+
+          <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
             <Table.Header>
               <Table.Row>
                 <Table.ColumnHeaderCell>Date</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>Total Circulating</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>Total Circulating USD</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>Total Minted USD</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell>
+                  Total Circulating
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell>
+                  Total Circulating USD
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell>
+                  Total Minted USD
+                </Table.ColumnHeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -223,7 +233,9 @@ function Supply() {
                     <Text size="2">{formatDate(item.date)}</Text>
                   </Table.Cell>
                   <Table.Cell>
-                    <Text size="2">{item.totalCirculating.peggedUSD.toLocaleString()}</Text>
+                    <Text size="2">
+                      {item.totalCirculating.peggedUSD.toLocaleString()}
+                    </Text>
                   </Table.Cell>
                   <Table.Cell>
                     <Text size="2" weight="medium">
@@ -242,20 +254,24 @@ function Supply() {
 
           {/* Pagination Controls */}
           <Flex justify="between" align="center" mt="4">
-            <Text size="2" color="gray">
-              Showing {startIndex + 1}-{Math.min(endIndex, data.length)} of {data.length} entries
+            <Text size="2" className="text-[#292929]">
+              Showing {startIndex + 1}-{Math.min(endIndex, data.length)} of{" "}
+              {data.length} entries
             </Text>
             <Flex gap="2">
-              <Button 
-                variant="soft" 
+              <Button
+                variant="soft"
                 disabled={currentPage === 1}
-                onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
               >
                 Previous
               </Button>
               <Flex gap="1">
                 {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                  const pageNum = Math.max(1, Math.min(currentPage - 2 + i, totalPages - 4 + i));
+                  const pageNum = Math.max(
+                    1,
+                    Math.min(currentPage - 2 + i, totalPages - 4 + i),
+                  );
                   return (
                     <Button
                       key={pageNum}
@@ -268,16 +284,18 @@ function Supply() {
                   );
                 })}
               </Flex>
-              <Button 
-                variant="soft" 
+              <Button
+                variant="soft"
                 disabled={currentPage === totalPages}
-                onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                }
               >
                 Next
               </Button>
             </Flex>
           </Flex>
-        </Card>
+        </CardComponent>
       </main>
     </Layout>
   );

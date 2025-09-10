@@ -33,10 +33,10 @@ function Metadata() {
     <Layout>
       <main className="p-6 space-y-8">
         <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-sm">
-          <h2 className="text-2xl font-semibold text-white">
+          <h2 className="text-2xl font-semibold text-[#292929]">
             Walrus - Metadata
           </h2>
-          <p className="text-gray-300 mt-1">
+          <p className="text-[#292929] mt-1">
             Metadata extracted from pools and assets.
           </p>
         </div>

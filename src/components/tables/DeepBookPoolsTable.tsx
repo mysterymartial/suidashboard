@@ -76,7 +76,7 @@ export function DeepBookPoolsTable({ pools }: { pools: Pool[] }) {
   return (
     <div className="space-y-4">
       <Flex justify="between" align="center">
-        <Text as="div" weight="bold" size="3">
+        <Text className="text-[#292929]" as="div" weight="bold" size="3">
           DeepBook Pools
         </Text>
         <Button variant="soft" onClick={downloadCSV}>
@@ -84,32 +84,32 @@ export function DeepBookPoolsTable({ pools }: { pools: Pool[] }) {
         </Button>
       </Flex>
 
-      <Table.Root variant="surface" className="rounded-xl overflow-hidden">
+      <Table.Root className="border border-[#e8e8e8] rounded-[10px]">
         <Table.Header>
           <Table.Row>
-            <Table.ColumnHeaderCell className="text-white">Pool</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="text-white">Pair</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="text-white">Base Asset</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="text-white">Quote Asset</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="text-white">Min Size</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="text-white">Lot Size</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="text-white">Tick Size</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="text-white">Pool ID</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className="text-[#292929]">Pool</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className="text-[#292929]">Pair</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className="text-[#292929]">Base Asset</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className="text-[#292929]">Quote Asset</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className="text-[#292929]">Min Size</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className="text-[#292929]">Lot Size</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className="text-[#292929]">Tick Size</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className="text-[#292929]">Pool ID</Table.ColumnHeaderCell>
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
           {pools.map((pool) => (
             <Table.Row key={pool.pool_id}>
-              <Table.Cell>
+              <Table.Cell className="text-[#292929]">
                 <Text>{pool.pool_name}</Text>
               </Table.Cell>
-              <Table.Cell>
+              <Table.Cell className="text-[#292929]">
                 <Text>
                   {pool.base_asset_symbol}/{pool.quote_asset_symbol}
                 </Text>
               </Table.Cell>
-              <Table.Cell>
+              <Table.Cell className="text-[#292929]">
                 <Flex align="center" gap="2">
                   <Text>
                     {pool.base_asset_symbol} – {pool.base_asset_name}
@@ -129,7 +129,7 @@ export function DeepBookPoolsTable({ pools }: { pools: Pool[] }) {
                   </Button>
                 </Flex>
               </Table.Cell>
-              <Table.Cell>
+              <Table.Cell className="text-[#292929]">
                 <Flex align="center" gap="2">
                   <Text>
                     {pool.quote_asset_symbol} – {pool.quote_asset_name}
@@ -149,16 +149,16 @@ export function DeepBookPoolsTable({ pools }: { pools: Pool[] }) {
                   </Button>
                 </Flex>
               </Table.Cell>
-              <Table.Cell>
+              <Table.Cell className="text-[#292929]">
                 <Text>{pool.min_size.toLocaleString()}</Text>
               </Table.Cell>
-              <Table.Cell>
+              <Table.Cell className="text-[#292929]">
                 <Text>{pool.lot_size.toLocaleString()}</Text>
               </Table.Cell>
-              <Table.Cell>
+              <Table.Cell className="text-[#292929]">
                 <Text>{pool.tick_size.toLocaleString()}</Text>
               </Table.Cell>
-              <Table.Cell>
+              <Table.Cell className="text-[#292929]">
                 <Flex align="center" gap="2">
                   <TextField.Root
                     readOnly
@@ -167,7 +167,7 @@ export function DeepBookPoolsTable({ pools }: { pools: Pool[] }) {
                     style={{ width: "140px" }}
                   />
                   <Button
-                    variant="soft"
+                    
                     size="1"
                     color={copiedId === pool.pool_id ? "green" : "gray"}
                     onClick={() => handleCopy(pool.pool_id)}

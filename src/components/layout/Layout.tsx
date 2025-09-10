@@ -11,8 +11,8 @@ export function Layout({ children }: LayoutProps) {
   const sidebarWidth = sidebarCollapsed ? 64 : 280;
 
   return (
-    <div className="min-h-screen bg-gray-900">
-      <Navbar />
+    <div className="min-h-screen bg-[#FAFAFA]">
+      <Navbar sidebarWidth={sidebarWidth} />
 
       <Sidebar
         collapsed={sidebarCollapsed}

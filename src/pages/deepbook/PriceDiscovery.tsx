@@ -1,10 +1,10 @@
-import React from "react";
 import { Layout } from "../../components/layout/Layout";
 import { WalletStatus } from "../../WalletStatus";
 import { ChartsSection } from "../../components/charts/ChartsSection";
 import { usePoolsData } from "../../hooks/useDeep/usePoolsData";
 import { StatsCards } from "../../components/cards/StatsCards";
 import { useStatsData } from "../../hooks/useStatsData";
+import CardComponent from "@/components/cards";
 
 function PriceDiscovery() {
   const { dbdata } = usePoolsData();
@@ -13,14 +13,14 @@ function PriceDiscovery() {
   return (
     <Layout>
       <main className="p-6 space-y-8">
-        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-sm">
-          <h2 className="text-2xl font-semibold text-white">
+        <CardComponent>
+          <h2 className="text-2xl font-semibold text-[#292929]">
             DeepBook - Price Discovery
           </h2>
-          <p className="text-gray-300 mt-1">
+          <p className="text-[#292929] mt-1">
             Price formation and discovery metrics.
           </p>
-        </div>
+        </CardComponent>
         <StatsCards stats={suiStats} />
         <ChartsSection
           data={dbdata}

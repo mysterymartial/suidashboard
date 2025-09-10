@@ -1,9 +1,14 @@
-import React from "react";
 import { Layout } from "../../components/layout/Layout";
 import { useMarketData } from "../../hooks/useDeep/useMarketData";
-import { Table, Text, Button, Flex, Card } from "@radix-ui/themes";
+import { Table, Text, Button, Flex, Spinner } from "@radix-ui/themes";
+import CardComponent from "@/components/cards";
 import { Download, Loader2 } from "lucide-react";
-import { Skeleton, StatCardSkeleton, ChartSkeleton, TableRowSkeleton } from "../../components/ui/Skeleton";
+import {
+  Skeleton,
+  StatCardSkeleton,
+  ChartSkeleton,
+  TableRowSkeleton,
+} from "../../components/ui/Skeleton";
 import {
   BarChart,
   Bar,
@@ -50,8 +55,7 @@ function MarketDepth() {
       row.quote_volume,
     ]);
 
-    const csvContent =
-      [headers, ...rows].map((e) => e.join(",")).join("\n");
+    const csvContent = [headers, ...rows].map((e) => e.join(",")).join("\n");
 
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const link = document.createElement("a");
@@ -62,47 +66,10 @@ function MarketDepth() {
     document.body.removeChild(link);
   };
 
-if (loading)
+  if (loading)
     return (
       <Layout>
-        <main className="p-6 space-y-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <StatCardSkeleton />
-            <StatCardSkeleton />
-            <StatCardSkeleton />
-            <StatCardSkeleton />
-          </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <ChartSkeleton />
-            <ChartSkeleton />
-          </div>
-          
-          <Card className="bg-gray-800 border-gray-700">
-            <div className="p-6">
-              <div className="flex justify-between items-center mb-4">
-                <Skeleton height="1.5rem" width="200px" />
-                <Skeleton height="2.5rem" width="120px" />
-              </div>
-              <Table.Root>
-                <Table.Header>
-                  <Table.Row>
-                    <Table.ColumnHeaderCell>Pool ID</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell>Base Asset</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell>Quote Asset</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell>Tick Size</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell>Lot Size</Table.ColumnHeaderCell>
-                  </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                  {Array.from({ length: 10 }).map((_, index) => (
-                    <TableRowSkeleton key={index} columns={5} />
-                  ))}
-                </Table.Body>
-              </Table.Root>
-            </div>
-          </Card>
-        </main>
+        <Spinner size="3" />
       </Layout>
     );
 
@@ -110,11 +77,11 @@ if (loading)
     return (
       <Layout>
         <main className="flex items-center justify-center min-h-[70vh]">
-          <Card className="p-6 bg-red-900/50 rounded-xl shadow-md">
+          <CardComponent>
             <Text color="red" size="4" weight="bold">
               ⚠ Error: {error}
             </Text>
-          </Card>
+          </CardComponent>
         </main>
       </Layout>
     );
@@ -123,11 +90,11 @@ if (loading)
     return (
       <Layout>
         <main className="flex items-center justify-center min-h-[70vh]">
-          <Card className="p-6 bg-gray-800 rounded-xl shadow-md">
-            <Text color="gray" size="4" weight="bold">
+          <CardComponent className="p-6 bg-gray-800 rounded-xl shadow-md">
+            <Text className="text-[#292929]" size="4" weight="bold">
               No market data available
             </Text>
-          </Card>
+          </CardComponent>
         </main>
       </Layout>
     );
@@ -143,10 +110,10 @@ if (loading)
   const totalBase = chartData.reduce((sum, d) => sum + d.baseVolume, 0);
   const totalQuote = chartData.reduce((sum, d) => sum + d.quoteVolume, 0);
   const topGainer = marketdata.reduce((prev, curr) =>
-    curr.price_change_percent_24h > prev.price_change_percent_24h ? curr : prev
+    curr.price_change_percent_24h > prev.price_change_percent_24h ? curr : prev,
   );
   const topLoser = marketdata.reduce((prev, curr) =>
-    curr.price_change_percent_24h < prev.price_change_percent_24h ? curr : prev
+    curr.price_change_percent_24h < prev.price_change_percent_24h ? curr : prev,
   );
 
   const COLORS = [
@@ -166,74 +133,83 @@ if (loading)
     <Layout>
       <main className="p-6 space-y-8">
         {/* Header */}
-        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-sm">
-          <h2 className="text-2xl font-semibold text-white">
+        <CardComponent>
+          <h2 className="text-2xl font-semibold text-[#292929]">
             DeepBook - Market Summary
           </h2>
-          <p className="text-gray-300 mt-1">
+          <p className="text-[#292929] mt-1">
             Summary charts, stats and liquidity layers.
           </p>
-        </div>
+        </CardComponent>
 
         {/* Stats Cards */}
         <Flex gap="4" wrap="wrap">
-          <Card className="flex-1 p-4 shadow rounded-xl">
-            <Flex>
-              <Text weight="bold" size="2" className="text-gray-500">
-              Total Base Volume
-            </Text>
-            <Text size="5" weight="bold">{totalBase.toLocaleString()}</Text>
-            </Flex>
-          </Card>
+          <CardComponent >
+            <div className="flex flex-col items-center g-full justify-center">
+              <Text weight="bold" size="2" className="text-[#292929]">
+                Total Base Volume
+              </Text>
+              <Text className="text-[#292929]" size="5" weight="bold">
+                {totalBase.toLocaleString()}
+              </Text>
+            </div>
+          </CardComponent>
 
-          <Card className="flex-1 p-4 shadow rounded-xl">
-           <Flex>
-             <Text weight="bold" size="2" className="text-gray-500">
-              Total Quote Volume
-            </Text>
-            <Text size="5" weight="bold">{totalQuote.toLocaleString()}</Text>
-           </Flex>
-          </Card>
+          <CardComponent>
+            <div className="flex flex-col items-center g-full justify-center">
+              <Text weight="bold" size="2" className="text-[#292929]">
+                Total Quote Volume
+              </Text>
+              <Text className="text-[#292929]" size="5" weight="bold">
+                {totalQuote.toLocaleString()}
+              </Text>
+            </div>
+          </CardComponent>
 
-          <Card className="flex-1 p-4 shadow rounded-xl">
-            <Flex>
-              <Text weight="bold" size="2" className="text-gray-500">
-              Top Gainer
-            </Text>
-            <Text size="5" weight="bold" className="text-green-600">
-              {topGainer.trading_pairs} ({topGainer.price_change_percent_24h.toFixed(2)}%)
-            </Text>
-            </Flex>
-          </Card>
+          <CardComponent>
+            <div className="flex flex-col items-center g-full justify-center">
+              <Text weight="bold" size="2" className="text-[#292929]">
+                Top Gainer
+              </Text>
+              <Text size="5" weight="bold" className="text-green-600">
+                {topGainer.trading_pairs} (
+                {topGainer.price_change_percent_24h.toFixed(2)}%)
+              </Text>
+            </div>
+          </CardComponent>
 
-          <Card className="flex-1 p-4 shadow rounded-xl">
-            <Flex>
-              <Text weight="bold" size="2" className="text-gray-500">
-              Top Loser
-            </Text>
-            <Text size="5" weight="bold" className="text-red-600">
-              {topLoser.trading_pairs} ({topLoser.price_change_percent_24h.toFixed(2)}%)
-            </Text>
-            </Flex>
-          </Card>
+          <CardComponent>
+            <div className="flex flex-col items-center g-full justify-center">
+              <Text weight="bold" size="2" className="text-[#292929]">
+                Top Loser
+              </Text>
+              <Text size="5" weight="bold" className="text-red-600">
+                {topLoser.trading_pairs} (
+                {topLoser.price_change_percent_24h.toFixed(2)}%)
+              </Text>
+            </div>
+          </CardComponent>
         </Flex>
 
         {/* Charts */}
         <Flex gap="6" wrap="nowrap">
           {/* Bar Chart */}
-          <Card className="w-full lg:w-1/2 h-[400px] p-4">
-            <Text weight="bold" size="4">
+          <CardComponent>
+            <Text className="text-[#292929]" weight="bold" size="4">
               Base vs Quote Volume (Bar)
             </Text>
             <ResponsiveContainer width="100%" height="90%">
-              <BarChart data={chartData} width={500}
+              <BarChart
+                data={chartData}
+                width={500}
                 height={300}
                 margin={{
                   top: 5,
                   right: 30,
                   left: 35,
                   bottom: 5,
-                }}>
+                }}
+              >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
                 <YAxis />
@@ -243,11 +219,11 @@ if (loading)
                 <Bar dataKey="quoteVolume" fill="#82ca9d" name="Quote Volume" />
               </BarChart>
             </ResponsiveContainer>
-          </Card>
+          </CardComponent>
 
           {/* Pie Chart */}
-          <Card className="w-full lg:w-1/2 h-[400px] p-4">
-            <Text weight="bold" size="4">
+          <CardComponent>
+            <Text className="text-[#292929]" weight="bold" size="4">
               Market Share (Base Volume)
             </Text>
             <ResponsiveContainer width="100%" height="90%">
@@ -272,13 +248,13 @@ if (loading)
                 <Legend />
               </PieChart>
             </ResponsiveContainer>
-          </Card>
+          </CardComponent>
         </Flex>
 
         {/* Table */}
         <div className="space-y-4">
           <Flex justify="between" align="center">
-            <Text weight="bold" size="4">
+            <Text className="text-[#292929]" weight="bold" size="4">
               Market Data
             </Text>
             <Button variant="soft" onClick={handleDownloadCSV}>
@@ -286,47 +262,47 @@ if (loading)
             </Button>
           </Flex>
 
-          <Table.Root variant="surface" className="rounded-xl overflow-hidden">
+          <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
             <Table.Header>
               <Table.Row>
-                <Table.ColumnHeaderCell>Trading Pair</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>Base/Quote</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>Last Price</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>24h Change %</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>Highest Bid</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>Lowest Ask</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>24h High</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>24h Low</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>Base Volume</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>Quote Volume</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]"  >Trading Pair</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">Base/Quote</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">Last Price</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">24h Change %</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">Highest Bid</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">Lowest Ask</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">24h High</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">24h Low</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">Base Volume</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">Quote Volume</Table.ColumnHeaderCell>
               </Table.Row>
             </Table.Header>
 
             <Table.Body>
               {marketdata.map((row, idx) => (
                 <Table.Row key={idx}>
-                  <Table.Cell>{row.trading_pairs}</Table.Cell>
-                  <Table.Cell>
+                  <Table.Cell className="text-[#292929]">{row.trading_pairs}</Table.Cell>
+                  <Table.Cell className="text-[#292929]">
                     {row.base_currency}/{row.quote_currency}
                   </Table.Cell>
-                  <Table.Cell>{row.last_price}</Table.Cell>
+                  <Table.Cell className="text-[#292929]">{row.last_price}</Table.Cell>
                   <Table.Cell
                     className={
                       row.price_change_percent_24h > 0
                         ? "text-green-600"
                         : row.price_change_percent_24h < 0
                           ? "text-red-600"
-                          : ""
+                          : "text-[#292929]"
                     }
                   >
                     {row.price_change_percent_24h.toFixed(2)}%
                   </Table.Cell>
-                  <Table.Cell>{row.highest_bid}</Table.Cell>
-                  <Table.Cell>{row.lowest_ask}</Table.Cell>
-                  <Table.Cell>{row.highest_price_24h}</Table.Cell>
-                  <Table.Cell>{row.lowest_price_24h}</Table.Cell>
-                  <Table.Cell>{row.base_volume}</Table.Cell>
-                  <Table.Cell>{row.quote_volume}</Table.Cell>
+                  <Table.Cell className="text-[#292929]">{row.highest_bid}</Table.Cell>
+                  <Table.Cell className="text-[#292929]">{row.lowest_ask}</Table.Cell>
+                  <Table.Cell className="text-[#292929]">{row.highest_price_24h}</Table.Cell>
+                  <Table.Cell className="text-[#292929]">{row.lowest_price_24h}</Table.Cell>
+                  <Table.Cell className="text-[#292929]">{row.base_volume}</Table.Cell>
+                  <Table.Cell className="text-[#292929]">{row.quote_volume}</Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>

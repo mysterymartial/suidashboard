@@ -42,7 +42,7 @@ export function useChainInfo() {
     }
 
     useEffect(() => {
-        // fetchChainInfo()
+        fetchChainInfo()
     }, [])
 
     return { chainInfo, stakeParam, loading, error }

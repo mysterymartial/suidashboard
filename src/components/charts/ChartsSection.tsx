@@ -11,6 +11,7 @@ import {
   Cell,
   Legend,
 } from "recharts";
+import CardComponent from "../cards";
 
 type ChartsSectionProps = {
   data?: any[];
@@ -29,12 +30,7 @@ export function ChartsSection({
 }: ChartsSectionProps) {
   // Defensive: only use items with a valid valueField and labelField
   const chartData = (Array.isArray(data) ? data : [])
-    .filter(
-      (d) =>
-        d &&
-        typeof d[valueField] === "number" &&
-        !!d[labelField]
-    )
+    .filter((d) => d && typeof d[valueField] === "number" && !!d[labelField])
     .sort((a, b) => b[valueField] - a[valueField])
     .slice(0, 10)
     .map((d) => ({
@@ -48,15 +44,15 @@ export function ChartsSection({
     }));
 
   return (
-    <Flex gap="6" mb="6">
-      <Card style={{ flex: 2 }}>
-        <Heading size="4" mb="2">
+    <div className="flex flex-col gap-[2rem]">
+      <CardComponent>
+        <Heading size="4" mb="2" className="text-[#292929]">
           Top Pools ({valueField})
         </Heading>
         <Box
           style={{
             height: 350,
-            background: "#111113",
+            // background: "#111113",
             borderRadius: 8,
             display: "flex",
             alignItems: "center",
@@ -66,7 +62,7 @@ export function ChartsSection({
           }}
         >
           {chartData.length === 0 ? (
-            <Text color="black">No data</Text>
+            <Text className="text-[#292929]">No data</Text>
           ) : (
             <ResponsiveContainer width="100%" height={290}>
               <BarChart data={chartData}>
@@ -95,15 +91,16 @@ export function ChartsSection({
             </ResponsiveContainer>
           )}
         </Box>
-      </Card>
-      <Card style={{ flex: 1 }}>
-        <Heading size="4" mb="2">
+      </CardComponent>
+
+      {/* <CardComponent>
+        <Heading size="4" mb="2" className="text-[#292929]">
           Top Pools (Pie)
         </Heading>
         <Box
           style={{
             height: 350,
-            background: "#111113",
+            // background: "#111113",
             borderRadius: 8,
             display: "flex",
             alignItems: "center",
@@ -111,7 +108,7 @@ export function ChartsSection({
           }}
         >
           {chartData.length === 0 ? (
-            <Text color="black">No data</Text>
+            <Text className="text-[#292929]">No data</Text>
           ) : (
             <ResponsiveContainer width="100%" height={250}>
               <PieChart>
@@ -124,7 +121,7 @@ export function ChartsSection({
                   outerRadius={50}
                   fill="#115aeb"
                   label={({ name, percent }) =>
-                    `${name.slice(0,3) + "..." + name.slice(63)} ${(percent * 100).toFixed(1)}%`
+                    `${name.slice(0, 3) + "..." + name.slice(63)} ${(percent * 100).toFixed(1)}%`
                   }
                 >
                   {chartData.map((entry, index) => (
@@ -150,7 +147,7 @@ export function ChartsSection({
             </ResponsiveContainer>
           )}
         </Box>
-      </Card>
-    </Flex>
+      </CardComponent> */}
+    </div>
   );
 }

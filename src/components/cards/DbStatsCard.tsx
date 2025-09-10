@@ -1,4 +1,5 @@
-import { Flex, Card, Heading, Text } from "@radix-ui/themes";
+import { Flex, Heading, Text } from "@radix-ui/themes";
+import CardComponent from ".";
 
 type StatsCardsProps = {
   pools?: any[];
@@ -6,21 +7,21 @@ type StatsCardsProps = {
 
 export function DbStatsCard({ pools }: StatsCardsProps) {
   if (!pools || pools.length === 0) {
-    return <Text color="gray">No pool stats available.</Text>;
+    return <Text className="text-[#292929]">No pool stats available.</Text>;
   }
 
   // Aggregate stats
   const totalMinSize = pools.reduce(
     (sum, p) => sum + (Number(p.min_size) || 0),
-    0
+    0,
   );
   const totalLotSize = pools.reduce(
     (sum, p) => sum + (Number(p.lot_size) || 0),
-    0
+    0,
   );
   const totalTickSize = pools.reduce(
     (sum, p) => sum + (Number(p.tick_size) || 0),
-    0
+    0,
   );
 
   const cards = [
@@ -45,16 +46,16 @@ export function DbStatsCard({ pools }: StatsCardsProps) {
   return (
     <Flex gap="6" mb="6" wrap="wrap">
       {cards.map((card, idx) => (
-        <Card key={idx} className="min-w-[180px]">
-          <Text size="2" color="gray">
+        <CardComponent key={idx}>
+          <Text size="2" className="text-[#292929]">
             {card.label}
           </Text>
-          <Heading size="5">
+          <Heading size="5" className="text-[#292929]">
             {typeof card.value === "number"
               ? card.value.toLocaleString()
               : card.value}
           </Heading>
-        </Card>
+        </CardComponent>
       ))}
     </Flex>
   );

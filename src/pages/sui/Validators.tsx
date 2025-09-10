@@ -1,24 +1,38 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Layout } from "../../components/layout/Layout";
 import { useSuiValidators } from "../../hooks/useSui/useSuiValidators";
-import { Table, Card, Text, Avatar, Flex, Box, Spinner, Badge, Link } from "@radix-ui/themes";
+import {
+  Table,
+  Text,
+  Avatar,
+  Flex,
+  Box,
+  Spinner,
+  Badge,
+  Link,
+} from "@radix-ui/themes";
+import CardComponent from "@/components/cards";
 
-function NetworkStats() {
+function SuiValidators() {
+  const { validators, validatorsApy, loading, fetchValidators } =
+    useSuiValidators();
 
-  const { validators, validatorsApy, loading } = useSuiValidators()
+  useEffect(() => {
+    fetchValidators();
+  }, []);
 
   if (loading) {
     return (
       <Layout>
         <main className="p-6 space-y-8">
-          <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-sm">
-            <h2 className="text-2xl font-semibold text-white">
+          <CardComponent>
+            <h2 className="text-2xl font-semibold text-[#292929]">
               Sui - Validators
             </h2>
-            <p className="text-gray-300 mt-1">
+            <p className="text-[#292929] mt-1">
               High-level network validators and health metrics.
             </p>
-          </div>
+          </CardComponent>
           <div className="flex justify-center items-center py-12">
             <Spinner size="3" />
           </div>
@@ -27,71 +41,96 @@ function NetworkStats() {
     );
   }
 
-
-
   return (
     <Layout>
       <main className="p-6 space-y-8">
-        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-sm">
-          <h2 className="text-2xl font-semibold text-white">
-            Sui - Network Stats
+        <CardComponent>
+          <h2 className="text-2xl font-semibold text-[#292929]">
+            Sui - Validators
           </h2>
-          <p className="text-gray-300 mt-1">
+          <p className="text-[#292929] mt-1">
             High-level network performance and health metrics.
           </p>
-        </div>
+        </CardComponent>
 
         {/* Network Overview Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card>
-            <div className="p-4">
-              <Text size="2" className="text-gray-400">Total Validators</Text>
-              <Text size="6" weight="bold" className="text-white">{validators.length}</Text>
+          <CardComponent>
+            <div className="flex flex-col justify-between h-full">
+              <Text size="2" className="text-[#292929]">
+                Total Validators
+              </Text>
+              <Text weight="bold" className="text-[#292929] text-[1.7rem]">
+                {validators.length}
+              </Text>
             </div>
-          </Card>
-          <Card>
-            <div className="p-4">
-              <Text size="2" className="text-gray-400">Average APY</Text>
-              <Text size="6" weight="bold" className="text-green-400">
+          </CardComponent>
+          <CardComponent>
+            <div className="flex flex-col justify-between h-full">
+              <Text size="2" className="text-[#292929]">
+                Average APY
+              </Text>
+              <Text weight="bold" className="text-green-400 text-[1.7rem]">
                 {validatorsApy ? `${validatorsApy.toFixed(2)}%` : "N/A"}
               </Text>
             </div>
-          </Card>
-          <Card>
-            <div className="p-4">
-              <Text size="2" className="text-gray-400">Total Stake</Text>
-              <Text size="6" weight="bold" className="text-blue-400">
-                {validators.reduce((sum, v) => sum + (v.stakeAmount || 0), 0).toLocaleString(undefined, {maximumFractionDigits: 0})} SUI
+          </CardComponent>
+          <CardComponent>
+            <div className="flex flex-col justify-between h-[100px]">
+              <Text size="2" className="text-[#292929]">
+                Total Stake
+              </Text>
+              <Text size="6" weight="bold" className="text-[#292929]">
+                {validators
+                  .reduce((sum, v) => sum + (v.stakeAmount || 0), 0)
+                  .toLocaleString(undefined, { maximumFractionDigits: 0 })}{" "}
+                SUI
               </Text>
             </div>
-          </Card>
-          <Card>
-            <div className="p-4">
-              <Text size="2" className="text-gray-400">Verified Validators</Text>
-              <Text size="6" weight="bold" className="text-purple-400">
-                {validators.filter(v => v.isVerified).length}
+          </CardComponent>
+          <CardComponent>
+            <div className="flex flex-col justify-between h-full">
+              <Text size="2" className="text-[#292929]">
+                Verified Validators
+              </Text>
+              <Text weight="bold" className="text-[#292929] text-[1.7rem]">
+                {validators.filter((v) => v.isVerified).length}
               </Text>
             </div>
-          </Card>
+          </CardComponent>
         </div>
 
-
-
         {/* Validators Table */}
-        <Card>
-          <div className="p-4">
-            <h3 className="text-xl font-semibold text-white mb-4">Validators ({validators.length})</h3>
+        <CardComponent>
+          <div className="">
+            <h3 className="text-xl font-semibold text-[#292929] mb-4">
+              Top Validators ({validators.length})
+            </h3>
           </div>
-          <Table.Root variant="surface" className="rounded-xl overflow-hidden">
+          <Table.Root className="rounded-[10px] overflow-hidden border border-[#e8e8e8]">
             <Table.Header>
               <Table.Row>
-                <Table.ColumnHeaderCell className="text-white">Validator</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-white">Address</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-white">APY</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-white">Commission</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-white">Stake Amount</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-white">Status</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-white">Social</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">
+                  Validator
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">
+                  Address
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">
+                  APY
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">
+                  Commission
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">
+                  Stake Amount
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">
+                  Status
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">
+                  Social
+                </Table.ColumnHeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -99,28 +138,28 @@ function NetworkStats() {
                 <Table.Row key={validator.validatorAddress}>
                   <Table.Cell>
                     <Flex align="center" gap="3">
-                      <Avatar 
-                        src={validator.validatorImg} 
-                        fallback={validator.validatorName?.[0] || "V"} 
-                        size="2" 
+                      <Avatar
+                        src={validator.validatorImg}
+                        fallback={validator.validatorName?.[0] || "V"}
+                        size="2"
                       />
                       <Box>
-                        <Text weight="medium" className="text-white">
+                        <Text weight="medium" className="text-[#292929]">
                           {validator.validatorName || "Unknown Validator"}
                         </Text>
-                        <Text size="1" className="text-gray-400">
+                        {/* <Text size="1" className="text-[#292929]">
                           {validator.description ? 
                             (validator.description.length > 50 ? 
                               `${validator.description.slice(0, 50)}...` : 
                               validator.description
                             ) : "No description"
                           }
-                        </Text>
+                        </Text> */}
                       </Box>
                     </Flex>
                   </Table.Cell>
                   <Table.Cell>
-                    <Text size="2" className="text-blue-400 font-mono">
+                    <Text size="2" className="text-[#292929] font-mono">
                       {`${validator.validatorAddress.slice(0, 8)}...${validator.validatorAddress.slice(-6)}`}
                     </Text>
                   </Table.Cell>
@@ -130,21 +169,22 @@ function NetworkStats() {
                     </Text>
                   </Table.Cell>
                   <Table.Cell>
-                    <Text className="text-white">
-                      {validator.commissionRate ? `${validator.commissionRate}%` : "N/A"}
+                    <Text className="text-[#292929]">
+                      {validator.commissionRate
+                        ? `${validator.commissionRate}%`
+                        : "N/A"}
                     </Text>
                   </Table.Cell>
                   <Table.Cell>
-                    <Text className="text-white font-medium">
-                      {validator.stakeAmount ? 
-                        `${validator.stakeAmount.toLocaleString(undefined, {maximumFractionDigits: 0})} SUI` : 
-                        "N/A"
-                      }
+                    <Text className="text-[#292929] font-medium">
+                      {validator.stakeAmount
+                        ? `${validator.stakeAmount.toLocaleString(undefined, { maximumFractionDigits: 0 })} SUI`
+                        : "N/A"}
                     </Text>
                   </Table.Cell>
                   <Table.Cell>
-                    <Badge 
-                      color={validator.isVerified ? "green" : "gray"} 
+                    <Badge
+                      color={validator.isVerified ? "green" : "red"}
                       variant="soft"
                     >
                       {validator.isVerified ? "Verified" : "Unverified"}
@@ -154,17 +194,23 @@ function NetworkStats() {
                     <Flex gap="2">
                       {validator.socialWebsite && (
                         <Link href={validator.socialWebsite} target="_blank">
-                          <Badge color="blue" variant="soft" size="1">Website</Badge>
+                          <Badge color="blue" variant="soft" size="1">
+                            Website
+                          </Badge>
                         </Link>
                       )}
                       {validator.socialTwitter && (
                         <Link href={validator.socialTwitter} target="_blank">
-                          <Badge color="cyan" variant="soft" size="1">Twitter</Badge>
+                          <Badge color="cyan" variant="soft" size="1">
+                            Twitter
+                          </Badge>
                         </Link>
                       )}
                       {validator.socialTelegram && (
                         <Link href={validator.socialTelegram} target="_blank">
-                          <Badge color="purple" variant="soft" size="1">Telegram</Badge>
+                          <Badge color="purple" variant="soft" size="1">
+                            Telegram
+                          </Badge>
                         </Link>
                       )}
                     </Flex>
@@ -173,10 +219,10 @@ function NetworkStats() {
               ))}
             </Table.Body>
           </Table.Root>
-        </Card>
+        </CardComponent>
       </main>
     </Layout>
   );
 }
 
-export default NetworkStats;
+export default SuiValidators;

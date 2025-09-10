@@ -1,13 +1,12 @@
 import React from "react";
 import { Layout } from "../../components/layout/Layout";
-import { useWalrusAnalytics } from "../../hooks/useWalrus/useWalrusAnalytics";
+import { Flex, Text, Spinner } from "@radix-ui/themes";
+import CardComponent from "@/components/cards";
 import {
-  Card,
-  Flex,
-  Text,
-  Spinner,
-} from "@radix-ui/themes";
-import { Skeleton, StatCardSkeleton, ChartSkeleton } from "../../components/ui/Skeleton";
+  Skeleton,
+  StatCardSkeleton,
+  ChartSkeleton,
+} from "../../components/ui/Skeleton";
 import {
   ResponsiveContainer,
   LineChart,
@@ -17,31 +16,25 @@ import {
   Tooltip,
   CartesianGrid,
 } from "recharts";
+import { useWalrusAnalytics } from "@/hooks/usewalrus/useWalrusAnalytics";
 
 function Storage() {
-  const { analyticsData, accountCount, blobCount, loading, error } = useWalrusAnalytics();
+  const { analyticsData, accountCount, blobCount, loading, error } =
+    useWalrusAnalytics();
 
   const formatChartData = (data: any) =>
     data?.chart?.map((item: any) => ({
-      timestamp: new Date(item.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
+      timestamp: new Date(item.timestamp).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
       value: item.value,
     }));
 
   if (loading) {
     return (
       <Layout>
-        <main className="p-6 space-y-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <StatCardSkeleton />
-            <StatCardSkeleton />
-            <StatCardSkeleton />
-          </div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <ChartSkeleton />
-            <ChartSkeleton />
-          </div>
-        </main>
+        <Spinner className="text-[#292929] m-auto mt-[20%]"/>
       </Layout>
     );
   }
@@ -49,7 +42,9 @@ function Storage() {
   if (error) {
     return (
       <Layout>
-        <Text color="red" mt="10">{error.message}</Text>
+        <Text color="red" mt="10">
+          {error.message}
+        </Text>
       </Layout>
     );
   }
@@ -57,61 +52,82 @@ function Storage() {
   return (
     <Layout>
       <main className="p-6 space-y-8">
-        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-sm">
-          <h2 className="text-2xl font-semibold text-white">
+        <CardComponent>
+          <h2 className="text-2xl font-semibold text-[#292929]">
             Walrus - Storage Analytics
           </h2>
-          <p className="text-gray-300 mt-1">
+          <p className="text-[#292929] mt-1">
             Storage usage and performance insights.
           </p>
-        </div>
+        </CardComponent>
 
         {/* Average Blob Size Chart */}
         {analyticsData && (
-          <Card className="p-4 border border-gray-700 shadow-sm">
-            <Text size="5" weight="bold" className="mb-4">Average Blob Size (24H)</Text>
+          <CardComponent>
+            <Text size="5" weight="bold" className="mb-4 text-[#292929]">
+              Average Blob Size (24H)
+            </Text>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={formatChartData(analyticsData)}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="timestamp" />
                 <YAxis />
                 <Tooltip />
-                <Line type="monotone" dataKey="value" stroke="#8884d8" dot={false} />
+                <Line
+                  type="monotone"
+                  dataKey="value"
+                  stroke="#8884d8"
+                  dot={false}
+                />
               </LineChart>
             </ResponsiveContainer>
-          </Card>
+          </CardComponent>
         )}
 
         {/* Total Accounts Chart */}
         {accountCount && (
-          <Card className="p-4 border border-gray-700 shadow-sm">
-            <Text size="5" weight="bold" className="mb-4">Total Accounts (24H)</Text>
+          <CardComponent>
+            <Text size="5" weight="bold" className="mb-4 text-[#292929]">
+              Total Accounts (24H)
+            </Text>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={formatChartData(accountCount)}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="timestamp" />
                 <YAxis />
                 <Tooltip />
-                <Line type="monotone" dataKey="value" stroke="#82ca9d" dot={false} />
+                <Line
+                  type="monotone"
+                  dataKey="value"
+                  stroke="#82ca9d"
+                  dot={false}
+                />
               </LineChart>
             </ResponsiveContainer>
-          </Card>
+          </CardComponent>
         )}
 
         {/* Total Blobs Chart */}
         {blobCount && (
-          <Card className="p-4 border border-gray-700 shadow-sm">
-            <Text size="5" weight="bold" className="mb-4">Total Blobs (24H)</Text>
+          <CardComponent>
+            <Text size="5" weight="bold" className="mb-4 text-[#292929]">
+              Total Blobs (24H)
+            </Text>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={formatChartData(blobCount)}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="timestamp" />
                 <YAxis />
                 <Tooltip />
-                <Line type="monotone" dataKey="value" stroke="#ff7300" dot={false} />
+                <Line
+                  type="monotone"
+                  dataKey="value"
+                  stroke="#ff7300"
+                  dot={false}
+                />
               </LineChart>
             </ResponsiveContainer>
-          </Card>
+          </CardComponent>
         )}
       </main>
     </Layout>

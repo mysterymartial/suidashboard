@@ -1,9 +1,15 @@
-import React, {useState} from "react";
+import { useState } from "react";
 import { Layout } from "../../components/layout/Layout";
 import { useDeepAssets } from "../../hooks/useDeep/useDeepAssets";
-import { Flex, Card, Text, Table, Button, IconButton } from "@radix-ui/themes";
+import { Flex, Text, Table, Button, IconButton } from "@radix-ui/themes";
+import CardComponent from "@/components/cards";
 import { Loader2, Download, Copy, Check } from "lucide-react";
-import { Skeleton, StatCardSkeleton, ChartSkeleton, TableRowSkeleton } from "../../components/ui/Skeleton";
+import {
+  Skeleton,
+  StatCardSkeleton,
+  ChartSkeleton,
+  TableRowSkeleton,
+} from "../../components/ui/Skeleton";
 import {
   BarChart,
   Bar,
@@ -52,24 +58,26 @@ function Liquidity() {
             <StatCardSkeleton />
             <StatCardSkeleton />
           </div>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <ChartSkeleton />
             <ChartSkeleton />
           </div>
-          
-          <Card className="bg-gray-800 border-gray-700">
+
+          <CardComponent className="bg-gray-800 border-gray-700">
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
                 <Skeleton height="1.5rem" width="200px" />
                 <Skeleton height="2.5rem" width="120px" />
               </div>
-              <Table.Root>
+              <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
                 <Table.Header>
                   <Table.Row>
                     <Table.ColumnHeaderCell>Asset</Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell>Name</Table.ColumnHeaderCell>
-                    <Table.ColumnHeaderCell>Contract Address</Table.ColumnHeaderCell>
+                    <Table.ColumnHeaderCell>
+                      Contract Address
+                    </Table.ColumnHeaderCell>
                     <Table.ColumnHeaderCell>Actions</Table.ColumnHeaderCell>
                   </Table.Row>
                 </Table.Header>
@@ -80,7 +88,7 @@ function Liquidity() {
                 </Table.Body>
               </Table.Root>
             </div>
-          </Card>
+          </CardComponent>
         </main>
       </Layout>
     );
@@ -89,9 +97,9 @@ function Liquidity() {
     return (
       <Layout>
         <Flex justify="center" align="center" className="min-h-[70vh]">
-          <Card className="p-6 bg-red-900/50 rounded-xl shadow-md">
+          <CardComponent className="p-6 bg-red-900/50 rounded-xl shadow-md">
             <Text color="red">⚠ Error: {error}</Text>
-          </Card>
+          </CardComponent>
         </Flex>
       </Layout>
     );
@@ -115,7 +123,7 @@ function Liquidity() {
   // ✅ Stats from tickers
   const totalVolume = tickersData.reduce(
     (sum, t) => sum + (Number(t.base_volume) || 0),
-    0
+    0,
   );
   const minVolume = Math.min(...tickersData.map((t) => t.base_volume));
   const maxVolume = Math.max(...tickersData.map((t) => t.base_volume));
@@ -124,48 +132,48 @@ function Liquidity() {
     <Layout>
       <main className="p-6 space-y-8">
         <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-sm">
-          <h2 className="text-2xl font-semibold text-white">
+          <h2 className="text-2xl font-semibold text-[#292929]">
             DeepBook - Assets & Tickers
           </h2>
-          <p className="text-gray-300 mt-1">
+          <p className="text-[#292929] mt-1">
             Liquidity availability and utilization metrics.
           </p>
         </div>
         <div className="space-y-8">
           {/* Stats Cards */}
           <Flex gap="6" wrap="wrap">
-            <Card className="min-w-[180px] p-4 display-flex flex-col items-center">
-              <Text size="2" color="gray">
+            <CardComponent className="min-w-[180px] p-4 display-flex flex-col items-center">
+              <Text size="2" className="text-[#292929]">
                 Total Pairs
               </Text>
               <Text weight="bold" size="5">
                 {tickersData.length}
               </Text>
-            </Card>
-            <Card className="min-w-[180px] p-4">
-              <Text size="2" color="gray">
+            </CardComponent>
+            <CardComponent className="min-w-[180px] p-4">
+              <Text size="2" className="text-[#292929]">
                 Total Volume
               </Text>
               <Text weight="bold" size="5">
                 {totalVolume.toLocaleString()}
               </Text>
-            </Card>
-            <Card className="min-w-[180px] p-4">
-              <Text size="2" color="gray">
+            </CardComponent>
+            <CardComponent className="min-w-[180px] p-4">
+              <Text size="2" className="text-[#292929]">
                 Min Volume
               </Text>
               <Text weight="bold" size="5">
                 {minVolume.toLocaleString()}
               </Text>
-            </Card>
-            <Card className="min-w-[180px] p-4">
-              <Text size="2" color="gray">
+            </CardComponent>
+            <CardComponent className="min-w-[180px] p-4">
+              <Text size="2" className="text-[#292929]">
                 Max Volume
               </Text>
               <Text weight="bold" size="5">
                 {maxVolume.toLocaleString()}
               </Text>
-            </Card>
+            </CardComponent>
           </Flex>
 
           {/* Charts */}
@@ -181,7 +189,11 @@ function Liquidity() {
                 <Tooltip />
                 <Legend />
                 <Bar dataKey="base_volume" fill="#3b82f6" name="Base Volume" />
-                <Bar dataKey="quote_volume" fill="#10b981" name="Quote Volume" />
+                <Bar
+                  dataKey="quote_volume"
+                  fill="#10b981"
+                  name="Quote Volume"
+                />
               </BarChart>
             </ResponsiveContainer>
 
@@ -196,10 +208,7 @@ function Liquidity() {
                   label
                 >
                   {tickersData.map((_, i) => (
-                    <Cell
-                      key={i}
-                      fill={`hsl(${(i * 40) % 360}, 70%, 50%)`}
-                    />
+                    <Cell key={i} fill={`hsl(${(i * 40) % 360}, 70%, 50%)`} />
                   ))}
                 </Pie>
                 <Tooltip />
@@ -209,7 +218,7 @@ function Liquidity() {
           </Flex>
 
           {/* Assets Table */}
-          <Card className="p-6">
+          <CardComponent className="p-6">
             <Flex justify="between" align="center" mb="4">
               <Text weight="bold" size="4">
                 Assets
@@ -221,7 +230,7 @@ function Liquidity() {
                 <Download className="w-4 h-4 mr-2" /> Download CSV
               </Button>
             </Flex>
-            <Table.Root variant="surface" className="rounded-xl overflow-hidden">
+            <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
               <Table.Header>
                 <Table.Row>
                   <Table.ColumnHeaderCell>Symbol</Table.ColumnHeaderCell>
@@ -246,7 +255,7 @@ function Liquidity() {
                           {copied === a.contract ? (
                             <Check className="w-4 h-4 text-green-500" /> // ✅ shows check when copied
                           ) : (
-                            <Copy className="w-4 h-4 text-gray-400" />
+                            <Copy className="w-4 h-4 text-[#292929]" />
                           )}
                         </button>
                       </Flex>
@@ -257,10 +266,10 @@ function Liquidity() {
                 ))}
               </Table.Body>
             </Table.Root>
-          </Card>
+          </CardComponent>
 
           {/* Tickers Table */}
-          <Card className="p-6">
+          <CardComponent className="p-6">
             <Flex justify="between" align="center" mb="4">
               <Text weight="bold" size="4">
                 Tickers
@@ -272,7 +281,7 @@ function Liquidity() {
                 <Download className="w-4 h-4 mr-2" /> Download CSV
               </Button>
             </Flex>
-            <Table.Root variant="surface" className="rounded-xl overflow-hidden">
+            <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
               <Table.Header>
                 <Table.Row>
                   <Table.ColumnHeaderCell>Pair</Table.ColumnHeaderCell>
@@ -294,7 +303,7 @@ function Liquidity() {
                 ))}
               </Table.Body>
             </Table.Root>
-          </Card>
+          </CardComponent>
         </div>
       </main>
     </Layout>

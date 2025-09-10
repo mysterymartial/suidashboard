@@ -71,7 +71,7 @@ export function useWalrusValidators(page: number = 0) {
       }
     };
 
-    // fetchValidators();
+    fetchValidators();
 
     return () => { cancelled = true; };
   }, [page, apiKey]);

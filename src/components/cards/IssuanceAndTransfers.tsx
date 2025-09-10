@@ -1,9 +1,10 @@
-import { Flex, Card, Heading, Box, Text, Table } from "@radix-ui/themes";
+import { Flex, Heading, Box, Text, Table } from "@radix-ui/themes";
+import CardComponent from "./index";
 
 export function IssuanceAndTransfers() {
   return (
     <Flex gap="6" mt="6">
-      <Card style={{ flex: 2 }}>
+      <CardComponent>
         <Heading size="4" mb="2">
           New Issuance Volume
         </Heading>
@@ -17,14 +18,14 @@ export function IssuanceAndTransfers() {
             justifyContent: "center",
           }}
         >
-          <Text color="gray">[Bar Chart Placeholder]</Text>
+          <Text className="text-[#292929]">[Bar Chart Placeholder]</Text>
         </Box>
-      </Card>
-      <Card style={{ flex: 1 }}>
+      </CardComponent>
+      <CardComponent>
         <Heading size="4" mb="2">
           Top Transfers
         </Heading>
-        <Table.Root>
+        <Table.Root className="border border-[#e8e8e8] rounded-[10px]">
           <Table.Header>
             <Table.Row>
               <Table.ColumnHeaderCell>Asset</Table.ColumnHeaderCell>
@@ -42,7 +43,7 @@ export function IssuanceAndTransfers() {
             </Table.Row>
           </Table.Body>
         </Table.Root>
-      </Card>
+      </CardComponent>
     </Flex>
   );
 }

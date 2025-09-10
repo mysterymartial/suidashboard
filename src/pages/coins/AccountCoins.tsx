@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router";
 import { Layout } from "../../components/layout/Layout";
 import { useGetCoins } from "../../hooks/useCoins/useGetCoins";
@@ -6,17 +5,17 @@ import { Table, Text } from "@radix-ui/themes";
 import { Skeleton, TableRowSkeleton } from "../../components/ui/Skeleton";
 
 function AccountCoins() {
-  const { 
-    coins, 
-    coinCount, 
-    loading, 
-    error, 
-    currentPage, 
-    totalPages, 
-    nextPage, 
-    prevPage, 
+  const {
+    coins,
+    coinCount,
+    loading,
+    error,
+    currentPage,
+    totalPages,
+    nextPage,
+    prevPage,
     goToPage,
-    clearCache 
+    clearCache,
   } = useGetCoins();
 
   if (loading) {
@@ -37,13 +36,27 @@ function AccountCoins() {
             <Table.Root>
               <Table.Header>
                 <Table.Row>
-                  <Table.ColumnHeaderCell className="text-white">Coin</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell className="text-white">Symbol</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell className="text-white">Price</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell className="text-white">Market Cap</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell className="text-white">Volume</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell className="text-white">Holders</Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell className="text-white">Verified</Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell className="text-[#292929]">
+                    Coin
+                  </Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell className="text-[#292929]">
+                    Symbol
+                  </Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell className="text-[#292929]">
+                    Price
+                  </Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell className="text-[#292929]">
+                    Market Cap
+                  </Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell className="text-[#292929]">
+                    Volume
+                  </Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell className="text-[#292929]">
+                    Holders
+                  </Table.ColumnHeaderCell>
+                  <Table.ColumnHeaderCell className="text-[#292929]">
+                    Verified
+                  </Table.ColumnHeaderCell>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
@@ -52,7 +65,7 @@ function AccountCoins() {
                 ))}
               </Table.Body>
             </Table.Root>
-            
+
             <div className="flex items-center justify-between p-4 border-t border-gray-700">
               <Skeleton height="1rem" width="250px" />
               <div className="flex items-center gap-2">
@@ -89,11 +102,12 @@ function AccountCoins() {
         <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-sm">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-semibold text-white">
+              <h2 className="text-2xl font-semibold text-[#292929]">
                 Coins - All Coins ({coinCount?.toLocaleString()})
               </h2>
-              <p className="text-gray-300 mt-1">
-                All available coins on the Sui network. Page {currentPage + 1} of {totalPages}
+              <p className="text-[#292929] mt-1">
+                All available coins on the Sui network. Page {currentPage + 1}{" "}
+                of {totalPages}
               </p>
             </div>
             <button
@@ -101,7 +115,7 @@ function AccountCoins() {
                 clearCache();
                 window.location.reload();
               }}
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+              className="px-4 py-2 bg-blue-600 text-[#292929] rounded hover:bg-blue-700 transition-colors"
               title="Refresh data and clear cache"
             >
               🔄 Refresh
@@ -113,13 +127,27 @@ function AccountCoins() {
           <Table.Root>
             <Table.Header>
               <Table.Row>
-                <Table.ColumnHeaderCell className="text-white">Coin</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-white">Symbol</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-white">Price</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-white">Market Cap</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-white">Volume</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-white">Holders</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-white">Verified</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">
+                  Coin
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">
+                  Symbol
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">
+                  Price
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">
+                  Market Cap
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">
+                  Volume
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">
+                  Holders
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">
+                  Verified
+                </Table.ColumnHeaderCell>
               </Table.Row>
             </Table.Header>
 
@@ -129,77 +157,91 @@ function AccountCoins() {
                   <Table.Cell>
                     <div className="flex items-center gap-3">
                       {coin.imgUrl && (
-                        <img 
-                          src={coin.imgUrl} 
-                          alt={coin.coinName} 
+                        <img
+                          src={coin.imgUrl}
+                          alt={coin.coinName}
                           className="w-8 h-8 rounded-full"
                           onError={(e) => {
-                            e.currentTarget.style.display = 'none';
+                            e.currentTarget.style.display = "none";
                           }}
                         />
                       )}
                       <div>
-                        <Link to={`/coins/coin-details/${encodeURIComponent(coin.coinType)}`} className="hover:underline">
-                          <Text className="text-white font-medium hover:text-blue-400 cursor-pointer">{coin.coinName}</Text>
+                        <Link
+                          to={`/coins/coin-details/${encodeURIComponent(coin.coinType)}`}
+                          className="hover:underline"
+                        >
+                          <Text className="text-[#292929] font-medium hover:text-blue-400 cursor-pointer">
+                            {coin.coinName}
+                          </Text>
                         </Link>
-                        <Text className="text-gray-400 text-sm">{coin.coinDenom}</Text>
+                        <Text className="text-[#292929] text-sm">
+                          {coin.coinDenom}
+                        </Text>
                       </div>
                     </div>
                   </Table.Cell>
                   <Table.Cell>
-                    <Text className="text-white">{coin.coinSymbol}</Text>
+                    <Text className="text-[#292929]">{coin.coinSymbol}</Text>
                   </Table.Cell>
                   <Table.Cell>
-                    <Text className="text-white">
-                      {coin.price ? `$${coin.price.toFixed(6)}` : 'N/A'}
+                    <Text className="text-[#292929]">
+                      {coin.price ? `$${coin.price.toFixed(6)}` : "N/A"}
                     </Text>
                   </Table.Cell>
                   <Table.Cell>
-                    <Text className="text-white">
-                      {coin.marketCap ? `$${coin.marketCap.toLocaleString()}` : 'N/A'}
+                    <Text className="text-[#292929]">
+                      {coin.marketCap
+                        ? `$${coin.marketCap.toLocaleString()}`
+                        : "N/A"}
                     </Text>
                   </Table.Cell>
                   <Table.Cell>
-                    <Text className="text-white">
-                      {coin.totalVolume ? `$${coin.totalVolume.toLocaleString()}` : 'N/A'}
+                    <Text className="text-[#292929]">
+                      {coin.totalVolume
+                        ? `$${coin.totalVolume.toLocaleString()}`
+                        : "N/A"}
                     </Text>
                   </Table.Cell>
                   <Table.Cell>
-                    <Text className="text-white">
-                      {coin.holdersCount?.toLocaleString() || 'N/A'}
+                    <Text className="text-[#292929]">
+                      {coin.holdersCount?.toLocaleString() || "N/A"}
                     </Text>
                   </Table.Cell>
                   <Table.Cell>
-                    <span className={`px-2 py-1 rounded-full text-xs ${
-                      coin.isVerified 
-                        ? 'bg-green-900 text-green-300' 
-                        : 'bg-red-900 text-red-300'
-                    }`}>
-                      {coin.isVerified ? 'Verified' : 'Unverified'}
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs ${
+                        coin.isVerified
+                          ? "bg-green-900 text-green-300"
+                          : "bg-red-900 text-red-300"
+                      }`}
+                    >
+                      {coin.isVerified ? "Verified" : "Unverified"}
                     </span>
                   </Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>
           </Table.Root>
-          
+
           {/* Pagination Controls */}
           <div className="flex items-center justify-between p-4 border-t border-gray-700">
             <div className="flex items-center gap-2">
-              <Text className="text-gray-300 text-sm">
-                Showing page {currentPage + 1} of {totalPages} ({coinCount?.toLocaleString()} total coins)
+              <Text className="text-[#292929] text-sm">
+                Showing page {currentPage + 1} of {totalPages} (
+                {coinCount?.toLocaleString()} total coins)
               </Text>
             </div>
-            
+
             <div className="flex items-center gap-2">
               <button
                 onClick={prevPage}
                 disabled={currentPage === 0}
-                className="px-3 py-1 bg-gray-700 text-white rounded hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-3 py-1 bg-gray-700 text-[#292929] rounded hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Previous
               </button>
-              
+
               <div className="flex items-center gap-1">
                 {/* Show page numbers around current page */}
                 {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
@@ -213,15 +255,15 @@ function AccountCoins() {
                   } else {
                     pageNum = currentPage - 2 + i;
                   }
-                  
+
                   return (
                     <button
                       key={pageNum}
                       onClick={() => goToPage(pageNum)}
                       className={`px-3 py-1 rounded ${
                         pageNum === currentPage
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-gray-700 text-white hover:bg-gray-600'
+                          ? "bg-blue-600 text-[#292929]"
+                          : "bg-gray-700 text-[#292929] hover:bg-gray-600"
                       }`}
                     >
                       {pageNum + 1}
@@ -229,11 +271,11 @@ function AccountCoins() {
                   );
                 })}
               </div>
-              
+
               <button
                 onClick={nextPage}
                 disabled={currentPage >= totalPages - 1}
-                className="px-3 py-1 bg-gray-700 text-white rounded hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-3 py-1 bg-gray-700 text-[#292929] rounded hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Next
               </button>

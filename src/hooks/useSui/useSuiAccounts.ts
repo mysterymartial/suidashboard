@@ -44,7 +44,7 @@ export function useSuiAccounts() {
     }
 
     useEffect(() => {
-        // fetchAccounts()
+        fetchAccounts() 
     }, [])
 
     return { accounts, topAccounts, loading, error }

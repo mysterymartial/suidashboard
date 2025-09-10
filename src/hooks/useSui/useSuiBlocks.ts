@@ -201,7 +201,7 @@ export function useSuiBlocks(): SuiBlocksHookReturn {
   }
 
   useEffect(() => {
-    // fetchTransactionBlocks();
+    fetchTransactionBlocks();
   }, []);
 
   return {

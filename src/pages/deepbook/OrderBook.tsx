@@ -1,9 +1,15 @@
 import React, { useMemo, useState } from "react";
 import { Layout } from "../../components/layout/Layout";
 import { useOrderBook } from "../../hooks/useDeep/useOrderBook";
-import { Table, Card, Text, Flex, Select, Button } from "@radix-ui/themes";
+import { Table, Text, Flex, Select, Button } from "@radix-ui/themes";
+import CardComponent from "@/components/cards";
 import { Loader2 } from "lucide-react";
-import { Skeleton, StatCardSkeleton, ChartSkeleton, TableRowSkeleton } from "../../components/ui/Skeleton";
+import {
+  Skeleton,
+  StatCardSkeleton,
+  ChartSkeleton,
+  TableRowSkeleton,
+} from "../../components/ui/Skeleton";
 import {
   LineChart,
   Line,
@@ -77,14 +83,18 @@ function OrderBook() {
     });
 
     // merge by price to single array
-    const map = new Map<number, { price: number; bidDepth?: number; askDepth?: number }>();
+    const map = new Map<
+      number,
+      { price: number; bidDepth?: number; askDepth?: number }
+    >();
     for (const b of bidDepth) {
       map.set(b.price, { price: b.price, bidDepth: b.bidDepth, askDepth: 0 });
     }
     for (const a of askDepth) {
       const exist = map.get(a.price);
       if (exist) map.set(a.price, { ...exist, askDepth: a.askDepth });
-      else map.set(a.price, { price: a.price, askDepth: a.askDepth, bidDepth: 0 });
+      else
+        map.set(a.price, { price: a.price, askDepth: a.askDepth, bidDepth: 0 });
     }
 
     return Array.from(map.values()).sort((x, y) => x.price - y.price);
@@ -97,7 +107,9 @@ function OrderBook() {
     const headers = ["Side", "Price", "Quantity"];
     const bidRows = data.bids.map(([price, qty]) => ["Bid", price, qty]);
     const askRows = data.asks.map(([price, qty]) => ["Ask", price, qty]);
-    const csv = [headers, ...bidRows, ...askRows].map((r) => r.join(",")).join("\n");
+    const csv = [headers, ...bidRows, ...askRows]
+      .map((r) => r.join(","))
+      .join("\n");
 
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
     const link = document.createElement("a");
@@ -114,8 +126,12 @@ function OrderBook() {
         {/* Header + Download */}
         <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-sm flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-semibold text-white">DeepBook - Order Book</h2>
-            <p className="text-gray-300 mt-1">Order book level details and listings.</p>
+            <h2 className="text-2xl font-semibold text-[#292929]">
+              DeepBook - Order Book
+            </h2>
+            <p className="text-[#292929] mt-1">
+              Order book level details and listings.
+            </p>
           </div>
 
           <div className="flex items-center gap-3">
@@ -145,11 +161,11 @@ function OrderBook() {
               <StatCardSkeleton />
               <StatCardSkeleton />
             </div>
-            
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <Card className="p-6">
+              <CardComponent className="p-6">
                 <Skeleton height="1.5rem" width="120px" className="mb-4" />
-                <Table.Root>
+                <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
                   <Table.Header>
                     <Table.Row>
                       <Table.ColumnHeaderCell>Price</Table.ColumnHeaderCell>
@@ -163,11 +179,11 @@ function OrderBook() {
                     ))}
                   </Table.Body>
                 </Table.Root>
-              </Card>
-              
-              <Card className="p-6">
+              </CardComponent>
+
+              <CardComponent className="p-6">
                 <Skeleton height="1.5rem" width="120px" className="mb-4" />
-                <Table.Root>
+                <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
                   <Table.Header>
                     <Table.Row>
                       <Table.ColumnHeaderCell>Price</Table.ColumnHeaderCell>
@@ -181,57 +197,61 @@ function OrderBook() {
                     ))}
                   </Table.Body>
                 </Table.Root>
-              </Card>
+              </CardComponent>
             </div>
-            
+
             <ChartSkeleton height="300px" />
           </div>
         )}
         {error && (
-          <Card className="p-6 bg-red-900/40 rounded-xl">
+          <CardComponent className="p-6 bg-red-900/40 rounded-xl">
             <Text color="red" align="center">
               ⚠ {error}
             </Text>
-          </Card>
+          </CardComponent>
         )}
 
         {/* Content */}
         {data && !loading && !error && (
-          <Card className="p-6 space-y-6">
+          <CardComponent className="p-6 space-y-6">
             {/* Stats Cards */}
             <Flex gap="4" wrap="wrap">
-              <Card className="p-4 flex-1 text-center">
-                <Text color="gray">Best Bid</Text>
+              <CardComponent className="p-4 flex-1 text-center">
+                <Text className="text-[#292929]">Best Bid</Text>
                 <Text weight="bold" color="green">
                   {bestBid}
                 </Text>
-              </Card>
-              <Card className="p-4 flex-1 text-center">
-                <Text color="gray">Best Ask</Text>
+              </CardComponent>
+              <CardComponent className="p-4 flex-1 text-center">
+                <Text className="text-[#292929]">Best Ask</Text>
                 <Text weight="bold" color="red">
                   {bestAsk}
                 </Text>
-              </Card>
-              <Card className="p-4 flex-1 text-center">
-                <Text color="gray">Spread</Text>
+              </CardComponent>
+              <CardComponent className="p-4 flex-1 text-center">
+                <Text className="text-[#292929]">Spread</Text>
                 <Text weight="bold">{spread}</Text>
-              </Card>
-              <Card className="p-4 flex-1 text-center">
-                <Text color="gray">Total Bids (Qty)</Text>
+              </CardComponent>
+              <CardComponent className="p-4 flex-1 text-center">
+                <Text className="text-[#292929]">Total Bids (Qty)</Text>
                 <Text weight="bold" color="green">
-                  {totalBidsQty.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                  {totalBidsQty.toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                  })}
                 </Text>
-              </Card>
-              <Card className="p-4 flex-1 text-center">
-                <Text color="gray">Total Asks (Qty)</Text>
+              </CardComponent>
+              <CardComponent className="p-4 flex-1 text-center">
+                <Text className="text-[#292929]">Total Asks (Qty)</Text>
                 <Text weight="bold" color="red">
-                  {totalAsksQty.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+                  {totalAsksQty.toLocaleString(undefined, {
+                    maximumFractionDigits: 2,
+                  })}
                 </Text>
-              </Card>
+              </CardComponent>
             </Flex>
 
             {/* Depth Chart */}
-            <Card className="p-6">
+            <CardComponent className="p-6">
               <Text size="3" weight="bold" mb="4">
                 Order Book Depth
               </Text>
@@ -263,16 +283,16 @@ function OrderBook() {
                   </LineChart>
                 </ResponsiveContainer>
               </div>
-            </Card>
+            </CardComponent>
 
             {/* Tables */}
             <Flex gap="6" wrap="wrap">
               {/* Bids */}
-              <Card className="flex-1 p-4">
+              <CardComponent className="flex-1 p-4">
                 <Text size="3" weight="bold" color="green" mb="3">
                   Bids
                 </Text>
-                <Table.Root variant="surface" className="rounded-xl overflow-hidden">
+                <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
                   <Table.Header>
                     <Table.Row>
                       <Table.ColumnHeaderCell>Price</Table.ColumnHeaderCell>
@@ -288,14 +308,14 @@ function OrderBook() {
                     ))}
                   </Table.Body>
                 </Table.Root>
-              </Card>
+              </CardComponent>
 
               {/* Asks */}
-              <Card className="flex-1 p-4">
+              <CardComponent className="flex-1 p-4">
                 <Text size="3" weight="bold" color="red" mb="3">
                   Asks
                 </Text>
-                <Table.Root variant="surface" className="rounded-xl overflow-hidden">
+                <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
                   <Table.Header>
                     <Table.Row>
                       <Table.ColumnHeaderCell>Price</Table.ColumnHeaderCell>
@@ -311,9 +331,9 @@ function OrderBook() {
                     ))}
                   </Table.Body>
                 </Table.Root>
-              </Card>
+              </CardComponent>
             </Flex>
-          </Card>
+          </CardComponent>
         )}
       </main>
     </Layout>

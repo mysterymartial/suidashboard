@@ -73,7 +73,7 @@ export function useWalrusAccount(page: number = 0) {
       }
     };
 
-    // fetchAccounts();
+    fetchAccounts();
 
     return () => { cancelled = true; };
   }, [page, apiKey]);

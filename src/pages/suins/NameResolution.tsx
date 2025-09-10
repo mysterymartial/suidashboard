@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Layout } from "../../components/layout/Layout";
 import { useSuins } from "../../hooks/useSuins/useSuins";
-import { TextField, Button, Card, Flex, Text } from "@radix-ui/themes";
+import { TextField, Button, Flex, Text } from "@radix-ui/themes";
+import CardComponent from "../../components/cards";
 import { Copy, Check } from "lucide-react";
 
 function NameResolution() {
@@ -26,14 +27,14 @@ function NameResolution() {
     <Layout>
       <main className="p-6 space-y-8">
         {/* Header */}
-        <Card className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-sm">
-          <h2 className="text-2xl font-semibold text-white">
+        <CardComponent>
+          <h2 className="text-2xl font-semibold text-[#292929]">
             SuiNS - Name Resolution
           </h2>
-          <p className="text-gray-300 mt-1">
+          <p className="text-[#292929] mt-1">
             Resolve human-readable names to blockchain addresses.
           </p>
-        </Card>
+        </CardComponent>
 
         {/* Input Form */}
         <form onSubmit={handleSubmit}>
@@ -52,23 +53,23 @@ function NameResolution() {
 
         {/* Result */}
         {error && (
-          <Card className="p-4 border border-red-600 bg-red-900/30 rounded-lg">
+          <CardComponent>
             <Text color="red" weight="bold">
               ⚠ Error: {error.message}
             </Text>
-          </Card>
+          </CardComponent>
         )}
 
         {nameRecord && (
-          <Card className="p-6 rounded-xl shadow-md border border-gray-700 bg-gray-900 space-y-4">
-            <Text size="4" weight="bold" color="blue">
+          <CardComponent>
+            <Text size="4" weight="bold" className="text-[#292929]">
               {nameRecord.name}
             </Text>
 
             <Flex direction="column" gap="3">
               {/* Target Address */}
               <Flex justify="between" align="center">
-                <Text color="gray">Target Address:</Text>
+                <Text className="text-[#292929]">Target Address:</Text>
                 <Flex align="center" gap="2" className="max-w-[65%] truncate">
                   <Text color="green" weight="medium" className="truncate">
                     {nameRecord.targetAddress}
@@ -80,7 +81,7 @@ function NameResolution() {
                     {copied === nameRecord.targetAddress ? (
                       <Check className="w-4 h-4 text-green-400" />
                     ) : (
-                      <Copy className="w-4 h-4 text-gray-400" />
+                      <Copy className="w-4 h-4 text-[#292929]" />
                     )}
                   </button>
                 </Flex>
@@ -88,16 +89,18 @@ function NameResolution() {
 
               {/* Expiration */}
               <Flex justify="between">
-                <Text color="gray">Expiration:</Text>
+                <Text className="text-[#292929]">Expiration:</Text>
                 <Text color="yellow">
-                  {new Date(Number(nameRecord.expirationTimestampMs)).toLocaleString()}
+                  {new Date(
+                    Number(nameRecord.expirationTimestampMs),
+                  ).toLocaleString()}
                 </Text>
               </Flex>
 
               {/* Walrus Site ID */}
               {nameRecord.data?.walrus_site_id && (
                 <Flex justify="between" align="center">
-                  <Text color="gray">Walrus Site ID:</Text>
+                  <Text className="text-[#292929]">Walrus Site ID:</Text>
                   <Flex align="center" gap="2" className="max-w-[65%] truncate">
                     <Text color="purple" className="truncate">
                       {nameRecord.data.walrus_site_id}
@@ -109,14 +112,14 @@ function NameResolution() {
                       {copied === nameRecord.data.walrus_site_id ? (
                         <Check className="w-4 h-4 text-green-400" />
                       ) : (
-                        <Copy className="w-4 h-4 text-gray-400" />
+                        <Copy className="w-4 h-4 text-[#292929]" />
                       )}
                     </button>
                   </Flex>
                 </Flex>
               )}
             </Flex>
-          </Card>
+          </CardComponent>
         )}
       </main>
     </Layout>

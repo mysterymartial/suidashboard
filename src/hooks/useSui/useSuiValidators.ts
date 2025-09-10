@@ -46,6 +46,6 @@ export function useSuiValidators() {
         // fetchValidators()
     }, [])
 
-    return { validators, validatorsApy, loading, error }
+    return { validators, validatorsApy, loading, error, fetchValidators }
     
 }

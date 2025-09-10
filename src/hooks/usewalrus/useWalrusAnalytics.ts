@@ -74,7 +74,7 @@ export function useWalrusAnalytics() {
       );
     };
 
-    // safeFetch();
+    safeFetch();
 
     return () => {
       isCancelled = true;

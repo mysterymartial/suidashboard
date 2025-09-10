@@ -10,12 +10,12 @@ interface PriceRow {
 
 export function SuinsPricingTable({ prices }: { prices: PriceRow[] }) {
   return (
-    <Table.Root variant="surface" className="rounded-xl overflow-hidden">
+    <Table.Root className="border border-[#e8e8e8] rounded-[10px]">
       <Table.Header>
         <Table.Row>
-          <Table.ColumnHeaderCell className="text-white">Domain Length</Table.ColumnHeaderCell>
-          <Table.ColumnHeaderCell className="text-white">Price (MIST)</Table.ColumnHeaderCell>
-          <Table.ColumnHeaderCell className="text-white">Price (USDC)</Table.ColumnHeaderCell>
+          <Table.ColumnHeaderCell className="text-[#292929]">Domain Length</Table.ColumnHeaderCell>
+          <Table.ColumnHeaderCell className="text-[#292929]">Price (MIST)</Table.ColumnHeaderCell>
+          <Table.ColumnHeaderCell className="text-[#292929]">Price (USDC)</Table.ColumnHeaderCell>
         </Table.Row>
       </Table.Header>
 

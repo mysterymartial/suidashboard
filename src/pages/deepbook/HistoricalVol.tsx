@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Layout } from "../../components/layout/Layout";
 import { useHistoricalVolume } from "../../hooks/useDeep/useHisVol";
 import { Table, Text, Button, Flex, TextField } from "@radix-ui/themes";
 import { Download } from "lucide-react";
 import { HistoricalVolumeCharts } from "../../components/charts/dbcharts/HisVolChart";
 import { HistoricalVolumeStats } from "../../components/cards/DbhvStatsCard";
+import CardComponent from "@/components/cards";
 
 function TradeHistory() {
-  const { allPools, volumeData, fetchByRange, loading, error } = useHistoricalVolume();
+  const { allPools, volumeData, fetchByRange, loading, error } =
+    useHistoricalVolume();
 
   const [startDate, setStartDate] = useState<string>("");
   const [endDate, setEndDate] = useState<string>("");
@@ -29,11 +31,9 @@ function TradeHistory() {
       .map((row) =>
         row
           .map((cell) =>
-            typeof cell === "string" && cell.includes(",")
-              ? `"${cell}"`
-              : cell
+            typeof cell === "string" && cell.includes(",") ? `"${cell}"` : cell,
           )
-          .join(",")
+          .join(","),
       )
       .join("\n");
 
@@ -50,22 +50,20 @@ function TradeHistory() {
   return (
     <Layout>
       <main className="p-6 space-y-8">
-        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-sm">
-          <h2 className="text-2xl font-semibold text-white">
+        <CardComponent>
+          <h2 className="text-2xl font-semibold text-[#292929]">
             DeepBook - Historical Volume
           </h2>
-          <p className="text-gray-300 mt-1">
-            Historical Volume Data.
-          </p>
-        </div>
+          <p className="text-[#292929] mt-1">Historical Volume Data.</p>
+        </CardComponent>
         <HistoricalVolumeStats volumeData={volumeData} />
         <div className="space-y-4">
           <HistoricalVolumeCharts volumeData={volumeData} />
           <Flex justify="between" align="center">
-            <Text weight="bold" size="3">
+            <Text weight="bold" size="3" className="text-[#292929]">
               Historical Volume
             </Text>
-            <Button variant="soft" onClick={downloadCSV}>
+            <Button onClick={downloadCSV}>
               <Download size={16} /> Download CSV
             </Button>
           </Flex>
@@ -93,20 +91,24 @@ function TradeHistory() {
           )}
 
           {/* Table */}
-          <Table.Root variant="surface" className="rounded-xl overflow-hidden">
+          <Table.Root className="rounded-xl border border-[#e8e8e8]">
             <Table.Header>
               <Table.Row>
-                <Table.ColumnHeaderCell className="text-white">Pool</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-white">Volume</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">
+                  Pool
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">
+                  Volume
+                </Table.ColumnHeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
               {Object.entries(volumeData).map(([pool, volume]) => (
                 <Table.Row key={pool}>
-                  <Table.Cell>
+                  <Table.Cell className="text-[#292929]">
                     <Text>{pool}</Text>
                   </Table.Cell>
-                  <Table.Cell>
+                  <Table.Cell className="text-[#292929]">
                     <Text>{volume.toLocaleString()}</Text>
                   </Table.Cell>
                 </Table.Row>
