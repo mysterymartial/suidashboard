@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Table, Text, TextField, Button, Flex } from "@radix-ui/themes";
 import { Copy, Check, Download } from "lucide-react";
+import { exportElementAsImage } from "@/utils/exportImage";
 
 interface Pool {
   pool_id: string;
@@ -18,6 +19,7 @@ interface Pool {
 
 export function DeepBookPoolsTable({ pools }: { pools: Pool[] }) {
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const exportRef = useRef<HTMLDivElement | null>(null);
 
   const handleCopy = (id: string) => {
     navigator.clipboard.writeText(id);
@@ -55,11 +57,9 @@ export function DeepBookPoolsTable({ pools }: { pools: Pool[] }) {
       .map((row) =>
         row
           .map((cell) =>
-            typeof cell === "string" && cell.includes(",")
-              ? `"${cell}"`
-              : cell
+            typeof cell === "string" && cell.includes(",") ? `"${cell}"` : cell,
           )
-          .join(",")
+          .join(","),
       )
       .join("\n");
 
@@ -73,28 +73,55 @@ export function DeepBookPoolsTable({ pools }: { pools: Pool[] }) {
     document.body.removeChild(link);
   };
 
+  const handleDownloadImage = async () => {
+    if (!exportRef.current) return;
+    await exportElementAsImage(exportRef.current, {
+      filename: "deepbook_pools",
+      watermarkText: "suihub africa",
+    });
+  };
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" ref={exportRef}>
       <Flex justify="between" align="center">
         <Text className="text-[#292929]" as="div" weight="bold" size="3">
           DeepBook Pools
         </Text>
-        <Button variant="soft" onClick={downloadCSV}>
-          <Download size={16} /> Download CSV
-        </Button>
+        <div className="flex gap-2">
+          <Button variant="soft" onClick={downloadCSV}>
+            <Download size={16} /> Download CSV
+          </Button>
+          <Button onClick={handleDownloadImage}>Download Image</Button>
+        </div>
       </Flex>
 
       <Table.Root className="border border-[#e8e8e8] rounded-[10px]">
         <Table.Header>
           <Table.Row>
-            <Table.ColumnHeaderCell className="text-[#292929]">Pool</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="text-[#292929]">Pair</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="text-[#292929]">Base Asset</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="text-[#292929]">Quote Asset</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="text-[#292929]">Min Size</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="text-[#292929]">Lot Size</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="text-[#292929]">Tick Size</Table.ColumnHeaderCell>
-            <Table.ColumnHeaderCell className="text-[#292929]">Pool ID</Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className="text-[#292929]">
+              Pool
+            </Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className="text-[#292929]">
+              Pair
+            </Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className="text-[#292929]">
+              Base Asset
+            </Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className="text-[#292929]">
+              Quote Asset
+            </Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className="text-[#292929]">
+              Min Size
+            </Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className="text-[#292929]">
+              Lot Size
+            </Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className="text-[#292929]">
+              Tick Size
+            </Table.ColumnHeaderCell>
+            <Table.ColumnHeaderCell className="text-[#292929]">
+              Pool ID
+            </Table.ColumnHeaderCell>
           </Table.Row>
         </Table.Header>
 
@@ -167,13 +194,16 @@ export function DeepBookPoolsTable({ pools }: { pools: Pool[] }) {
                     style={{ width: "140px" }}
                   />
                   <Button
-                    
                     size="1"
                     color={copiedId === pool.pool_id ? "green" : "gray"}
                     onClick={() => handleCopy(pool.pool_id)}
                     title="Copy Pool ID"
                   >
-                    {copiedId === pool.pool_id ? <Check size={14} /> : <Copy size={14} />}
+                    {copiedId === pool.pool_id ? (
+                      <Check size={14} />
+                    ) : (
+                      <Copy size={14} />
+                    )}
                   </Button>
                 </Flex>
               </Table.Cell>

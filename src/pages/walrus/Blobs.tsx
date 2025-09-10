@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Layout } from "../../components/layout/Layout";
 import {
   Table,
@@ -12,11 +12,13 @@ import CardComponent from "@/components/cards";
 import { Copy, Check, Download } from "lucide-react";
 import { Skeleton } from "../../components/ui/Skeleton";
 import { useWalrusBlob } from "@/hooks/usewalrus/useWalrusBlob";
+import { exportElementAsImage } from "@/utils/exportImage";
 
 function Blobs() {
   const [page, setPage] = useState(0);
   const { blobData, loading, error } = useWalrusBlob(page);
   const [copied, setCopied] = useState<string | null>(null);
+  const exportRef = useRef<HTMLDivElement | null>(null);
 
   const handleCopy = async (value: string) => {
     try {
@@ -64,6 +66,14 @@ function Blobs() {
     link.click();
   };
 
+  const handleDownloadImage = async () => {
+    if (!exportRef.current) return;
+    await exportElementAsImage(exportRef.current, {
+      filename: `walrus_blobs_page_${page + 1}`,
+      watermarkText: "suihub africa",
+    });
+  };
+
   if (error)
     return (
       <Layout>
@@ -94,82 +104,102 @@ function Blobs() {
             <Text className="text-[#292929]" size="5" weight="bold">
               Walrus Blobs
             </Text>
-            <Button className="bg-[#292929] text-[#292929]" onClick={handleDownloadCSV}>
-              <Download size={16} /> Download
-            </Button>
+            <div className="flex gap-2">
+              <Button
+                className="bg-[#292929] text-[#292929]"
+                onClick={handleDownloadCSV}
+              >
+                <Download size={16} /> Download CSV
+              </Button>
+              <Button onClick={handleDownloadImage}>Download Image</Button>
+            </div>
           </Flex>
 
-          <Table.Root
-            className={`border border-[#e8e8e8] rounded-[10px] overflow-hidden text-[#292929] ${loading ? "opacity-50 transition-opacity duration-300" : ""}`}
-          >
-            <Table.Header>
-              <Table.Row>
-                {[
-                  "Blob ID",
-                  "Blob ID Base64",
-                  "Object ID",
-                  "Status",
-                  "Start Epoch",
-                  "End Epoch",
-                  "Size",
-                  "Timestamp",
-                ].map((h) => (
-                  <Table.ColumnHeaderCell key={h} className="text-[#292929]">{h}</Table.ColumnHeaderCell>
-                ))}
-              </Table.Row>
-            </Table.Header>
-
-            <Table.Body>
-              {blobData.content.map((blob) => (
-                <Table.Row key={blob.blobId}>
-                  <Table.Cell className="text-[#292929]">
-                    <Flex gap="2" align="center">
-                      <Text className="truncate max-w-[220px]">
-                        {blob.blobId}
-                      </Text>
-                      <IconButton
-                        size="1"
-                        onClick={() => handleCopy(blob.blobId)}
-                      >
-                        {copied === blob.blobId ? (
-                          <Check size={14} color="green" />
-                        ) : (
-                          <Copy size={14} />
-                        )}
-                      </IconButton>
-                    </Flex>
-                  </Table.Cell>
-
-                  <Table.Cell className="text-[#292929]">{blob.blobIdBase64}</Table.Cell>
-                  <Table.Cell className="text-[#292929]">
-                    <Flex gap="2" align="center">
-                      <Text className="truncate max-w-[220px]">
-                        {blob.objectId}
-                      </Text>
-                      <IconButton
-                        size="1"
-                        onClick={() => handleCopy(blob.objectId)}
-                      >
-                        {copied === blob.objectId ? (
-                          <Check size={14} color="green" />
-                        ) : (
-                          <Copy size={14} />
-                        )}
-                      </IconButton>
-                    </Flex>
-                  </Table.Cell>
-
-                  <Table.Cell className="text-[#292929]">{blob.status}</Table.Cell>
-                  <Table.Cell className="text-[#292929]">{blob.startEpoch}</Table.Cell>
-                  <Table.Cell className="text-[#292929]">{blob.endEpoch}</Table.Cell>
-                  <Table.Cell className="text-[#292929]">{blob.size.toLocaleString()}</Table.Cell>
-                  <Table.Cell>
-                    {new Date(blob.timestamp).toLocaleString()}
-                  </Table.Cell>
+          <div ref={exportRef}>
+            <Table.Root
+              className={`border border-[#e8e8e8] rounded-[10px] overflow-hidden text-[#292929] ${loading ? "opacity-50 transition-opacity duration-300" : ""}`}
+            >
+              <Table.Header>
+                <Table.Row>
+                  {[
+                    "Blob ID",
+                    "Blob ID Base64",
+                    "Object ID",
+                    "Status",
+                    "Start Epoch",
+                    "End Epoch",
+                    "Size",
+                    "Timestamp",
+                  ].map((h) => (
+                    <Table.ColumnHeaderCell key={h} className="text-[#292929]">
+                      {h}
+                    </Table.ColumnHeaderCell>
+                  ))}
                 </Table.Row>
-              ))}
-            </Table.Body>
-          </Table.Root>
+              </Table.Header>
+
+              <Table.Body>
+                {blobData.content.map((blob) => (
+                  <Table.Row key={blob.blobId}>
+                    <Table.Cell className="text-[#292929]">
+                      <Flex gap="2" align="center">
+                        <Text className="truncate max-w-[220px]">
+                          {blob.blobId}
+                        </Text>
+                        <IconButton
+                          size="1"
+                          onClick={() => handleCopy(blob.blobId)}
+                        >
+                          {copied === blob.blobId ? (
+                            <Check size={14} color="green" />
+                          ) : (
+                            <Copy size={14} />
+                          )}
+                        </IconButton>
+                      </Flex>
+                    </Table.Cell>
+
+                    <Table.Cell className="text-[#292929]">
+                      {blob.blobIdBase64}
+                    </Table.Cell>
+                    <Table.Cell className="text-[#292929]">
+                      <Flex gap="2" align="center">
+                        <Text className="truncate max-w-[220px]">
+                          {blob.objectId}
+                        </Text>
+                        <IconButton
+                          size="1"
+                          onClick={() => handleCopy(blob.objectId)}
+                        >
+                          {copied === blob.objectId ? (
+                            <Check size={14} color="green" />
+                          ) : (
+                            <Copy size={14} />
+                          )}
+                        </IconButton>
+                      </Flex>
+                    </Table.Cell>
+
+                    <Table.Cell className="text-[#292929]">
+                      {blob.status}
+                    </Table.Cell>
+                    <Table.Cell className="text-[#292929]">
+                      {blob.startEpoch}
+                    </Table.Cell>
+                    <Table.Cell className="text-[#292929]">
+                      {blob.endEpoch}
+                    </Table.Cell>
+                    <Table.Cell className="text-[#292929]">
+                      {blob.size.toLocaleString()}
+                    </Table.Cell>
+                    <Table.Cell>
+                      {new Date(blob.timestamp).toLocaleString()}
+                    </Table.Cell>
+                  </Table.Row>
+                ))}
+              </Table.Body>
+            </Table.Root>
+          </div>
 
           {loading && (
             <Flex justify="center" mt="2" gap="2">

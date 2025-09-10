@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Layout } from "../../components/layout/Layout";
 import { useHistoricalVolume } from "../../hooks/useDeep/useHisVol";
 import { Table, Text, Button, Flex, TextField } from "@radix-ui/themes";
@@ -6,8 +6,10 @@ import { Download } from "lucide-react";
 import { HistoricalVolumeCharts } from "../../components/charts/dbcharts/HisVolChart";
 import { HistoricalVolumeStats } from "../../components/cards/DbhvStatsCard";
 import CardComponent from "@/components/cards";
+import { exportElementAsImage } from "@/utils/exportImage";
 
 function TradeHistory() {
+  const exportRef = useRef<HTMLDivElement | null>(null);
   const { allPools, volumeData, fetchByRange, loading, error } =
     useHistoricalVolume();
 
@@ -47,6 +49,14 @@ function TradeHistory() {
     document.body.removeChild(link);
   };
 
+  const handleDownloadImage = async () => {
+    if (!exportRef.current) return;
+    await exportElementAsImage(exportRef.current, {
+      filename: "historical_volume",
+      watermarkText: "suihub africa",
+    });
+  };
+
   return (
     <Layout>
       <main className="p-6 space-y-8">
@@ -57,15 +67,18 @@ function TradeHistory() {
           <p className="text-[#292929] mt-1">Historical Volume Data.</p>
         </CardComponent>
         <HistoricalVolumeStats volumeData={volumeData} />
-        <div className="space-y-4">
+        <div className="space-y-4" ref={exportRef}>
           <HistoricalVolumeCharts volumeData={volumeData} />
           <Flex justify="between" align="center">
             <Text weight="bold" size="3" className="text-[#292929]">
               Historical Volume
             </Text>
-            <Button onClick={downloadCSV}>
-              <Download size={16} /> Download CSV
-            </Button>
+            <div className="flex gap-2">
+              <Button onClick={downloadCSV}>
+                <Download size={16} /> Download CSV
+              </Button>
+              <Button onClick={handleDownloadImage}>Download Image</Button>
+            </div>
           </Flex>
           {/* Date Filters */}
           <Flex gap="3" align="center">

@@ -23,9 +23,12 @@ import {
   CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
+import { useRef } from "react";
+import { exportElementAsImage } from "@/utils/exportImage";
 
 function MarketDepth() {
   const { marketdata, loading, error } = useMarketData();
+  const marketTableRef = useRef<HTMLDivElement | null>(null);
 
   const handleDownloadCSV = () => {
     if (!marketdata || marketdata.length === 0) return;
@@ -65,6 +68,14 @@ function MarketDepth() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  const handleDownloadImage = async () => {
+    if (!marketTableRef.current) return;
+    await exportElementAsImage(marketTableRef.current, {
+      filename: "market_data",
+      watermarkText: "suihub africa",
+    });
   };
 
   if (loading)
@@ -148,7 +159,7 @@ function MarketDepth() {
 
         {/* Stats Cards */}
         <Flex gap="4" wrap="wrap">
-          <CardComponent >
+          <CardComponent>
             <div className="flex flex-col items-center g-full justify-center">
               <Text weight="bold" size="2" className="text-[#292929]">
                 Total Base Volume
@@ -256,40 +267,67 @@ function MarketDepth() {
         </Flex>
 
         {/* Table */}
-        <div className="space-y-4">
+        <div className="space-y-4" ref={marketTableRef}>
           <Flex justify="between" align="center">
             <Text className="text-[#292929]" weight="bold" size="4">
               Market Data
             </Text>
-            <Button variant="soft" onClick={handleDownloadCSV}>
-              <Download size={16} /> Download CSV
-            </Button>
+            <div className="flex gap-2">
+              <Button variant="soft" onClick={handleDownloadCSV}>
+                <Download size={16} /> Download CSV
+              </Button>
+              <Button onClick={handleDownloadImage}>Download Image</Button>
+            </div>
           </Flex>
 
           <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
             <Table.Header>
               <Table.Row>
-                <Table.ColumnHeaderCell className="text-[#292929]"  >Trading Pair</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-[#292929]">Base/Quote</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-[#292929]">Last Price</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-[#292929]">24h Change %</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-[#292929]">Highest Bid</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-[#292929]">Lowest Ask</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-[#292929]">24h High</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-[#292929]">24h Low</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-[#292929]">Base Volume</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="text-[#292929]">Quote Volume</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">
+                  Trading Pair
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">
+                  Base/Quote
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">
+                  Last Price
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">
+                  24h Change %
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">
+                  Highest Bid
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">
+                  Lowest Ask
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">
+                  24h High
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">
+                  24h Low
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">
+                  Base Volume
+                </Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">
+                  Quote Volume
+                </Table.ColumnHeaderCell>
               </Table.Row>
             </Table.Header>
 
             <Table.Body>
               {marketdata.map((row, idx) => (
                 <Table.Row key={idx}>
-                  <Table.Cell className="text-[#292929]">{row.trading_pairs}</Table.Cell>
+                  <Table.Cell className="text-[#292929]">
+                    {row.trading_pairs}
+                  </Table.Cell>
                   <Table.Cell className="text-[#292929]">
                     {row.base_currency}/{row.quote_currency}
                   </Table.Cell>
-                  <Table.Cell className="text-[#292929]">{row.last_price}</Table.Cell>
+                  <Table.Cell className="text-[#292929]">
+                    {row.last_price}
+                  </Table.Cell>
                   <Table.Cell
                     className={
                       row.price_change_percent_24h > 0
@@ -301,12 +339,24 @@ function MarketDepth() {
                   >
                     {row.price_change_percent_24h.toFixed(2)}%
                   </Table.Cell>
-                  <Table.Cell className="text-[#292929]">{row.highest_bid}</Table.Cell>
-                  <Table.Cell className="text-[#292929]">{row.lowest_ask}</Table.Cell>
-                  <Table.Cell className="text-[#292929]">{row.highest_price_24h}</Table.Cell>
-                  <Table.Cell className="text-[#292929]">{row.lowest_price_24h}</Table.Cell>
-                  <Table.Cell className="text-[#292929]">{row.base_volume}</Table.Cell>
-                  <Table.Cell className="text-[#292929]">{row.quote_volume}</Table.Cell>
+                  <Table.Cell className="text-[#292929]">
+                    {row.highest_bid}
+                  </Table.Cell>
+                  <Table.Cell className="text-[#292929]">
+                    {row.lowest_ask}
+                  </Table.Cell>
+                  <Table.Cell className="text-[#292929]">
+                    {row.highest_price_24h}
+                  </Table.Cell>
+                  <Table.Cell className="text-[#292929]">
+                    {row.lowest_price_24h}
+                  </Table.Cell>
+                  <Table.Cell className="text-[#292929]">
+                    {row.base_volume}
+                  </Table.Cell>
+                  <Table.Cell className="text-[#292929]">
+                    {row.quote_volume}
+                  </Table.Cell>
                 </Table.Row>
               ))}
             </Table.Body>

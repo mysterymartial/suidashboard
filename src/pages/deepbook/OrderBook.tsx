@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { Layout } from "../../components/layout/Layout";
 import { useOrderBook } from "../../hooks/useDeep/useOrderBook";
 import { Table, Text, Flex, Select, Button } from "@radix-ui/themes";
@@ -19,6 +19,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { exportElementAsImage } from "@/utils/exportImage";
 
 function OrderBook() {
   const PAIRS = [
@@ -42,6 +43,7 @@ function OrderBook() {
 
   const [selectedPair, setSelectedPair] = useState("DEEP_SUI");
   const { data, loading, error } = useOrderBook(selectedPair);
+  const exportRef = useRef<HTMLDivElement | null>(null);
 
   // -------- Stats --------
   const bestBid = data?.bids?.[0]?.[0] ?? "-";
@@ -120,6 +122,14 @@ function OrderBook() {
     document.body.removeChild(link);
   };
 
+  const handleDownloadImage = async () => {
+    if (!exportRef.current) return;
+    await exportElementAsImage(exportRef.current, {
+      filename: `${selectedPair}_orderbook`,
+      watermarkText: "suihub africa",
+    });
+  };
+
   return (
     <Layout>
       <main className="p-6 space-y-8">
@@ -149,6 +159,7 @@ function OrderBook() {
             <Button color="blue" onClick={handleDownloadCSV}>
               Download CSV
             </Button>
+            <Button onClick={handleDownloadImage}>Download Image</Button>
           </div>
         </CardComponent>
 
@@ -170,7 +181,9 @@ function OrderBook() {
                     <Table.Header>
                       <Table.Row>
                         <Table.ColumnHeaderCell>Price</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell>Quantity</Table.ColumnHeaderCell>
+                        <Table.ColumnHeaderCell>
+                          Quantity
+                        </Table.ColumnHeaderCell>
                         <Table.ColumnHeaderCell>Total</Table.ColumnHeaderCell>
                       </Table.Row>
                     </Table.Header>
@@ -190,7 +203,9 @@ function OrderBook() {
                     <Table.Header>
                       <Table.Row>
                         <Table.ColumnHeaderCell>Price</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell>Quantity</Table.ColumnHeaderCell>
+                        <Table.ColumnHeaderCell>
+                          Quantity
+                        </Table.ColumnHeaderCell>
                         <Table.ColumnHeaderCell>Total</Table.ColumnHeaderCell>
                       </Table.Row>
                     </Table.Header>
@@ -266,94 +281,105 @@ function OrderBook() {
                   </div>
                 </CardComponent>
               </Flex>
-
-              {/* Depth Chart */}
-              <CardComponent>
-                <div className="p-6">
-                  <Text size="3" weight="bold" mb="4">
-                    Order Book Depth
-                  </Text>
-                  <div className="w-full h-[340px]">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <LineChart data={chartData}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <XAxis dataKey="price" tickFormatter={(v) => String(v)} />
-                        <YAxis />
-                        <Tooltip />
-                        <Line
-                          type="monotone"
-                          dataKey="bidDepth"
-                          name="Bids (cum qty)"
-                          stroke="#10B981"
-                          dot={false}
-                          strokeWidth={2}
-                          isAnimationActive={false}
-                        />
-                        <Line
-                          type="monotone"
-                          dataKey="askDepth"
-                          name="Asks (cum qty)"
-                          stroke="#EF4444"
-                          dot={false}
-                          strokeWidth={2}
-                          isAnimationActive={false}
-                        />
-                      </LineChart>
-                    </ResponsiveContainer>
-                  </div>
+            </div>
+            {/* Depth Chart and Tables Wrapper (export target) */}
+            <div ref={exportRef} className="space-y-6">
+              <CardComponent className="p-6">
+                <Text size="3" weight="bold" mb="4">
+                  Order Book Depth
+                </Text>
+                <div className="w-full h-[340px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={chartData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="price" tickFormatter={(v) => String(v)} />
+                      <YAxis />
+                      <Tooltip />
+                      <Line
+                        type="monotone"
+                        dataKey="bidDepth"
+                        name="Bids (cum qty)"
+                        stroke="#10B981"
+                        dot={false}
+                        strokeWidth={2}
+                        isAnimationActive={false}
+                      />
+                      <Line
+                        type="monotone"
+                        dataKey="askDepth"
+                        name="Asks (cum qty)"
+                        stroke="#EF4444"
+                        dot={false}
+                        strokeWidth={2}
+                        isAnimationActive={false}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
                 </div>
               </CardComponent>
 
               {/* Tables */}
               <Flex gap="6" wrap="wrap">
                 {/* Bids */}
-                <CardComponent>
-                  <div className="flex-1 p-4">
-                    <Text size="3" weight="bold" color="green" mb="3">
-                      Bids
-                    </Text>
-                    <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
-                      <Table.Header>
-                        <Table.Row>
-                          <Table.ColumnHeaderCell className="text-[#292929]">Price</Table.ColumnHeaderCell>
-                          <Table.ColumnHeaderCell className="text-[#292929]">Quantity</Table.ColumnHeaderCell>
+                <CardComponent className="flex-1 p-4">
+                  <Text size="3" weight="bold" color="green" mb="3">
+                    Bids
+                  </Text>
+                  <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
+                    <Table.Header>
+                      <Table.Row>
+                        <Table.ColumnHeaderCell className="text-[#292929]">
+                          Price
+                        </Table.ColumnHeaderCell>
+                        <Table.ColumnHeaderCell className="text-[#292929]">
+                          Quantity
+                        </Table.ColumnHeaderCell>
+                      </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
+                      {data.bids.slice(0, 25).map(([price, qty], i) => (
+                        <Table.Row key={`bid-${i}`}>
+                          <Table.Cell className="text-[#292929]">
+                            {price}
+                          </Table.Cell>
+                          <Table.Cell className="text-[#292929]">
+                            {qty}
+                          </Table.Cell>
                         </Table.Row>
-                      </Table.Header>
-                      <Table.Body>
-                        {data.bids.slice(0, 25).map(([price, qty], i) => (
-                          <Table.Row key={`bid-${i}`}>
-                            <Table.Cell className="text-[#292929]">{price}</Table.Cell>
-                            <Table.Cell className="text-[#292929]">{qty}</Table.Cell>
-                          </Table.Row>
-                        ))}
-                      </Table.Body>
-                    </Table.Root>
-                  </div>
+                      ))}
+                    </Table.Body>
+                  </Table.Root>
                 </CardComponent>
 
                 {/* Asks */}
-                <CardComponent>
-                  <div className="flex-1 p-4">
-                    <Text size="3" weight="bold" color="red" mb="3">
-                      Asks
-                    </Text>
-                    <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
-                      <Table.Header>
-                        <Table.Row>
-                          <Table.ColumnHeaderCell className="text-[#292929]">Price</Table.ColumnHeaderCell>
-                          <Table.ColumnHeaderCell className="text-[#292929]">Quantity</Table.ColumnHeaderCell>
+                <CardComponent className="flex-1 p-4">
+                  <Text size="3" weight="bold" color="red" mb="3">
+                    Asks
+                  </Text>
+                  <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
+                    <Table.Header>
+                      <Table.Row>
+                        <Table.ColumnHeaderCell className="text-[#292929]">
+                          Price
+                        </Table.ColumnHeaderCell>
+                        <Table.ColumnHeaderCell className="text-[#292929]">
+                          Quantity
+                        </Table.ColumnHeaderCell>
+                      </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
+                      {data.asks.slice(0, 25).map(([price, qty], i) => (
+                        <Table.Row key={`ask-${i}`}>
+                          <Table.Cell className="text-[#292929]">
+                            {price}
+                          </Table.Cell>
+                          <Table.Cell className="text-[#292929]">
+                            {qty}
+                          </Table.Cell>
                         </Table.Row>
-                      </Table.Header>
-                      <Table.Body>
-                        {data.asks.slice(0, 25).map(([price, qty], i) => (
-                          <Table.Row key={`ask-${i}`}>
-                            <Table.Cell className="text-[#292929]">{price}</Table.Cell>
-                            <Table.Cell className="text-[#292929]">{qty}</Table.Cell>
-                          </Table.Row>
-                        ))}
-                      </Table.Body>
-                    </Table.Root>
-                  </div>
+                      ))}
+                    </Table.Body>
+                  </Table.Root>
                 </CardComponent>
               </Flex>
             </div>
