@@ -71,7 +71,7 @@ function SuiValidators() {
                 Average APY
               </Text>
               <Text weight="bold" className="text-green-400 text-[1.7rem]">
-                {validatorsApy ? `${validatorsApy.toFixed(2)}%` : "N/A"}
+                {validatorsApy ? `${validatorsApy}%` : "N/A"}
               </Text>
             </div>
           </CardComponent>

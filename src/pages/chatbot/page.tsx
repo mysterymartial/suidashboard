@@ -129,7 +129,7 @@ const SuiBot = () => {
           <div className="mb-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
-                <div className="p-2 bg-blue-600 rounded-lg">
+                <div className="">
                   <Bot className="w-6 h-6 text-[#292929]" />
                 </div>
                 <div>
@@ -159,7 +159,7 @@ const SuiBot = () => {
           )}
 
           {/* Chat Container */}
-          <div className="bg-gray-800 rounded-lg border border-gray-700 flex flex-col h-[600px]">
+          <div className="bg-[#cdcdcd] rounded-lg border border-gray-700 flex flex-col h-[600px]">
             {/* Messages */}
             <div className="flex-1 overflow-y-auto p-6 space-y-4">
               {messages.map((message) => (
@@ -177,12 +177,12 @@ const SuiBot = () => {
                     <div
                       className={`p-2 rounded-full ${
                         message.sender === "user"
-                          ? "bg-blue-600"
-                          : "bg-gray-600"
+                          ? "bg-[#292929]"
+                          : "bg-[#fff]"
                       }`}
                     >
                       {message.sender === "user" ? (
-                        <User className="w-4 h-4 text-[#292929]" />
+                        <User className="w-4 h-4 text-[#fff]" />
                       ) : (
                         <Bot className="w-4 h-4 text-[#292929]" />
                       )}
@@ -190,8 +190,8 @@ const SuiBot = () => {
                     <div
                       className={`px-4 py-3 rounded-lg ${
                         message.sender === "user"
-                          ? "bg-blue-600 text-[#292929]"
-                          : "bg-gray-700 text-[#292929]"
+                          ? "bg-[#292929] text-[#fff]"
+                          : "bg-[#fff] text-[#292929]"
                       }`}
                     >
                       <p className="whitespace-pre-wrap">{message.content}</p>
@@ -213,10 +213,10 @@ const SuiBot = () => {
               {isLoading && (
                 <div className="flex justify-start">
                   <div className="flex items-start space-x-3 max-w-[80%]">
-                    <div className="p-2 rounded-full bg-gray-600">
+                    <div className="p-2 rounded-full bg-[#fff]">
                       <Bot className="w-4 h-4 text-[#292929]" />
                     </div>
-                    <div className="px-4 py-3 rounded-lg bg-gray-700 text-[#292929]">
+                    <div className="px-4 py-3 rounded-lg bg-[#fff] text-[#292929]">
                       <div className="flex items-center space-x-2">
                         <Loader2 className="w-4 h-4 animate-spin" />
                         <span>Thinking...</span>
@@ -238,7 +238,7 @@ const SuiBot = () => {
                     onChange={(e) => setInputValue(e.target.value)}
                     onKeyPress={handleKeyPress}
                     placeholder="Ask me anything about SUI blockchain..."
-                    className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-[#292929] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                    className="w-full px-4 py-3 bg-[#fff] border border-gray-600 rounded-lg text-[#292929] placeholder-gray-400 resize-none"
                     rows={2}
                     disabled={isLoading}
                   />
@@ -246,12 +246,12 @@ const SuiBot = () => {
                 <button
                   onClick={sendMessage}
                   disabled={!inputValue.trim() || isLoading}
-                  className="px-6 py-3 bg-blue-600 text-[#292929] rounded-lg hover:bg-blue-700 disabled:bg-gray-600 disabled:cursor-not-allowed transition-colors flex items-center space-x-2"
+                  className="px-6 py-1 bg-[#292929] text-[#292929] rounded-lg disabled:bg-[#cdcdcd] disabled:cursor-not-allowed transition-colors flex items-center space-x-2"
                 >
                   {isLoading ? (
                     <Loader2 className="w-5 h-5 animate-spin" />
                   ) : (
-                    <Send className="w-5 h-5" />
+                    <Send className="w-5 h-5 text-white" />
                   )}
                 </button>
               </div>

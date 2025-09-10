@@ -99,7 +99,7 @@ function TransactionAnalyzer() {
                   placeholder="Enter Sui transaction hash or wallet address..."
                   value={transactionHash}
                   onChange={(e) => setTransactionHash(e.target.value)}
-                  className="w-full"
+                  className="w-full bg-transparent"
                   size="3"
                 />
               </div>
@@ -123,11 +123,11 @@ function TransactionAnalyzer() {
                 </Select.Root>
               </div>
 
-              <Button
+              <button
                 onClick={handleAnalyze}
                 disabled={isLoading}
-                className="w-full"
-                size="3"
+                className="bg-[#292929] text-[#fff] w-full justify-center gap-2 h-[40px] flex items-center rounded-md"
+                
               >
                 {isLoading ? (
                   <>
@@ -140,7 +140,7 @@ function TransactionAnalyzer() {
                     Analyze Transaction
                   </>
                 )}
-              </Button>
+              </button>
             </div>
           </div>
         </CardComponent>
@@ -238,7 +238,7 @@ function TransactionAnalyzer() {
                   Tax Summary
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                  <div className="text-center p-4 bg-gray-800 rounded-lg">
+                  <CardComponent>
                     <Text size="2" className="text-[#292929]">
                       Net P&L
                     </Text>
@@ -256,9 +256,9 @@ function TransactionAnalyzer() {
                         analysisResult.tax_summary.currency,
                       )}
                     </Text>
-                  </div>
+                  </CardComponent>
 
-                  <div className="text-center p-4 bg-gray-800 rounded-lg">
+                  <CardComponent>
                     <Text size="2" className="text-[#292929]">
                       Total Gas Fees
                     </Text>
@@ -272,9 +272,9 @@ function TransactionAnalyzer() {
                         analysisResult.tax_summary.currency,
                       )}
                     </Text>
-                  </div>
+                  </CardComponent>
 
-                  <div className="text-center p-4 bg-gray-800 rounded-lg">
+                  <CardComponent>
                     <Text size="2" className="text-[#292929]">
                       Estimated Tax
                     </Text>
@@ -284,11 +284,11 @@ function TransactionAnalyzer() {
                         analysisResult.tax_summary.currency,
                       )}
                     </Text>
-                  </div>
+                  </CardComponent>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="text-center p-4 bg-gray-800 rounded-lg">
+                <CardComponent>
+                  <div className="text-center p-4  rounded-lg">
                     <Text size="2" className="text-[#292929]">
                       Total Gains
                     </Text>
@@ -304,7 +304,7 @@ function TransactionAnalyzer() {
                     </Text>
                   </div>
 
-                  <div className="text-center p-4 bg-gray-800 rounded-lg">
+                  <div className="text-center p-4 rounded-lg">
                     <Text size="2" className="text-[#292929]">
                       Total Losses
                     </Text>
@@ -315,7 +315,7 @@ function TransactionAnalyzer() {
                       )}
                     </Text>
                   </div>
-                </div>
+                </CardComponent>
               </div>
             </CardComponent>
 
@@ -325,7 +325,7 @@ function TransactionAnalyzer() {
                 <h3 className="text-xl font-semibold text-[#292929] mb-4">
                   Analysis Report
                 </h3>
-                <div className="bg-gray-800 p-4 rounded-lg">
+                <div className="p-4 rounded-lg">
                   <Text
                     size="3"
                     className="text-[#292929] leading-relaxed whitespace-pre-line"
@@ -346,12 +346,12 @@ function TransactionAnalyzer() {
             </h3>
             <div className="space-y-3">
               <div className="flex items-start gap-3">
-                <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-[#292929] text-sm font-bold">
+                <div className="w-6 h-6 bg-[#292929] rounded-full flex items-center justify-center text-[#fff] text-sm font-bold">
                   1
                 </div>
                 <div>
                   <Text size="3" weight="medium" className="text-[#292929]">
-                    Enter Transaction Hash or Address
+                    Enter Transaction Hash or Address: 
                   </Text>
                   <Text size="2" className="text-[#292929]">
                     Paste the Sui transaction hash or wallet address you want to
@@ -360,12 +360,12 @@ function TransactionAnalyzer() {
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-[#292929] text-sm font-bold">
+                <div className="w-6 h-6 bg-[#292929] rounded-full flex items-center justify-center text-[#fff] text-sm font-bold">
                   2
                 </div>
                 <div>
                   <Text size="3" weight="medium" className="text-[#292929]">
-                    Select Country
+                    Select Country: 
                   </Text>
                   <Text size="2" className="text-[#292929]">
                     Choose your country for accurate tax rate calculations
@@ -373,12 +373,12 @@ function TransactionAnalyzer() {
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-[#292929] text-sm font-bold">
+                <div className="w-6 h-6 bg-[#292929] rounded-full flex items-center justify-center text-[#fff] text-sm font-bold">
                   3
                 </div>
                 <div>
                   <Text size="3" weight="medium" className="text-[#292929]">
-                    Analyze
+                    Analyze:    
                   </Text>
                   <Text size="2" className="text-[#292929]">
                     Click analyze to get detailed transaction insights and tax
