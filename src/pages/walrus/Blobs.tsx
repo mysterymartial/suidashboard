@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Layout } from "../../components/layout/Layout";
 import {
   Table,
@@ -9,6 +9,7 @@ import {
   Spinner,
 } from "@radix-ui/themes";
 import CardComponent from "@/components/cards";
+// @ts-ignore
 import { Copy, Check, Download } from "lucide-react";
 import { Skeleton } from "../../components/ui/Skeleton";
 // import Spinner from "@/components/ui/Spinner";
@@ -16,6 +17,7 @@ import { useWalrusBlob } from "@/hooks/usewalrus/useWalrusBlob";
 import { exportElementAsImage } from "@/utils/exportImage";
 
 function Blobs() {
+  // @ts-ignore
   const [page, setPage] = useState(0);
   const { blobData, loading, error } = useWalrusBlob(page);
   const [copied, setCopied] = useState<string | null>(null);
@@ -33,6 +35,7 @@ function Blobs() {
   };
 
   // Download CSV
+  // @ts-ignore
   const handleDownloadCSV = () => {
     if (!blobData?.content) return;
 

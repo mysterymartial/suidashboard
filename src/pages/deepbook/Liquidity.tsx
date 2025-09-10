@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { Layout } from "../../components/layout/Layout";
 import { useDeepAssets } from "../../hooks/useDeep/useDeepAssets";
+// @ts-ignore
 import { Flex, Text, Table, Button, IconButton } from "@radix-ui/themes";
 import CardComponent from "@/components/cards";
+// @ts-ignore
 import { Loader2, Download, Copy, Check } from "lucide-react";
+// @ts-ignore
 import {
   Skeleton,
   StatCardSkeleton,

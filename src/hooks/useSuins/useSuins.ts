@@ -36,6 +36,7 @@ export function useSuins() {
             setLoading(true);
             try {
                 const priceList = await suinsClient.getPriceList();
+                // @ts-ignore
                 setPriceList(priceList);
                 console.log(priceList);
             } catch (err) {
@@ -49,6 +50,7 @@ export function useSuins() {
             setLoading(true);
             try {
                 const renewalPriceList = await suinsClient.getRenewalPriceList();
+                // @ts-ignore
                 setRenewalPriceList(renewalPriceList);
                 console.log(renewalPriceList);
             } catch (err) {

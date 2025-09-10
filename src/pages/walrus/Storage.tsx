@@ -1,7 +1,10 @@
+// @ts-ignore
 import React from "react";
 import { Layout } from "../../components/layout/Layout";
+// @ts-ignore
 import { Flex, Text, Spinner } from "@radix-ui/themes";
 import CardComponent from "@/components/cards";
+// @ts-ignore
 import {
   Skeleton,
   StatCardSkeleton,

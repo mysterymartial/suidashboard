@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useWalrusAccount } from "../../../hooks/useWalrus/useWalrusAccount";
+import { useState } from "react";
+import { useWalrusAccount } from "../../../hooks/usewalrus/useWalrusAccount";
 import { Table, Button, Flex, Text, IconButton, Spinner } from "@radix-ui/themes";
 import CardComponent from "../../cards";
 import { Copy, Check, Download } from "lucide-react";
@@ -97,7 +97,7 @@ function Account() {
         {loading && (
           <Flex justify="center" mt="2">
             <Spinner size="2" />
-            <Text size="3" className="text-[#292929]" className="ml-2 text-[#292929]">
+            <Text size="3" className="text-[#292929] ml-2">
               Loading new page...
             </Text>
           </Flex>

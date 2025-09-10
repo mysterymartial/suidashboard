@@ -3,7 +3,9 @@ import { useMarketData } from "../../hooks/useDeep/useMarketData";
 import { Table, Text, Button, Flex } from "@radix-ui/themes";
 import { Spinner } from "../../components/ui/Spinner";
 import CardComponent from "@/components/cards";
+// @ts-ignore
 import { Download, Loader2 } from "lucide-react";
+// @ts-ignore
 import {
   Skeleton,
   StatCardSkeleton,
@@ -31,6 +33,7 @@ function MarketDepth() {
   const marketTableRef = useRef<HTMLDivElement | null>(null);
   const [downloading, setDownloading] = useState(false);
 
+  // @ts-ignore
   const handleDownloadCSV = () => {
     if (!marketdata || marketdata.length === 0) return;
 

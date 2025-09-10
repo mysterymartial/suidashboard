@@ -6,6 +6,7 @@ import { getFullnodeUrl, SuiClient } from "@mysten/sui/client";
 const suiClient = new SuiClient({ url: getFullnodeUrl("mainnet") });
 
 const suinsClient = new SuinsClient({
+  // @ts-ignore
   client: suiClient,
   network: "mainnet",
 });

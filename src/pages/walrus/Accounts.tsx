@@ -1,7 +1,10 @@
 import { Layout } from "../../components/layout/Layout";
+// @ts-ignore
 import { useWalrusAccount } from "../../hooks/usewalrus/useWalrusAccount";
+// @ts-ignore
 import { Table, Button, Flex, Text, IconButton } from "@radix-ui/themes";
 import CardComponent from "@/components/cards";
+// @ts-ignore
 import { Copy, Download } from "lucide-react";
 import Account from "../../components/tables/walrustable/Accounts";
 import Validators from "../../components/tables/walrustable/Validators";

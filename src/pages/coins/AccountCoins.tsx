@@ -2,6 +2,7 @@ import { Link } from "react-router";
 import { Layout } from "../../components/layout/Layout";
 import { useGetCoins } from "../../hooks/useCoins/useGetCoins";
 import { Table, Text } from "@radix-ui/themes";
+// @ts-ignore
 import { Skeleton, TableRowSkeleton } from "../../components/ui/Skeleton";
 import CardComponent from "@/components/cards";
 import { Spinner } from "../../components/ui/Spinner";

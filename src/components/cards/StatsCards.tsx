@@ -1,5 +1,4 @@
-import { Flex, Heading, Text, Grid } from "@radix-ui/themes";
-import CardComponent from "./index";
+import { Heading, Text, Grid } from "@radix-ui/themes";
 
 type StatsCardsProps = {
   stats?: any;

@@ -1,4 +1,4 @@
-import { Flex, Card, Heading, Box, Text } from "@radix-ui/themes";
+import { Heading, Box, Text } from "@radix-ui/themes";
 import {
   BarChart,
   Bar,
@@ -6,10 +6,7 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  PieChart,
-  Pie,
   Cell,
-  Legend,
 } from "recharts";
 import CardComponent from "../cards";
 
@@ -80,7 +77,7 @@ export function ChartsSection({
                   }
                 />
                 <Bar dataKey="value" fill="#115aeb">
-                  {chartData.map((entry, index) => (
+                  {chartData.map((_, index) => (
                     <Cell
                       key={`cell-${index}`}
                       fill={COLORS[index % COLORS.length]}

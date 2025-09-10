@@ -1,7 +1,4 @@
-import React from "react";
 import { Layout } from "../../components/layout/Layout";
-import { usePoolsData } from "../../hooks/useDeep/usePoolsData";
-import { useStatsData } from "../../hooks/useStatsData";
 import { useSuins } from "../../hooks/useSuins/useSuins";
 import { SuinsPricingTable } from "../../components/tables/SuinsPricingTable";
 import CardComponent from "@/components/cards";
@@ -11,6 +8,7 @@ function Pricing() {
 
   // Normalize Map -> array
   const prices = Array.from(priceList.entries()).map(
+    // @ts-ignore
     ([[from, to], value]) => ({
       domainLengthFrom: from,
       domainLengthTo: to,

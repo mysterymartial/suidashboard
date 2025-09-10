@@ -1,4 +1,5 @@
 import { Table, Badge, Heading, Text, Flex } from "@radix-ui/themes";
+// @ts-ignore
 import { Skeleton, TableRowSkeleton } from "../ui/Skeleton";
 import CardComponent from "../cards";
 

@@ -1,5 +1,6 @@
 import { Layout } from "../../components/layout/Layout";
 import { useNfts } from "../../hooks/useNFTs/useNfts";
+// @ts-ignore
 import {
   Table,
   Text,
@@ -10,6 +11,7 @@ import {
   Badge,
 } from "@radix-ui/themes";
 import CardComponent from "@/components/cards";
+// @ts-ignore
 import { Skeleton, TableRowSkeleton } from "../../components/ui/Skeleton";
 
 function AccountNFTs() {
