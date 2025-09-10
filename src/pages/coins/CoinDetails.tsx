@@ -50,7 +50,7 @@ function CoinDetails() {
           <CardComponent>
             <div className="p-8">
               <Flex direction="column" align="center" gap="6">
-                <Heading size="6">Search Coin Details</Heading>
+                <Heading className="text-[#292929]" size="6">Search Coin Details</Heading>
                 <Text className="text-[#292929] text-center max-w-md" size="3">
                   Enter a coin type to view detailed information. Examples:
                   <br />• 0x2::sui::SUI
@@ -63,7 +63,7 @@ function CoinDetails() {
                     value={searchInput}
                     onChange={(e) => setSearchInput(e.target.value)}
                     onKeyPress={handleKeyPress}
-                    className="flex-1"
+                    className="flex-1 text-[#292929]"
                   />
                   <Button onClick={handleSearch} disabled={!searchInput.trim()}>
                     <Search size={16} />
@@ -84,7 +84,7 @@ function CoinDetails() {
         <main className="p-6 space-y-8">
           <CardComponent>
             <div className="p-6">
-              <Heading size="6">Coin Details</Heading>
+              <Heading className="text-[#292929]" size="6">Coin Details</Heading>
               <Text className="text-[#292929]" size="3">Detailed information about the selected coin.</Text>
             </div>
           </CardComponent>
@@ -151,14 +151,14 @@ function CoinDetails() {
                 />
               )}
               <Flex direction="column" gap="1">
-                <Heading size="6">
+                <Heading className="text-[#292929]" size="6">
                   {coinMeta.coinName} ({coinMeta.coinSymbol})
                 </Heading>
                 <Text className="text-[#292929]" size="2">
                   {coinMeta.coinType}
                 </Text>
                 {coinMeta.description && (
-                  <Text size="3" className="mt-2">
+                  <Text size="3" className="mt-2 text-[#292929]">
                     {coinMeta.description}
                   </Text>
                 )}
@@ -170,49 +170,49 @@ function CoinDetails() {
         {/* Main Information */}
         <CardComponent>
           <div className="p-6">
-            <Heading size="4" className="mb-4">
+            <Heading className="text-[#292929] mb-4" size="4">
               Coin Information
             </Heading>
             <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
               <Table.Body>
                 <Table.Row>
                   <Table.Cell>
-                    <Text weight="medium">Decimals</Text>
+                    <Text className="text-[#292929]" weight="medium">Decimals</Text>
                   </Table.Cell>
                   <Table.Cell>
-                    <Text>{coinMeta.decimals}</Text>
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row>
-                  <Table.Cell>
-                    <Text weight="medium">Total Supply</Text>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Text>{formatNumber(coinMeta.totalSupply)}</Text>
+                    <Text className="text-[#292929]">{coinMeta.decimals}</Text>
                   </Table.Cell>
                 </Table.Row>
                 <Table.Row>
                   <Table.Cell>
-                    <Text weight="medium">Circulating Supply</Text>
+                    <Text className="text-[#292929]" weight="medium">Total Supply</Text>
                   </Table.Cell>
                   <Table.Cell>
-                    <Text>{formatNumber(coinMeta.circulatingSupply)}</Text>
-                  </Table.Cell>
-                </Table.Row>
-                <Table.Row>
-                  <Table.Cell>
-                    <Text weight="medium">Market Cap</Text>
-                  </Table.Cell>
-                  <Table.Cell>
-                    <Text>${formatNumber(coinMeta.marketCap)}</Text>
+                    <Text className="text-[#292929]">{formatNumber(coinMeta.totalSupply)}</Text>
                   </Table.Cell>
                 </Table.Row>
                 <Table.Row>
                   <Table.Cell>
-                    <Text weight="medium">Volume (24h)</Text>
+                    <Text className="text-[#292929]" weight="medium">Circulating Supply</Text>
                   </Table.Cell>
                   <Table.Cell>
-                    <Text>${formatNumber(coinMeta.volume)}</Text>
+                    <Text className="text-[#292929]">{formatNumber(coinMeta.circulatingSupply)}</Text>
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Cell>
+                    <Text className="text-[#292929]" weight="medium">Market Cap</Text>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Text className="text-[#292929]">${formatNumber(coinMeta.marketCap)}</Text>
+                  </Table.Cell>
+                </Table.Row>
+                <Table.Row>
+                  <Table.Cell>
+                    <Text className="text-[#292929]" weight="medium">Volume (24h)</Text>
+                  </Table.Cell>
+                  <Table.Cell>
+                    <Text className="text-[#292929]">${formatNumber(coinMeta.volume)}</Text>
                   </Table.Cell>
                 </Table.Row>
               </Table.Body>
@@ -227,13 +227,13 @@ function CoinDetails() {
           coinMeta.socialWebsite) && (
           <CardComponent>
             <div className="p-6">
-              <Heading size="4" className="mb-4">
+              <Heading className="text-[#292929] mb-4" size="4">
                 Social Links
               </Heading>
               <Flex gap="3" wrap="wrap">
                 {coinMeta.socialDiscord && (
                   <Link href={coinMeta.socialDiscord.trim()} target="_blank">
-                    <Badge variant="soft" size="2">
+                    <Badge size="2">
                       <MessageCircle size={14} className="mr-1" />
                       Discord
                     </Badge>
@@ -241,7 +241,7 @@ function CoinDetails() {
                 )}
                 {coinMeta.socialGitHub && (
                   <Link href={coinMeta.socialGitHub.trim()} target="_blank">
-                    <Badge variant="soft" size="2">
+                    <Badge size="2">
                       <Github size={14} className="mr-1" />
                       GitHub
                     </Badge>

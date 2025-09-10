@@ -103,7 +103,7 @@ function Supply() {
 
         {/* Chart Section - Top 5 */}
         <CardComponent>
-          <Heading className="#292929" size="4" mb="4">
+          <Heading className="text-[#292929]" size="4" mb="4">
             Top 5 Stablecoins by Total Circulating USD
           </Heading>
           <div style={{ width: "100%", height: "400px" }}>
@@ -155,23 +155,23 @@ function Supply() {
         {/* Table Section - Paginated */}
         <CardComponent>
           <Flex justify="between" align="center" mb="4">
-            <Heading size="4">All Stablecoin Data</Heading>
+            <Heading className="text-[#292929]" size="4">All Stablecoin Data</Heading>
             <Badge variant="soft">{data.length} total entries</Badge>
           </Flex>
 
           <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
             <Table.Header>
               <Table.Row>
-                <Table.ColumnHeaderCell className="#292929">
+                <Table.ColumnHeaderCell className="text-[#292929]">
                   Date
                 </Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="#292929">
+                <Table.ColumnHeaderCell className="text-[#292929]">
                   Total Circulating
                 </Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="#292929">
+                <Table.ColumnHeaderCell className="text-[#292929]">
                   Total Circulating USD
                 </Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell className="#292929">
+                <Table.ColumnHeaderCell className="text-[#292929]">
                   Total Minted USD
                 </Table.ColumnHeaderCell>
               </Table.Row>
@@ -180,20 +180,20 @@ function Supply() {
               {currentData.map((item, index) => (
                 <Table.Row key={`${item.date}-${index}`}>
                   <Table.Cell>
-                    <Text size="2">{formatDate(item.date)}</Text>
+                    <Text size="2" className="text-[#292929]">{formatDate(item.date)}</Text>
                   </Table.Cell>
                   <Table.Cell>
-                    <Text size="2">
+                    <Text size="2" className="text-[#292929]">
                       {item.totalCirculating.peggedUSD.toLocaleString()}
                     </Text>
                   </Table.Cell>
                   <Table.Cell>
-                    <Text size="2" weight="medium">
+                    <Text size="2" weight="medium" className="text-[#292929]">
                       {formatCurrency(item.totalCirculatingUSD.peggedUSD)}
                     </Text>
                   </Table.Cell>
                   <Table.Cell>
-                    <Text size="2">
+                    <Text size="2" className="text-[#292929]">
                       {formatCurrency(item.totalMintedUSD.peggedUSD)}
                     </Text>
                   </Table.Cell>

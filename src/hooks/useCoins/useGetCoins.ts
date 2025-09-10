@@ -97,7 +97,7 @@ export function useGetCoins(page: number = 0, size: number = 20) {
         }
     }
     useEffect(() => {
-        // fetchCoins();
+        fetchCoins();
         
         // Cleanup function to cancel ongoing requests
         return () => {

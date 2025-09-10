@@ -37,7 +37,7 @@ export function useEvents() {
     }
 
     useEffect(() => {
-        // fetchNFTevents()
+        fetchNFTevents()
     }, [])
 
     return { nftevents, loading, error }

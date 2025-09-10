@@ -42,7 +42,7 @@ export function useCollections() {
     }
 
     useEffect(() => {
-        // fetchCollections()
+        fetchCollections()
     }, [])
 
     return { collections, topCollections, loading, error}

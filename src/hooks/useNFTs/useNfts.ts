@@ -44,7 +44,7 @@ export function useNfts() {
     }
 
     useEffect(() => {
-        // fetchNfts()
+        fetchNfts()
     }, [])
 
     return { nft, nftCount, loading, error }

@@ -44,7 +44,7 @@ export function useMarketPlace() {
     }
 
     useEffect(() => {
-        // fetchMarketPlace()
+        fetchMarketPlace()
     }, [])
 
     return { marketplace, topMarketplace, loading, error }

@@ -20,38 +20,7 @@ function AccountNFTs() {
   if (loading) {
     return (
       <Layout>
-        <main className="p-6 space-y-8">
-          <CardComponent>
-            <Skeleton height="2rem" width="200px" className="mb-2" />
-            <Skeleton height="1rem" width="150px" />
-          </CardComponent>
-
-          <CardComponent>
-            <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
-              <Table.Header>
-                <Table.Row>
-                  <Table.ColumnHeaderCell className="text-[#292929]">
-                    NFT
-                  </Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell className="text-[#292929]">
-                    Collection
-                  </Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell className="text-[#292929]">
-                    Type
-                  </Table.ColumnHeaderCell>
-                  <Table.ColumnHeaderCell className="text-[#292929]">
-                    Object ID
-                  </Table.ColumnHeaderCell>
-                </Table.Row>
-              </Table.Header>
-              <Table.Body>
-                {Array.from({ length: 12 }).map((_, index) => (
-                  <TableRowSkeleton key={index} columns={4} />
-                ))}
-              </Table.Body>
-            </Table.Root>
-          </CardComponent>
-        </main>
+        <Spinner />
       </Layout>
     );
   }
@@ -59,14 +28,14 @@ function AccountNFTs() {
   return (
     <Layout>
       <main className="p-6 space-y-8">
-        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-sm">
+        <CardComponent>
           <h2 className="text-2xl font-semibold text-[#292929]">
             NFTs - All NFTs
           </h2>
           <p className="text-[#292929] mt-1">
             All NFTs List. Total NFTs: {nftCount || 0}
           </p>
-        </div>
+        </CardComponent>
 
         {/* All NFTs Table */}
         <CardComponent>
