@@ -23,12 +23,13 @@ import {
   CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { exportElementAsImage } from "@/utils/exportImage";
 
 function MarketDepth() {
   const { marketdata, loading, error } = useMarketData();
   const marketTableRef = useRef<HTMLDivElement | null>(null);
+  const [downloading, setDownloading] = useState(false);
 
   const handleDownloadCSV = () => {
     if (!marketdata || marketdata.length === 0) return;
@@ -72,10 +73,15 @@ function MarketDepth() {
 
   const handleDownloadImage = async () => {
     if (!marketTableRef.current) return;
-    await exportElementAsImage(marketTableRef.current, {
-      filename: "market_data",
-      watermarkText: "suihub africa",
-    });
+    try {
+      setDownloading(true);
+      await exportElementAsImage(marketTableRef.current, {
+        filename: "market_data",
+        watermarkText: "suihub africa",
+      });
+    } finally {
+      setDownloading(false);
+    }
   };
 
   if (loading)
@@ -273,10 +279,16 @@ function MarketDepth() {
               Market Data
             </Text>
             <div className="flex gap-2">
-              <Button variant="soft" onClick={handleDownloadCSV}>
-                <Download size={16} /> Download CSV
+              <Button onClick={handleDownloadImage} disabled={downloading}>
+                {downloading ? (
+                  <span className="inline-flex items-center gap-2">
+                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"></span>
+                    Downloading...
+                  </span>
+                ) : (
+                  "Download Data"
+                )}
               </Button>
-              <Button onClick={handleDownloadImage}>Download Image</Button>
             </div>
           </Flex>
 

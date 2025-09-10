@@ -89,7 +89,7 @@ function Prices() {
         <CardComponent className="p-6">
           <Flex justify="between" align="center">
             <div>
-              <Heading size="6">Trending Coins</Heading>
+              <Heading className="text-[#292929]" size="6">Trending Coins</Heading>
               <Text className="text-[#292929]" size="3">
                 Real-time trending cryptocurrency data with price movements and
                 volume metrics.
@@ -112,15 +112,15 @@ function Prices() {
           <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
             <Table.Header>
               <Table.Row>
-                <Table.ColumnHeaderCell>Token</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>Price</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>Market Cap</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>24h Volume</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>1h Change</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>24h Change</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>Holders</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>Liquidity</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>24h Traders</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">Token</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">Price</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">Market Cap</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">24h Volume</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">1h Change</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">24h Change</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">Holders</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">Liquidity</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="text-[#292929]">24h Traders</Table.ColumnHeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
@@ -128,7 +128,7 @@ function Prices() {
                 ? // Skeleton loading rows
                   Array.from({ length: 10 }).map((_, index) => (
                     <Table.Row key={index}>
-                      <Table.Cell>
+                      <Table.Cell className="text-[#292929]">
                         <Flex align="center" gap="3">
                           <Skeleton
                             width="40px"
@@ -145,35 +145,35 @@ function Prices() {
                           </div>
                         </Flex>
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="text-[#292929]">
                         <Skeleton width="100px" height="16px" />
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="text-[#292929]">
                         <Skeleton width="120px" height="16px" />
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="text-[#292929]">
                         <Skeleton width="100px" height="16px" />
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="text-[#292929]">
                         <Skeleton width="80px" height="16px" />
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="text-[#292929]">
                         <Skeleton width="80px" height="16px" />
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="text-[#292929]">
                         <Skeleton width="80px" height="16px" />
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="text-[#292929]">
                         <Skeleton width="100px" height="16px" />
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="text-[#292929]">
                         <Skeleton width="80px" height="16px" />
                       </Table.Cell>
                     </Table.Row>
                   ))
                 : trendingCoins.map((coin, index) => (
                     <Table.Row key={coin.coin || index}>
-                      <Table.Cell>
+                      <Table.Cell className="text-[#292929]">
                         <Flex align="center" gap="3">
                           <img
                             src={
@@ -196,13 +196,13 @@ function Prices() {
                           </div>
                         </Flex>
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="text-[#292929]">
                         <Text weight="medium">${formatPrice(coin.price)}</Text>
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="text-[#292929]">
                         <Text>${formatNumber(coin.marketCap)}</Text>
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="text-[#292929]">
                         <Text>
                           $
                           {formatNumber(
@@ -211,7 +211,7 @@ function Prices() {
                           )}
                         </Text>
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="text-[#292929]">
                         <Badge
                           color={getPercentageColor(
                             coin.percentagePriceChange1h,
@@ -224,7 +224,7 @@ function Prices() {
                           </Flex>
                         </Badge>
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="text-[#292929]">
                         <Badge
                           color={getPercentageColor(
                             coin.percentagePriceChange1d,
@@ -237,13 +237,13 @@ function Prices() {
                           </Flex>
                         </Badge>
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="text-[#292929]">
                         <Text>{formatNumber(coin.holdersCount)}</Text>
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="text-[#292929]">
                         <Text>${formatNumber(coin.totalLiquidityUsd)}</Text>
                       </Table.Cell>
-                      <Table.Cell>
+                      <Table.Cell className="text-[#292929]">
                         <Text>{formatNumber(coin.uniqueTraders1d)}</Text>
                       </Table.Cell>
                     </Table.Row>

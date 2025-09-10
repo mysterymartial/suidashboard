@@ -11,6 +11,7 @@ import {
 import CardComponent from "@/components/cards";
 import { Copy, Check, Download } from "lucide-react";
 import { Skeleton } from "../../components/ui/Skeleton";
+import Spinner from "@/components/ui/Spinner";
 import { useWalrusBlob } from "@/hooks/usewalrus/useWalrusBlob";
 import { exportElementAsImage } from "@/utils/exportImage";
 
@@ -19,6 +20,7 @@ function Blobs() {
   const { blobData, loading, error } = useWalrusBlob(page);
   const [copied, setCopied] = useState<string | null>(null);
   const exportRef = useRef<HTMLDivElement | null>(null);
+  const [downloading, setDownloading] = useState(false);
 
   const handleCopy = async (value: string) => {
     try {
@@ -68,10 +70,15 @@ function Blobs() {
 
   const handleDownloadImage = async () => {
     if (!exportRef.current) return;
-    await exportElementAsImage(exportRef.current, {
-      filename: `walrus_blobs_page_${page + 1}`,
-      watermarkText: "suihub africa",
-    });
+    try {
+      setDownloading(true);
+      await exportElementAsImage(exportRef.current, {
+        filename: `walrus_blobs_page_${page + 1}`,
+        watermarkText: "suihub africa",
+      });
+    } finally {
+      setDownloading(false);
+    }
   };
 
   if (error)
@@ -90,6 +97,7 @@ function Blobs() {
   return (
     <Layout>
       <main className="p-6 space-y-8">
+        {loading && <Spinner />}
         <CardComponent>
           <h2 className="text-2xl font-semibold text-[#292929]">
             Walrus - Blobs
@@ -105,13 +113,16 @@ function Blobs() {
               Walrus Blobs
             </Text>
             <div className="flex gap-2">
-              <Button
-                className="bg-[#292929] text-[#292929]"
-                onClick={handleDownloadCSV}
-              >
-                <Download size={16} /> Download CSV
+              <Button onClick={handleDownloadImage} disabled={downloading}>
+                {downloading ? (
+                  <span className="inline-flex items-center gap-2">
+                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"></span>
+                    Downloading...
+                  </span>
+                ) : (
+                  "Download Data"
+                )}
               </Button>
-              <Button onClick={handleDownloadImage}>Download Image</Button>
             </div>
           </Flex>
 

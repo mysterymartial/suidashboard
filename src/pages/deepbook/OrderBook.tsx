@@ -4,12 +4,8 @@ import { useOrderBook } from "../../hooks/useDeep/useOrderBook";
 import { Table, Text, Flex, Select, Button } from "@radix-ui/themes";
 import CardComponent from "@/components/cards";
 import { Loader2 } from "lucide-react";
-import {
-  Skeleton,
-  StatCardSkeleton,
-  ChartSkeleton,
-  TableRowSkeleton,
-} from "../../components/ui/Skeleton";
+import { TableRowSkeleton } from "../../components/ui/Skeleton";
+import Spinner from "@/components/ui/Spinner";
 import {
   LineChart,
   Line,
@@ -20,6 +16,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import { exportElementAsImage } from "@/utils/exportImage";
+import DownloadButton from "@/components/ui/DownloadButton";
 
 function OrderBook() {
   const PAIRS = [
@@ -43,6 +40,7 @@ function OrderBook() {
 
   const [selectedPair, setSelectedPair] = useState("DEEP_SUI");
   const { data, loading, error } = useOrderBook(selectedPair);
+  const [downloading, setDownloading] = useState(false);
   const exportRef = useRef<HTMLDivElement | null>(null);
 
   // -------- Stats --------
@@ -124,10 +122,15 @@ function OrderBook() {
 
   const handleDownloadImage = async () => {
     if (!exportRef.current) return;
-    await exportElementAsImage(exportRef.current, {
-      filename: `${selectedPair}_orderbook`,
-      watermarkText: "suihub africa",
-    });
+    try {
+      setDownloading(true);
+      await exportElementAsImage(exportRef.current, {
+        filename: `${selectedPair}_orderbook`,
+        watermarkText: "suihub africa",
+      });
+    } finally {
+      setDownloading(false);
+    }
   };
 
   return (
@@ -156,72 +159,15 @@ function OrderBook() {
               </Select.Content>
             </Select.Root>
 
-            <Button color="blue" onClick={handleDownloadCSV}>
-              Download CSV
-            </Button>
-            <Button onClick={handleDownloadImage}>Download Image</Button>
+            <DownloadButton
+              targetRef={exportRef as React.RefObject<HTMLElement>}
+              filename={`${selectedPair}_orderbook`}
+            />
           </div>
         </CardComponent>
 
         {/* Loading / Error states centered while Layout remains */}
-        {loading && (
-          <div className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <StatCardSkeleton />
-              <StatCardSkeleton />
-              <StatCardSkeleton />
-              <StatCardSkeleton />
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <CardComponent>
-                <div className="p-6">
-                  <Skeleton height="1.5rem" width="120px" className="mb-4" />
-                  <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
-                    <Table.Header>
-                      <Table.Row>
-                        <Table.ColumnHeaderCell>Price</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell>
-                          Quantity
-                        </Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell>Total</Table.ColumnHeaderCell>
-                      </Table.Row>
-                    </Table.Header>
-                    <Table.Body>
-                      {Array.from({ length: 8 }).map((_, index) => (
-                        <TableRowSkeleton key={index} columns={3} />
-                      ))}
-                    </Table.Body>
-                  </Table.Root>
-                </div>
-              </CardComponent>
-
-              <CardComponent>
-                <div className="p-6">
-                  <Skeleton height="1.5rem" width="120px" className="mb-4" />
-                  <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
-                    <Table.Header>
-                      <Table.Row>
-                        <Table.ColumnHeaderCell>Price</Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell>
-                          Quantity
-                        </Table.ColumnHeaderCell>
-                        <Table.ColumnHeaderCell>Total</Table.ColumnHeaderCell>
-                      </Table.Row>
-                    </Table.Header>
-                    <Table.Body>
-                      {Array.from({ length: 8 }).map((_, index) => (
-                        <TableRowSkeleton key={index} columns={3} />
-                      ))}
-                    </Table.Body>
-                  </Table.Root>
-                </div>
-              </CardComponent>
-            </div>
-
-            <ChartSkeleton height="300px" />
-          </div>
-        )}
+        {loading && <Spinner />}
         {error && (
           <CardComponent>
             <div className="p-6 bg-red-900/40 rounded-xl">

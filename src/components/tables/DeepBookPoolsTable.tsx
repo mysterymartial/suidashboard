@@ -20,6 +20,7 @@ interface Pool {
 export function DeepBookPoolsTable({ pools }: { pools: Pool[] }) {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const exportRef = useRef<HTMLDivElement | null>(null);
+  const [downloading, setDownloading] = useState(false);
 
   const handleCopy = (id: string) => {
     navigator.clipboard.writeText(id);
@@ -75,10 +76,15 @@ export function DeepBookPoolsTable({ pools }: { pools: Pool[] }) {
 
   const handleDownloadImage = async () => {
     if (!exportRef.current) return;
-    await exportElementAsImage(exportRef.current, {
-      filename: "deepbook_pools",
-      watermarkText: "suihub africa",
-    });
+    try {
+      setDownloading(true);
+      await exportElementAsImage(exportRef.current, {
+        filename: "deepbook_pools",
+        watermarkText: "suihub africa",
+      });
+    } finally {
+      setDownloading(false);
+    }
   };
 
   return (
@@ -88,10 +94,16 @@ export function DeepBookPoolsTable({ pools }: { pools: Pool[] }) {
           DeepBook Pools
         </Text>
         <div className="flex gap-2">
-          <Button variant="soft" onClick={downloadCSV}>
-            <Download size={16} /> Download CSV
+          <Button onClick={handleDownloadImage} disabled={downloading}>
+            {downloading ? (
+              <span className="inline-flex items-center gap-2">
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"></span>
+                Downloading...
+              </span>
+            ) : (
+              "Download Data"
+            )}
           </Button>
-          <Button onClick={handleDownloadImage}>Download Image</Button>
         </div>
       </Flex>
 

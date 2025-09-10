@@ -11,10 +11,14 @@ import { useStatsData } from "../../hooks/useStatsData";
 import { PoolsTable } from "../../components/tables/PoolsTable";
 import "../../App.css";
 import CardComponent from "@/components/cards";
+import React, { useRef, useState } from "react";
+import { exportElementAsImage } from "@/utils/exportImage";
 
 function Home() {
   const { suidata } = usePoolsData();
   const { suiStats, suipools, loading } = useStatsData();
+  const exportRef = useRef<HTMLDivElement | null>(null);
+  const [downloading, setDownloading] = useState(false);
 
   const assets = Array.isArray(suidata)
     ? suidata.map((pool) => ({
@@ -55,14 +59,36 @@ function Home() {
         {/* Assets Table */}
         <section>
           <CardComponent>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-4" ref={exportRef}>
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold text-[#292929]">
                   All Assets
                 </h3>
                 <div className="flex items-center gap-2">
-                  <button className="px-3 py-2 text-sm bg-[#292929] cursor-pointer text-[#fafafa] rounded-sm transition-colors">
-                    Download
+                  <button
+                    onClick={async () => {
+                      if (!exportRef.current) return;
+                      try {
+                        setDownloading(true);
+                        await exportElementAsImage(exportRef.current, {
+                          filename: "overview_assets",
+                          watermarkText: "suihub africa",
+                        });
+                      } finally {
+                        setDownloading(false);
+                      }
+                    }}
+                    disabled={downloading}
+                    className="px-3 py-2 text-sm bg-[#292929] cursor-pointer text-[#fafafa] rounded-sm transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    {downloading ? (
+                      <span className="inline-flex items-center gap-2">
+                        <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"></span>
+                        Downloading...
+                      </span>
+                    ) : (
+                      "Download Data"
+                    )}
                   </button>
                 </div>
               </div>

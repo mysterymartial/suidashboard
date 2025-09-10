@@ -7,9 +7,11 @@ import { HistoricalVolumeCharts } from "../../components/charts/dbcharts/HisVolC
 import { HistoricalVolumeStats } from "../../components/cards/DbhvStatsCard";
 import CardComponent from "@/components/cards";
 import { exportElementAsImage } from "@/utils/exportImage";
+import Spinner from "@/components/ui/Spinner";
 
 function TradeHistory() {
   const exportRef = useRef<HTMLDivElement | null>(null);
+  const [downloading, setDownloading] = useState(false);
   const { allPools, volumeData, fetchByRange, loading, error } =
     useHistoricalVolume();
 
@@ -51,10 +53,15 @@ function TradeHistory() {
 
   const handleDownloadImage = async () => {
     if (!exportRef.current) return;
-    await exportElementAsImage(exportRef.current, {
-      filename: "historical_volume",
-      watermarkText: "suihub africa",
-    });
+    try {
+      setDownloading(true);
+      await exportElementAsImage(exportRef.current, {
+        filename: "historical_volume",
+        watermarkText: "suihub africa",
+      });
+    } finally {
+      setDownloading(false);
+    }
   };
 
   return (
@@ -66,6 +73,7 @@ function TradeHistory() {
           </h2>
           <p className="text-[#292929] mt-1">Historical Volume Data.</p>
         </CardComponent>
+        {loading && <Spinner />}
         <HistoricalVolumeStats volumeData={volumeData} />
         <div className="space-y-4" ref={exportRef}>
           <HistoricalVolumeCharts volumeData={volumeData} />
@@ -74,10 +82,16 @@ function TradeHistory() {
               Historical Volume
             </Text>
             <div className="flex gap-2">
-              <Button onClick={downloadCSV}>
-                <Download size={16} /> Download CSV
+              <Button onClick={handleDownloadImage} disabled={downloading}>
+                {downloading ? (
+                  <span className="inline-flex items-center gap-2">
+                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent"></span>
+                    Downloading...
+                  </span>
+                ) : (
+                  "Download Data"
+                )}
               </Button>
-              <Button onClick={handleDownloadImage}>Download Image</Button>
             </div>
           </Flex>
           {/* Date Filters */}
