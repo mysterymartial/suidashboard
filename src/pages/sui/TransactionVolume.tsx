@@ -1,0 +1,45 @@
+import React from "react";
+import { Layout } from "../../components/layout/Layout";
+import { WalletStatus } from "../../WalletStatus";
+import { ChartsSection } from "../../components/charts/ChartsSection";
+import { usePoolsData } from "../../hooks/useDeep/usePoolsData";
+import { useStatsData } from "../../hooks/useStatsData";
+import { StatsCards } from "../../components/cards/StatsCards";
+import { Spinner } from "../../components/ui/Spinner";
+
+function TransactionVolume() {
+  const { suidata, loading: poolsLoading } = usePoolsData();
+  const { suiStats, loading: statsLoading } = useStatsData();
+
+  return (
+    <Layout>
+      <main className="p-6 space-y-8">
+        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-sm">
+          <h2 className="text-2xl font-semibold text-[#292929]">
+            Sui - Transaction Volume
+          </h2>
+          <p className="text-[#292929] mt-1">
+            Analyze transaction throughput and trends.
+          </p>
+        </div>
+
+        {(poolsLoading || statsLoading) ? (
+          <Spinner />
+        ) : (
+          <>
+            <StatsCards stats={suiStats} />
+            <ChartsSection
+              data={suidata}
+              valueField="liqUsd"
+              labelField="pool"
+              symbolField="symbol"
+            />
+          </>
+        )}
+      </main>
+      <WalletStatus />
+    </Layout>
+  );
+}
+
+export default TransactionVolume;
