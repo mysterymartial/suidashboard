@@ -11,7 +11,7 @@ import {
 import CardComponent from "@/components/cards";
 import { Copy, Check, Download } from "lucide-react";
 import { Skeleton } from "../../components/ui/Skeleton";
-import Spinner from "@/components/ui/Spinner";
+// import Spinner from "@/components/ui/Spinner";
 import { useWalrusBlob } from "@/hooks/usewalrus/useWalrusBlob";
 import { exportElementAsImage } from "@/utils/exportImage";
 
