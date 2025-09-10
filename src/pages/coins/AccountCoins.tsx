@@ -4,6 +4,7 @@ import { useGetCoins } from "../../hooks/useCoins/useGetCoins";
 import { Table, Text } from "@radix-ui/themes";
 import { Skeleton, TableRowSkeleton } from "../../components/ui/Skeleton";
 import CardComponent from "@/components/cards";
+import { Spinner } from "../../components/ui/Spinner";
 
 function AccountCoins() {
   const {
@@ -24,14 +25,12 @@ function AccountCoins() {
       <Layout>
         <main className="p-6 space-y-8">
           <CardComponent>
-            <div className="flex items-center justify-between">
-              <div>
-                <Skeleton height="2rem" width="300px" className="mb-2" />
-                <Skeleton height="1rem" width="200px" />
-              </div>
-              <Skeleton height="2.5rem" width="100px" />
-            </div>
+            <h2 className="text-2xl font-semibold text-[#292929]">
+              Coins - Account Coins
+            </h2>
+            <p className="text-[#292929] mt-1">Coins held in your account.</p>
           </CardComponent>
+          <Spinner />
 
           <div className="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden">
             <Table.Root>
@@ -153,7 +152,7 @@ function AccountCoins() {
             </Table.Header>
 
             <Table.Body>
-              {coins?.content?.map((coin: any, index: number) => (
+              {coins?.map((coin: any, index: number) => (
                 <Table.Row key={coin.objectId || index}>
                   <Table.Cell>
                     <div className="flex items-center gap-3">

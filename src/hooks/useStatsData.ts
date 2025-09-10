@@ -35,40 +35,39 @@ export function useStatsData() {
           .map((line) => line.trim())
           .filter((line) => line.startsWith("/api/"));
 
-        if (endpoints.length === 0) {
-          throw new Error("No API endpoints found in gist");
+        // Continue even if no endpoints are found
+        if (endpoints.length > 0) {
+          // 3. Fetch the first pool endpoint (or all if needed)
+          const poolRes = await axios.get(endpoints[0]);
+          setSuipools(poolRes.data);
         }
-
-        // 3. Fetch the first pool endpoint (or all if needed)
-        const poolRes = await axios.get(endpoints[0]);
-        setSuipools(poolRes.data);
       } catch (err: any) {
         console.error("Fetch error:", err);
         setError(err);
 
         // fallback mock pools
-        // setSuipools([
-        //   {
-        //     id: 1,
-        //     name: "SUI/USDC",
-        //     tokenA: "SUI",
-        //     tokenB: "USDC",
-        //     volume24h: "$2,450,000",
-        //     tvl: "$12,300,000",
-        //     apr: "15.2%",
-        //     platform: "Cetus",
-        //   },
-        //   {
-        //     id: 2,
-        //     name: "DEEP/SUI",
-        //     tokenA: "DEEP",
-        //     tokenB: "SUI",
-        //     volume24h: "$1,850,000",
-        //     tvl: "$8,900,000",
-        //     apr: "22.8%",
-        //     platform: "DeepBook",
-        //   },
-        // ]);
+        setSuipools([
+          {
+            id: 1,
+            name: "SUI/USDC",
+            tokenA: "SUI",
+            tokenB: "USDC",
+            volume24h: "$2,450,000",
+            tvl: "$12,300,000",
+            apr: "15.2%",
+            platform: "Cetus",
+          },
+          {
+            id: 2,
+            name: "DEEP/SUI",
+            tokenA: "DEEP",
+            tokenB: "SUI",
+            volume24h: "$1,850,000",
+            tvl: "$8,900,000",
+            apr: "22.8%",
+            platform: "DeepBook",
+          },
+        ]);
       } finally {
         setLoading(false);
       }

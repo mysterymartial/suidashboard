@@ -4,10 +4,11 @@ import { AssetsTable } from "../../components/tables/AssetsTable";
 import { usePoolsData } from "../../hooks/useDeep/usePoolsData";
 import { StatsCards } from "../../components/cards/StatsCards";
 import { useStatsData } from "../../hooks/useStatsData";
+import { Spinner } from "../../components/ui/Spinner";
 
 function Holders() {
-  const { suidata } = usePoolsData();
-  const { suiStats } = useStatsData();
+  const { suidata, loading: poolsLoading } = usePoolsData();
+  const { suiStats, loading: statsLoading } = useStatsData();
 
   const assets = Array.isArray(suidata)
     ? suidata.map((pool) => ({
@@ -32,8 +33,14 @@ function Holders() {
           </h2>
           <p className="text-[#292929] mt-1">Holder distribution and counts.</p>
         </div>
-        <StatsCards stats={suiStats} />
-        <AssetsTable assets={assets} />
+        {(poolsLoading || statsLoading) ? (
+          <Spinner />
+        ) : (
+          <>
+            <StatsCards stats={suiStats} />
+            <AssetsTable assets={assets} />
+          </>
+        )}
       </main>
       <WalletStatus />
     </Layout>

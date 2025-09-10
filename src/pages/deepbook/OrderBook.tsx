@@ -71,13 +71,13 @@ function OrderBook() {
 
     // cumulative depth
     let cum = 0;
-    const bidDepth = bids.map((l) => {
+    const bidDepth = bids.map((l: any) => {
       cum += l.qty;
       return { price: l.price, bidDepth: cum };
     });
 
     cum = 0;
-    const askDepth = asks.map((l) => {
+    const askDepth = asks.map((l: any) => {
       cum += l.qty;
       return { price: l.price, askDepth: cum };
     });
@@ -138,7 +138,7 @@ function OrderBook() {
             <Select.Root value={selectedPair} onValueChange={setSelectedPair}>
               <Select.Trigger className="min-w-[180px]" />
               <Select.Content>
-                {PAIRS.map((p) => (
+                {PAIRS.map((p: string) => (
                   <Select.Item key={p} value={p}>
                     {p}
                   </Select.Item>
@@ -163,40 +163,44 @@ function OrderBook() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              <CardComponent className="p-6">
-                <Skeleton height="1.5rem" width="120px" className="mb-4" />
-                <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
-                  <Table.Header>
-                    <Table.Row>
-                      <Table.ColumnHeaderCell>Price</Table.ColumnHeaderCell>
-                      <Table.ColumnHeaderCell>Quantity</Table.ColumnHeaderCell>
-                      <Table.ColumnHeaderCell>Total</Table.ColumnHeaderCell>
-                    </Table.Row>
-                  </Table.Header>
-                  <Table.Body>
-                    {Array.from({ length: 8 }).map((_, index) => (
-                      <TableRowSkeleton key={index} columns={3} />
-                    ))}
-                  </Table.Body>
-                </Table.Root>
+              <CardComponent>
+                <div className="p-6">
+                  <Skeleton height="1.5rem" width="120px" className="mb-4" />
+                  <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
+                    <Table.Header>
+                      <Table.Row>
+                        <Table.ColumnHeaderCell>Price</Table.ColumnHeaderCell>
+                        <Table.ColumnHeaderCell>Quantity</Table.ColumnHeaderCell>
+                        <Table.ColumnHeaderCell>Total</Table.ColumnHeaderCell>
+                      </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
+                      {Array.from({ length: 8 }).map((_, index) => (
+                        <TableRowSkeleton key={index} columns={3} />
+                      ))}
+                    </Table.Body>
+                  </Table.Root>
+                </div>
               </CardComponent>
 
-              <CardComponent className="p-6">
-                <Skeleton height="1.5rem" width="120px" className="mb-4" />
-                <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
-                  <Table.Header>
-                    <Table.Row>
-                      <Table.ColumnHeaderCell>Price</Table.ColumnHeaderCell>
-                      <Table.ColumnHeaderCell>Quantity</Table.ColumnHeaderCell>
-                      <Table.ColumnHeaderCell>Total</Table.ColumnHeaderCell>
-                    </Table.Row>
-                  </Table.Header>
-                  <Table.Body>
-                    {Array.from({ length: 8 }).map((_, index) => (
-                      <TableRowSkeleton key={index} columns={3} />
-                    ))}
-                  </Table.Body>
-                </Table.Root>
+              <CardComponent>
+                <div className="p-6">
+                  <Skeleton height="1.5rem" width="120px" className="mb-4" />
+                  <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
+                    <Table.Header>
+                      <Table.Row>
+                        <Table.ColumnHeaderCell>Price</Table.ColumnHeaderCell>
+                        <Table.ColumnHeaderCell>Quantity</Table.ColumnHeaderCell>
+                        <Table.ColumnHeaderCell>Total</Table.ColumnHeaderCell>
+                      </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
+                      {Array.from({ length: 8 }).map((_, index) => (
+                        <TableRowSkeleton key={index} columns={3} />
+                      ))}
+                    </Table.Body>
+                  </Table.Root>
+                </div>
               </CardComponent>
             </div>
 
@@ -204,135 +208,155 @@ function OrderBook() {
           </div>
         )}
         {error && (
-          <CardComponent className="p-6 bg-red-900/40 rounded-xl">
-            <Text color="red" align="center">
-              ⚠ {error}
-            </Text>
+          <CardComponent>
+            <div className="p-6 bg-red-900/40 rounded-xl">
+              <Text color="red" align="center">
+                ⚠ {error}
+              </Text>
+            </div>
           </CardComponent>
         )}
 
         {/* Content */}
         {data && !loading && !error && (
-          <CardComponent className="p-6 space-y-6">
-            {/* Stats Cards */}
-            <Flex gap="4" wrap="wrap">
-              <CardComponent className="p-4 flex-1 text-center">
-                <Text className="text-[#292929]">Best Bid</Text>
-                <Text weight="bold" color="green">
-                  {bestBid}
-                </Text>
-              </CardComponent>
-              <CardComponent className="p-4 flex-1 text-center">
-                <Text className="text-[#292929]">Best Ask</Text>
-                <Text weight="bold" color="red">
-                  {bestAsk}
-                </Text>
-              </CardComponent>
-              <CardComponent className="p-4 flex-1 text-center">
-                <Text className="text-[#292929]">Spread</Text>
-                <Text weight="bold">{spread}</Text>
-              </CardComponent>
-              <CardComponent className="p-4 flex-1 text-center">
-                <Text className="text-[#292929]">Total Bids (Qty)</Text>
-                <Text weight="bold" color="green">
-                  {totalBidsQty.toLocaleString(undefined, {
-                    maximumFractionDigits: 2,
-                  })}
-                </Text>
-              </CardComponent>
-              <CardComponent className="p-4 flex-1 text-center">
-                <Text className="text-[#292929]">Total Asks (Qty)</Text>
-                <Text weight="bold" color="red">
-                  {totalAsksQty.toLocaleString(undefined, {
-                    maximumFractionDigits: 2,
-                  })}
-                </Text>
-              </CardComponent>
-            </Flex>
+          <CardComponent>
+            <div className="p-6 space-y-6">
+              {/* Stats Cards */}
+              <Flex gap="4" wrap="wrap">
+                <CardComponent>
+                  <div className="p-4 flex-1 text-center">
+                    <Text className="text-[#292929]">Best Bid</Text>
+                    <Text weight="bold" color="green">
+                      {bestBid}
+                    </Text>
+                  </div>
+                </CardComponent>
+                <CardComponent>
+                  <div className="p-4 flex-1 text-center">
+                    <Text className="text-[#292929]">Best Ask</Text>
+                    <Text weight="bold" color="red">
+                      {bestAsk}
+                    </Text>
+                  </div>
+                </CardComponent>
+                <CardComponent>
+                  <div className="p-4 flex-1 text-center">
+                    <Text className="text-[#292929]">Spread</Text>
+                    <Text weight="bold">{spread}</Text>
+                  </div>
+                </CardComponent>
+                <CardComponent>
+                  <div className="p-4 flex-1 text-center">
+                    <Text className="text-[#292929]">Total Bids (Qty)</Text>
+                    <Text weight="bold" color="green">
+                      {totalBidsQty.toLocaleString(undefined, {
+                        maximumFractionDigits: 2,
+                      })}
+                    </Text>
+                  </div>
+                </CardComponent>
+                <CardComponent>
+                  <div className="p-4 flex-1 text-center">
+                    <Text className="text-[#292929]">Total Asks (Qty)</Text>
+                    <Text weight="bold" color="red">
+                      {totalAsksQty.toLocaleString(undefined, {
+                        maximumFractionDigits: 2,
+                      })}
+                    </Text>
+                  </div>
+                </CardComponent>
+              </Flex>
 
-            {/* Depth Chart */}
-            <CardComponent className="p-6">
-              <Text size="3" weight="bold" mb="4">
-                Order Book Depth
-              </Text>
-              <div className="w-full h-[340px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={chartData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="price" tickFormatter={(v) => String(v)} />
-                    <YAxis />
-                    <Tooltip />
-                    <Line
-                      type="monotone"
-                      dataKey="bidDepth"
-                      name="Bids (cum qty)"
-                      stroke="#10B981"
-                      dot={false}
-                      strokeWidth={2}
-                      isAnimationActive={false}
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="askDepth"
-                      name="Asks (cum qty)"
-                      stroke="#EF4444"
-                      dot={false}
-                      strokeWidth={2}
-                      isAnimationActive={false}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-            </CardComponent>
-
-            {/* Tables */}
-            <Flex gap="6" wrap="wrap">
-              {/* Bids */}
-              <CardComponent className="flex-1 p-4">
-                <Text size="3" weight="bold" color="green" mb="3">
-                  Bids
-                </Text>
-                <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
-                  <Table.Header>
-                    <Table.Row>
-                      <Table.ColumnHeaderCell className="text-[#292929]">Price</Table.ColumnHeaderCell>
-                      <Table.ColumnHeaderCell className="text-[#292929]">Quantity</Table.ColumnHeaderCell>
-                    </Table.Row>
-                  </Table.Header>
-                  <Table.Body>
-                    {data.bids.slice(0, 25).map(([price, qty], i) => (
-                      <Table.Row key={`bid-${i}`}>
-                        <Table.Cell className="text-[#292929]">{price}</Table.Cell>
-                        <Table.Cell className="text-[#292929]">{qty}</Table.Cell>
-                      </Table.Row>
-                    ))}
-                  </Table.Body>
-                </Table.Root>
+              {/* Depth Chart */}
+              <CardComponent>
+                <div className="p-6">
+                  <Text size="3" weight="bold" mb="4">
+                    Order Book Depth
+                  </Text>
+                  <div className="w-full h-[340px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <LineChart data={chartData}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <XAxis dataKey="price" tickFormatter={(v) => String(v)} />
+                        <YAxis />
+                        <Tooltip />
+                        <Line
+                          type="monotone"
+                          dataKey="bidDepth"
+                          name="Bids (cum qty)"
+                          stroke="#10B981"
+                          dot={false}
+                          strokeWidth={2}
+                          isAnimationActive={false}
+                        />
+                        <Line
+                          type="monotone"
+                          dataKey="askDepth"
+                          name="Asks (cum qty)"
+                          stroke="#EF4444"
+                          dot={false}
+                          strokeWidth={2}
+                          isAnimationActive={false}
+                        />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
               </CardComponent>
 
-              {/* Asks */}
-              <CardComponent className="flex-1 p-4">
-                <Text size="3" weight="bold" color="red" mb="3">
-                  Asks
-                </Text>
-                <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
-                  <Table.Header>
-                    <Table.Row>
-                      <Table.ColumnHeaderCell className="text-[#292929]">Price</Table.ColumnHeaderCell>
-                      <Table.ColumnHeaderCell className="text-[#292929]">Quantity</Table.ColumnHeaderCell>
-                    </Table.Row>
-                  </Table.Header>
-                  <Table.Body>
-                    {data.asks.slice(0, 25).map(([price, qty], i) => (
-                      <Table.Row key={`ask-${i}`}>
-                        <Table.Cell className="text-[#292929]">{price}</Table.Cell>
-                        <Table.Cell className="text-[#292929]">{qty}</Table.Cell>
-                      </Table.Row>
-                    ))}
-                  </Table.Body>
-                </Table.Root>
-              </CardComponent>
-            </Flex>
+              {/* Tables */}
+              <Flex gap="6" wrap="wrap">
+                {/* Bids */}
+                <CardComponent>
+                  <div className="flex-1 p-4">
+                    <Text size="3" weight="bold" color="green" mb="3">
+                      Bids
+                    </Text>
+                    <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
+                      <Table.Header>
+                        <Table.Row>
+                          <Table.ColumnHeaderCell className="text-[#292929]">Price</Table.ColumnHeaderCell>
+                          <Table.ColumnHeaderCell className="text-[#292929]">Quantity</Table.ColumnHeaderCell>
+                        </Table.Row>
+                      </Table.Header>
+                      <Table.Body>
+                        {data.bids.slice(0, 25).map(([price, qty], i) => (
+                          <Table.Row key={`bid-${i}`}>
+                            <Table.Cell className="text-[#292929]">{price}</Table.Cell>
+                            <Table.Cell className="text-[#292929]">{qty}</Table.Cell>
+                          </Table.Row>
+                        ))}
+                      </Table.Body>
+                    </Table.Root>
+                  </div>
+                </CardComponent>
+
+                {/* Asks */}
+                <CardComponent>
+                  <div className="flex-1 p-4">
+                    <Text size="3" weight="bold" color="red" mb="3">
+                      Asks
+                    </Text>
+                    <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
+                      <Table.Header>
+                        <Table.Row>
+                          <Table.ColumnHeaderCell className="text-[#292929]">Price</Table.ColumnHeaderCell>
+                          <Table.ColumnHeaderCell className="text-[#292929]">Quantity</Table.ColumnHeaderCell>
+                        </Table.Row>
+                      </Table.Header>
+                      <Table.Body>
+                        {data.asks.slice(0, 25).map(([price, qty], i) => (
+                          <Table.Row key={`ask-${i}`}>
+                            <Table.Cell className="text-[#292929]">{price}</Table.Cell>
+                            <Table.Cell className="text-[#292929]">{qty}</Table.Cell>
+                          </Table.Row>
+                        ))}
+                      </Table.Body>
+                    </Table.Root>
+                  </div>
+                </CardComponent>
+              </Flex>
+            </div>
           </CardComponent>
         )}
       </main>

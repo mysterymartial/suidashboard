@@ -1,7 +1,8 @@
 import React from "react";
 import { Layout } from "../../components/layout/Layout";
 import { useMarketPlace } from "../../hooks/useNFTs/useMarketPlace";
-import { Table, Text, Avatar, Flex, Box, Spinner } from "@radix-ui/themes";
+import { Table, Text, Avatar, Flex, Box } from "@radix-ui/themes";
+import { Spinner } from "../../components/ui/Spinner";
 import CardComponent from "@/components/cards";
 
 function TransfersSales() {
@@ -19,9 +20,7 @@ function TransfersSales() {
               Marketplace of all NFTs collections.
             </p>
           </CardComponent>
-          <div className="flex justify-center items-center py-12">
-            <Spinner size="3" />
-          </div>
+          <Spinner />
         </main>
       </Layout>
     );

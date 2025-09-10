@@ -5,10 +5,11 @@ import { ChartsSection } from "../../components/charts/ChartsSection";
 import { usePoolsData } from "../../hooks/useDeep/usePoolsData";
 import { StatsCards } from "../../components/cards/StatsCards";
 import { useStatsData } from "../../hooks/useStatsData";
+import { Spinner } from "../../components/ui/Spinner";
 
 function TradingVolume() {
-  const { suidata } = usePoolsData();
-  const { suiStats } = useStatsData();
+  const { suidata, loading: poolsLoading } = usePoolsData();
+  const { suiStats, loading: statsLoading } = useStatsData();
 
   return (
     <Layout>
@@ -21,13 +22,19 @@ function TradingVolume() {
             Trading volume across the protocol.
           </p>
         </div>
-        <StatsCards stats={suiStats} />
-        <ChartsSection
-          data={suidata}
-          valueField="liqUsd"
-          labelField="pool"
-          symbolField="symbol"
-        />
+        {(poolsLoading || statsLoading) ? (
+          <Spinner />
+        ) : (
+          <>
+            <StatsCards stats={suiStats} />
+            <ChartsSection
+              data={suidata}
+              valueField="liqUsd"
+              labelField="pool"
+              symbolField="symbol"
+            />
+          </>
+        )}
       </main>
       <WalletStatus />
     </Layout>

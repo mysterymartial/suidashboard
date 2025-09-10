@@ -8,8 +8,8 @@ import {
   Flex,
   Button,
   Badge,
-  Spinner,
 } from "@radix-ui/themes";
+import { Spinner } from "../../components/ui/Spinner";
 import CardComponent from "@/components/cards";
 import {
   Skeleton,

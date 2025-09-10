@@ -1,6 +1,7 @@
 import { Layout } from "../../components/layout/Layout";
 import { useMarketData } from "../../hooks/useDeep/useMarketData";
-import { Table, Text, Button, Flex, Spinner } from "@radix-ui/themes";
+import { Table, Text, Button, Flex } from "@radix-ui/themes";
+import { Spinner } from "../../components/ui/Spinner";
 import CardComponent from "@/components/cards";
 import { Download, Loader2 } from "lucide-react";
 import {
@@ -69,7 +70,9 @@ function MarketDepth() {
   if (loading)
     return (
       <Layout>
-        <Spinner size="3" />
+        <main className="p-6">
+          <Spinner />
+        </main>
       </Layout>
     );
 
@@ -90,7 +93,8 @@ function MarketDepth() {
     return (
       <Layout>
         <main className="flex items-center justify-center min-h-[70vh]">
-          <CardComponent className="p-6 bg-gray-800 rounded-xl shadow-md">
+          <CardComponent>
+            <div className="p-6 bg-gray-800 rounded-xl shadow-md"></div>
             <Text className="text-[#292929]" size="4" weight="bold">
               No market data available
             </Text>

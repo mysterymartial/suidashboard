@@ -9,6 +9,7 @@ import {
   Zap,
 } from "lucide-react";
 import CardComponent from "@/components/cards";
+import { Spinner } from "../../components/ui/Spinner";
 
 // Types for API responses
 interface CoinDetails {
@@ -93,6 +94,7 @@ interface CoinDetails {
     };
     trust_score: string;
     trade_url: string;
+    bid_ask_spread_percentage?: number;
   }>;
 }
 
@@ -145,8 +147,9 @@ function ProtocolStats() {
             <h2 className="text-2xl font-semibold text-[#292929]">
               Ika - Protocol Stats
             </h2>
-            <p className="text-[#292929] mt-1">Loading protocol metrics...</p>
+            <p className="text-[#292929] mt-1">Protocol metrics and statistics.</p>
           </CardComponent>
+          <Spinner />
           <CardComponent>
             <div className="animate-pulse">
               <div className="h-8 bg-gray-700 rounded w-1/3 mb-4"></div>
@@ -498,7 +501,7 @@ function ProtocolStats() {
                   </thead>
                   <tbody>
                     {coinData.tickers.map((ticker, index) => {
-                      const formatPair = (base, target) => {
+                      const formatPair = (base: string, target: string) => {
                         // Clean up long contract addresses for display
                         const cleanBase = base.includes("::")
                           ? base.split("::").pop() || base
@@ -509,8 +512,8 @@ function ProtocolStats() {
                         return `${cleanBase}/${cleanTarget}`;
                       };
 
-                      const getExchangeColor = (name) => {
-                        const colors = {
+                      const getExchangeColor = (name: string): string => {
+                        const colors: Record<string, string> = {
                           Bitget: "text-blue-400",
                           KuCoin: "text-green-400",
                           Gate: "text-purple-400",
@@ -564,7 +567,7 @@ function ProtocolStats() {
                             </span>
                           </td>
                           <td className="py-3 px-2 text-center text-[#292929] text-xs">
-                            {ticker.bid_ask_spread_percentage?.toFixed(2)}%
+                            {ticker.bid_ask_spread_percentage?.toFixed(2) || 'N/A'}%
                           </td>
                           <td className="py-3 px-2 text-center">
                             <a

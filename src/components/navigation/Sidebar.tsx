@@ -6,18 +6,20 @@ import {
   ChevronDownIcon,
   HomeIcon,
   BarChartIcon,
-  CircleIcon,
-  CubeIcon,
-  PaperPlaneIcon,
   DesktopIcon,
-  ChatBubbleIcon,
-  PieChartIcon,
+  CubeIcon
 } from "@radix-ui/react-icons";
 import suilog01 from "../../assets/Sui_Logo1.png";
 import walogo from "../../assets/Wal_Logo.webp";
 import deeplogo from "../../assets/Deep_Logo.png";
 import ikaLogo from "../../assets/ika-icon-white.svg";
 import SuinsIcon from "../../assets/suins-icon";
+import coinIcon from "../../assets/coin-icon.svg";
+import nftIcon from "../../assets/nft-icon.svg";
+import stablecoinIcon from "../../assets/stablecoin-icon.svg";
+import financeIcon from "../../assets/finance-icon.svg";
+import chatbotIcon from "../../assets/chatbot-icon.svg";
+
 
 const navigationSections = [
   {
@@ -77,7 +79,7 @@ const navigationSections = [
           ikaLogo ? (
             <img src={ikaLogo} alt="Ika" className="w-5 h-5 rounded" />
           ) : (
-            <CircleIcon className="w-5 h-5" />
+            <DesktopIcon className="w-5 h-5" />
           ),
         hasDropdown: true,
         dataPoints: [
@@ -127,7 +129,9 @@ const navigationSections = [
       {
         name: "Coins",
         path: "/coins",
-        icon: CircleIcon,
+        icon: () => (
+          <img src={coinIcon} alt="Coins" className="w-5 h-5" />
+        ),
         hasDropdown: true,
         dataPoints: [
           { name: "All Coins", path: "/coins/account-coins" },
@@ -140,7 +144,9 @@ const navigationSections = [
       {
         name: "NFTs",
         path: "/nfts",
-        icon: CubeIcon,
+        icon: () => (
+          <img src={nftIcon} alt="NFTs" className="w-5 h-5" />
+        ),
         hasDropdown: true,
         dataPoints: [
           { name: "Collection NFT List", path: "/nfts/collection-list" },
@@ -153,7 +159,9 @@ const navigationSections = [
       {
         name: "Stablecoins",
         path: "/stablecoins",
-        icon: PaperPlaneIcon,
+        icon: () => (
+          <img src={stablecoinIcon} alt="Stablecoins" className="w-5 h-5" />
+        ),
         hasDropdown: true,
         dataPoints: [
           { name: "Supply", path: "/stablecoins/supply" },
@@ -171,7 +179,9 @@ const navigationSections = [
       {
         name: "Personal Finance",
         path: "/finance",
-        icon: PieChartIcon,
+        icon: () => (
+          <img src={financeIcon} alt="Personal Finance" className="w-5 h-5" />
+        ),
         hasDropdown: true,
         dataPoints: [
           {
@@ -183,7 +193,9 @@ const navigationSections = [
       {
         name: "Chatbot",
         path: "/chatbot",
-        icon: ChatBubbleIcon,
+        icon: () => (
+          <img src={chatbotIcon} alt="Chatbot" className="w-5 h-5" />
+        ),
         hasDropdown: false,
       },
     ],
@@ -244,7 +256,13 @@ const NavigationItem: React.FC<NavigationItemProps> = ({ item, collapsed }) => {
       item.name === "Sui" ||
       item.name === "Walrus" ||
       item.name === "DeepBook" ||
-      item.name === "SuiNS"
+      item.name === "SuiNS" ||
+      item.name === "Ika" ||
+      item.name === "Coins" ||
+      item.name === "NFTs" ||
+      item.name === "Stablecoins" ||
+      item.name === "Personal Finance" ||
+      item.name === "Chatbot"
     ) {
       return (IconComponent as () => React.ReactNode)();
     }
