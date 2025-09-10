@@ -4,6 +4,7 @@ import { usePoolsData } from "../../hooks/useDeep/usePoolsData";
 import { useStatsData } from "../../hooks/useStatsData";
 import { useSuins } from "../../hooks/useSuins/useSuins";
 import { SuinsPricingTable } from "../../components/tables/SuinsPricingTable";
+import CardComponent from "@/components/cards";
 
 function Pricing() {
   const { priceList } = useSuins();
@@ -21,12 +22,12 @@ function Pricing() {
   return (
     <Layout>
       <main className="p-6 space-y-8">
-        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-sm">
+        <CardComponent>
           <h2 className="text-2xl font-semibold text-[#292929]">
             SuiNS - Active Pricing
           </h2>
           <p className="text-[#292929] mt-1">Pricing rules and active rates.</p>
-        </div>
+        </CardComponent>
 
         <SuinsPricingTable prices={prices} />
       </main>

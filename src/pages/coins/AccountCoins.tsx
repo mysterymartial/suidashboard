@@ -3,6 +3,7 @@ import { Layout } from "../../components/layout/Layout";
 import { useGetCoins } from "../../hooks/useCoins/useGetCoins";
 import { Table, Text } from "@radix-ui/themes";
 import { Skeleton, TableRowSkeleton } from "../../components/ui/Skeleton";
+import CardComponent from "@/components/cards";
 
 function AccountCoins() {
   const {
@@ -22,7 +23,7 @@ function AccountCoins() {
     return (
       <Layout>
         <main className="p-6 space-y-8">
-          <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-sm">
+          <CardComponent>
             <div className="flex items-center justify-between">
               <div>
                 <Skeleton height="2rem" width="300px" className="mb-2" />
@@ -30,7 +31,7 @@ function AccountCoins() {
               </div>
               <Skeleton height="2.5rem" width="100px" />
             </div>
-          </div>
+          </CardComponent>
 
           <div className="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden">
             <Table.Root>

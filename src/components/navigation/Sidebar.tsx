@@ -103,7 +103,7 @@ const navigationSections = [
           { name: "Market Summary", path: "/deepbook/market-summary" },
           { name: "Historical Volume", path: "/deepbook/historical-volume" },
           { name: "Order Books", path: "/deepbook/order-book" },
-          { name: "Assets & Tickers", path: "/deepbook/assets" },
+          // { name: "Assets & Tickers", path: "/deepbook/assets" },
         ],
       },
       {

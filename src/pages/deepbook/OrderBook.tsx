@@ -124,7 +124,7 @@ function OrderBook() {
     <Layout>
       <main className="p-6 space-y-8">
         {/* Header + Download */}
-        <div className="bg-gray-800 p-6 rounded-xl border border-gray-700 shadow-sm flex items-center justify-between">
+        <CardComponent>
           <div>
             <h2 className="text-2xl font-semibold text-[#292929]">
               DeepBook - Order Book
@@ -150,7 +150,7 @@ function OrderBook() {
               Download CSV
             </Button>
           </div>
-        </div>
+        </CardComponent>
 
         {/* Loading / Error states centered while Layout remains */}
         {loading && (
@@ -295,15 +295,15 @@ function OrderBook() {
                 <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
                   <Table.Header>
                     <Table.Row>
-                      <Table.ColumnHeaderCell>Price</Table.ColumnHeaderCell>
-                      <Table.ColumnHeaderCell>Quantity</Table.ColumnHeaderCell>
+                      <Table.ColumnHeaderCell className="text-[#292929]">Price</Table.ColumnHeaderCell>
+                      <Table.ColumnHeaderCell className="text-[#292929]">Quantity</Table.ColumnHeaderCell>
                     </Table.Row>
                   </Table.Header>
                   <Table.Body>
                     {data.bids.slice(0, 25).map(([price, qty], i) => (
                       <Table.Row key={`bid-${i}`}>
-                        <Table.Cell>{price}</Table.Cell>
-                        <Table.Cell>{qty}</Table.Cell>
+                        <Table.Cell className="text-[#292929]">{price}</Table.Cell>
+                        <Table.Cell className="text-[#292929]">{qty}</Table.Cell>
                       </Table.Row>
                     ))}
                   </Table.Body>
@@ -318,15 +318,15 @@ function OrderBook() {
                 <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
                   <Table.Header>
                     <Table.Row>
-                      <Table.ColumnHeaderCell>Price</Table.ColumnHeaderCell>
-                      <Table.ColumnHeaderCell>Quantity</Table.ColumnHeaderCell>
+                      <Table.ColumnHeaderCell className="text-[#292929]">Price</Table.ColumnHeaderCell>
+                      <Table.ColumnHeaderCell className="text-[#292929]">Quantity</Table.ColumnHeaderCell>
                     </Table.Row>
                   </Table.Header>
                   <Table.Body>
                     {data.asks.slice(0, 25).map(([price, qty], i) => (
                       <Table.Row key={`ask-${i}`}>
-                        <Table.Cell>{price}</Table.Cell>
-                        <Table.Cell>{qty}</Table.Cell>
+                        <Table.Cell className="text-[#292929]">{price}</Table.Cell>
+                        <Table.Cell className="text-[#292929]">{qty}</Table.Cell>
                       </Table.Row>
                     ))}
                   </Table.Body>

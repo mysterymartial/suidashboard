@@ -84,7 +84,7 @@ function Supply() {
 
           <ChartSkeleton height="400px" />
 
-          <CardComponent className="bg-gray-800 border-gray-700">
+          <CardComponent>
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
                 <Skeleton height="1.5rem" width="200px" />
@@ -145,7 +145,7 @@ function Supply() {
       <main className="p-6 space-y-8">
         {/* Header */}
         <CardComponent>
-          <Heading size="6" mb="2">
+          <Heading className="text-[#292929]" size="6" mb="2">
             Stablecoins - Supply
           </Heading>
           <Text className="text-[#292929]">
@@ -155,7 +155,7 @@ function Supply() {
 
         {/* Chart Section - Top 5 */}
         <CardComponent>
-          <Heading size="4" mb="4">
+          <Heading className="#292929" size="4" mb="4">
             Top 5 Stablecoins by Total Circulating USD
           </Heading>
           <div style={{ width: "100%", height: "400px" }}>
@@ -214,14 +214,14 @@ function Supply() {
           <Table.Root className="border border-[#e8e8e8] rounded-[10px] overflow-hidden">
             <Table.Header>
               <Table.Row>
-                <Table.ColumnHeaderCell>Date</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="#292929">Date</Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="#292929">
                   Total Circulating
                 </Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="#292929">
                   Total Circulating USD
                 </Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>
+                <Table.ColumnHeaderCell className="#292929">
                   Total Minted USD
                 </Table.ColumnHeaderCell>
               </Table.Row>

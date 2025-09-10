@@ -22,15 +22,15 @@ export function SuinsPricingTable({ prices }: { prices: PriceRow[] }) {
       <Table.Body>
         {prices.map((row, idx) => (
           <Table.Row key={idx}>
-            <Table.Cell>
+            <Table.Cell className="text-[#292929]">
               <Text>{row.domainLengthFrom === row.domainLengthTo 
                 ? row.domainLengthFrom 
                 : `${row.domainLengthFrom} – ${row.domainLengthTo}`}</Text>
             </Table.Cell>
-            <Table.Cell>
+            <Table.Cell className="text-[#292929]">
               <Text>{row.priceMist.toLocaleString()}</Text>
             </Table.Cell>
-            <Table.Cell>
+            <Table.Cell className="text-[#292929]">
               <Text>${row.priceUSDC.toFixed(2)}</Text>
             </Table.Cell>
           </Table.Row>
